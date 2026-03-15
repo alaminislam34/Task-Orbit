@@ -4,7 +4,16 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { Search, Menu, Globe } from "lucide-react";
+import {
+  Search,
+  Menu,
+  Globe,
+  Briefcase,
+  UserCircle,
+  LogIn,
+  Compass,
+  ArrowRight,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,12 +25,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 
 const Navbar = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
-  // Avoid hydration mismatch by waiting for mount
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -38,26 +47,25 @@ const Navbar = () => {
             <Image
               src={mounted ? logoSrc : "/logos/taskorbit.png"}
               alt="TaskOrbit Logo"
-              width={130}
-              height={40}
+              width={120}
+              height={35}
               className="object-contain"
             />
           </Link>
 
-          {/* Desktop Search */}
           <div className="hidden lg:flex relative w-80">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="What service are you looking for today?"
-              className="pl-10"
+              placeholder="Search services..."
+              className="pl-10 h-9 bg-muted/50 focus-visible:ring-primary"
             />
           </div>
         </div>
 
-        {/* Right: Navigation Desktop */}
+        {/* Right: Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
-          <div className="flex items-center gap-6 text-sm font-medium text-muted-foreground">
+          <div className="flex items-center gap-6 text-sm font-semibold text-muted-foreground">
             <Link href="/jobs" className="hover:text-primary transition-colors">
               Explore
             </Link>
@@ -69,15 +77,14 @@ const Navbar = () => {
               Become a Seller
             </Link>
           </div>
-
           <div className="flex items-center gap-3 border-l pl-6">
             <Link href="/login">
-              <Button variant="ghost" size="sm" className="font-semibold">
+              <Button variant="ghost" size="sm">
                 Sign In
               </Button>
             </Link>
             <Link href="/signup">
-              <Button size="sm" className="px-5 font-semibold">
+              <Button size="sm" className="px-5">
                 Join
               </Button>
             </Link>
@@ -85,40 +92,85 @@ const Navbar = () => {
           </div>
         </nav>
 
-        {/* Mobile Navigation (Hamburger) */}
-        <div className="flex md:hidden items-center gap-4">
+        {/* Mobile Navigation */}
+        <div className="flex md:hidden items-center gap-2">
           <ModeToggle />
           <Sheet>
             <SheetTrigger>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="shrink-0">
                 <Menu className="h-6 w-6" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-75">
-              <SheetHeader>
-                <SheetTitle className="text-left">Menu</SheetTitle>
+            <SheetContent side="right" className="w-75 p-0 flex flex-col">
+              <SheetHeader className="p-6 text-left border-b">
+                <SheetTitle className="flex items-center gap-2 text-primary">
+                  <UserCircle className="h-5 w-5" />
+                  Welcome to TaskOrbit
+                </SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col gap-4 mt-8">
-                <Input placeholder="Search services..." className="mb-4" />
-                <Link
-                  href="/jobs"
-                  className="text-lg font-medium border-b pb-2"
-                >
-                  Explore Jobs
-                </Link>
-                <Link
-                  href="/seller"
-                  className="text-lg font-medium border-b pb-2"
-                >
-                  Become a Seller
-                </Link>
-                <Link
-                  href="/login"
-                  className="text-lg font-medium border-b pb-2"
-                >
-                  Sign In
-                </Link>
-                <Button className="w-full mt-4">Join TaskOrbit</Button>
+
+              {/* Scrollable Content Area */}
+              <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                {/* Search in Mobile */}
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    placeholder="Search for services"
+                    className="pl-10 py-5"
+                  />
+                </div>
+
+                {/* Main Navigation */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    General
+                  </h4>
+                  <div className="grid gap-4">
+                    <Link
+                      href="/jobs"
+                      className="flex items-center justify-between group"
+                    >
+                      <div className="flex items-center gap-3 font-medium">
+                        <Compass className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+                        Explore Jobs
+                      </div>
+                      <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
+                    <Link
+                      href="/seller"
+                      className="flex items-center justify-between group"
+                    >
+                      <div className="flex items-center gap-3 font-medium">
+                        <Briefcase className="h-5 w-5 text-muted-foreground group-hover:text-primary" />
+                        Become a Seller
+                      </div>
+                      <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </Link>
+                  </div>
+                </div>
+
+                <Separator />
+
+                {/* Account Section */}
+                <div className="space-y-4">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                    Account
+                  </h4>
+                  <Link
+                    href="/login"
+                    className="flex items-center gap-3 font-medium"
+                  >
+                    <LogIn className="h-5 w-5 text-muted-foreground" />
+                    Sign In
+                  </Link>
+                </div>
+              </div>
+
+              {/* Footer CTA */}
+              <div className="p-6 border-t mt-auto bg-muted/30">
+                <Button className="w-full font-bold h-12" size="lg">
+                  Join TaskOrbit
+                </Button>
               </div>
             </SheetContent>
           </Sheet>

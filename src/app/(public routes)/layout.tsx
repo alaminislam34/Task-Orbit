@@ -1,3 +1,4 @@
+import FooterSection from "@/components/shared/Footer/Footer";
 import Navbar from "@/components/shared/Header/Navbar";
 
 export default function PublicLayout({
@@ -9,7 +10,8 @@ export default function PublicLayout({
     <>
       <section>
         <Navbar />
-        {children}
+        <div className="min-h-[50vh]">{children}</div>
+        <FooterSection />
       </section>
     </>
   );
