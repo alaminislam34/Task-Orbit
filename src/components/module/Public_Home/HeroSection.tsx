@@ -42,7 +42,7 @@ const HeroSection = () => {
           </p>
 
           {/* 4. High-Converting Search Bar */}
-          <div className="flex flex-col sm:flex-row w-full max-w-2xl bg-white rounded-lg sm:rounded-full p-2 shadow-2xl mt-2">
+          <div className="flex flex-col sm:flex-row w-full max-w-2xl bg-white/80 backdrop-blur-2xl rounded-lg sm:rounded-full p-2 shadow-2xl mt-2">
             <div className="relative grow flex items-center">
               <Search className="absolute left-4 h-5 w-5 text-gray-400" />
               <Input
