@@ -1,3 +1,5 @@
+import Navbar from "@/components/shared/Header/Navbar";
+
 export default function PublicLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,10 @@ export default function PublicLayout({
 }>) {
   return (
     <>
-      <section>{children}</section>
+      <section>
+        <Navbar />
+        {children}
+      </section>
     </>
   );
 }
