@@ -1,81 +1,110 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search, ArrowRight, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import Image from "next/image";
+import animation from "../../../../public/videos/designer.json";
+import Lottie from "react-lottie";
 
 const HeroSection = () => {
   return (
-    <section className="relative w-full min-h-150 lg:min-h-180 max-h-180 h-full flex items-center justify-center md:justify-start overflow-hidden">
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover -z-20"
-      >
-        <source src="/videos/taskorbit(bg_video).mp4" type="video/mp4" />
+    // "bg-background" and "text-foreground" are the magic keys for theme switching
+    <section className="relative w-full min-h-[85vh] flex items-center bg-background text-foreground overflow-hidden transition-colors duration-300">
+      {/* 1. Dynamic Glows (They adjust opacity based on theme) */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/10 dark:bg-primary/5 -skew-x-12 translate-x-1/4 z-0" />
+      <div className="absolute bottom-10 left-10 w-64 h-64 bg-blue-500/10 rounded-full blur-[100px] z-0" />
 
-        <img
-          src="/images/hero-fallback.jpg"
-          alt="Freelance workspace"
-          className="w-full h-full object-cover"
-        />
-      </video>
-
-      <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/60 to-black/30 md:to-transparent -z-10" />
-
-      {/* 3. Hero Content */}
-      <div className="container mx-auto px-4 md:px-8 relative z-10 w-full">
-        <div className="max-w-3xl flex flex-col gap-6 md:gap-8 mt-10 md:mt-0">
-          {/* Headline */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight">
-            Find the right <span className="text-primary pr-2">freelance</span>{" "}
-            <br className="hidden md:block" />
-            service, right away
-          </h1>
-
-          <p className="text-lg text-gray-200 font-medium md:max-w-xl">
-            Join thousands of businesses building their dream projects with
-            top-tier talent from around the globe.
-          </p>
-
-          {/* 4. High-Converting Search Bar */}
-          <div className="flex flex-col sm:flex-row w-full max-w-2xl bg-white/80 backdrop-blur-2xl rounded-lg sm:rounded-full p-2 shadow-2xl mt-2">
-            <div className="relative grow flex items-center">
-              <Search className="absolute left-4 h-5 w-5 text-gray-400" />
-              <Input
-                type="text"
-                placeholder="Search for any service..."
-                className="w-full border-0 focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent pl-12 h-12 text-base text-gray-900 placeholder:text-gray-500 rounded-full"
-              />
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-12 items-center">
+          {/* 2. Content Column */}
+          <div className="lg:col-span-7 flex flex-col space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-700">
+            <div className="flex items-center gap-2 bg-muted border border-border shadow-sm w-fit px-4 py-1.5 rounded-full">
+              <Zap className="w-4 h-4 text-primary fill-primary" />
+              <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+                Elite Freelance Network
+              </span>
             </div>
-            <Button
-              size="lg"
-              className="mt-2 sm:mt-0 h-12 px-8 rounded-md sm:rounded-full font-bold text-base w-full sm:w-auto transition-transform active:scale-95"
-            >
-              Search
-            </Button>
+
+            <h1 className="text-3xl md:text-6xl font-bold">
+              Find the extraordinary
+              <br />
+              experts.
+            </h1>
+
+            <p className="text-lg md:text-xl text-muted-foreground max-w-lg leading-relaxed font-medium">
+              We’ve bypassed the noise. TaskOrbit connects you with world-class
+              talent through a streamlined, high-performance interface.
+            </p>
+
+            {/* 3. The Theme-Adaptive Search Bar */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 p-2 bg-card border border-border shadow-md rounded-2xl max-w-2xl group focus-within:border-primary/50 transition-all">
+              <div className="relative w-full flex items-center">
+                <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search for your next expert..."
+                  className="w-full border-0 focus-visible:ring-0 bg-transparent pl-12 h-14 text-lg text-foreground placeholder:text-muted-foreground shadow-none"
+                />
+              </div>
+              <Button
+                size="lg"
+                className="w-full sm:w-auto h-14 px-8 rounded-xl font-bold text-base shadow-lg transition-transform active:scale-95"
+              >
+                Explore
+              </Button>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex items-center gap-6 pt-4">
+              <div className="flex -space-x-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <div
+                    key={i}
+                    className="w-10 h-10 rounded-full border-2 border-background bg-muted overflow-hidden"
+                  >
+                    <div className="w-full h-full bg-linear-to-br from-primary/20 to-primary/40" />
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Trusted by{" "}
+                <span className="font-bold text-foreground underline decoration-primary/40">
+                  500+ startups
+                </span>{" "}
+                worldwide
+              </p>
+            </div>
           </div>
 
-          {/* 5. Popular Searches (Social Proof & Quick Navigation) */}
-          <div className="flex flex-wrap items-center gap-3 mt-4">
-            <span className="text-sm font-semibold text-gray-300">
-              Popular:
-            </span>
-            {["Website Design", "WordPress", "Logo Design", "AI Services"].map(
-              (tag) => (
-                <Link
-                  key={tag}
-                  href={`/search?q=${tag.toLowerCase().replace(" ", "-")}`}
-                >
-                  <span className="px-4 py-1.5 rounded-full border border-gray-400 text-white text-sm font-medium hover:bg-white hover:text-black transition-colors cursor-pointer bg-black/20 backdrop-blur-sm">
-                    {tag}
+          {/* 4. The Visual Column (Premium Bento Feel) */}
+          <div className="lg:col-span-5 relative hidden lg:block">
+            <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-12 border-card">
+              <div className="w-full h-130 bg-muted flex items-center justify-center pointer-events-none">
+                {/* This would be your high-res image */}
+                {/* <Image
+                  src="/images/freelance.jpg"
+                  alt="Talent"
+                  fill
+                  className="w-full h-full object-cover opacity-90 dark:opacity-80 transition-opacity"
+                /> */}
+                <Lottie
+                  options={{ animationData: animation }}
+                  height={500}
+                  width={500}
+                />
+              </div>
+
+              {/* Floating Glass UI Piece */}
+              <div className="absolute top-10 left-0 bg-background/60 backdrop-blur-xl p-4 rounded-2xl border border-border shadow-xl animate-bounce-slow">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-bold">
+                    1,240 Experts Online
                   </span>
-                </Link>
-              ),
-            )}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

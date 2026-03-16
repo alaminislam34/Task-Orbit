@@ -10,6 +10,7 @@ export default function PublicLayout({
     <>
       <section>
         <Navbar />
+
         <div className="min-h-[50vh]">{children}</div>
         <FooterSection />
       </section>

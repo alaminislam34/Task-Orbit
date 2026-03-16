@@ -39,7 +39,7 @@ const CategorySection = () => {
         {/* Section Header */}
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
-            Popular professional services
+            Popular services
           </h2>
           <Link
             href="/categories"
@@ -50,12 +50,12 @@ const CategorySection = () => {
         </div>
 
         {/* Categories Slider/Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6">
           {categories.map((cat, index) => (
             <Link
               key={index}
               href={`/services/${cat.title.toLowerCase()}`}
-              className={`group relative overflow-hidden rounded-xl h-80 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${cat.color}`}
+              className={`group relative overflow-hidden rounded-xl h-60 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${cat.color}`}
             >
               {/* Image with overlay */}
               <div className="absolute inset-0 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
