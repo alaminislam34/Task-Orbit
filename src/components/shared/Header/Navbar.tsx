@@ -96,11 +96,11 @@ const Navbar = () => {
         <div className="flex md:hidden items-center gap-2">
           <ModeToggle />
           <Sheet>
-            <SheetTrigger>
+            {/* <SheetTrigger> */}
               <Button variant="ghost" size="icon" className="shrink-0">
                 <Menu className="h-6 w-6" />
               </Button>
-            </SheetTrigger>
+            {/* </SheetTrigger> */}
             <SheetContent side="right" className="w-75 p-0 flex flex-col">
               <SheetHeader className="p-6 text-left border-b">
                 <SheetTitle className="flex items-center gap-2 text-primary">
