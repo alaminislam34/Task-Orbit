@@ -75,7 +75,7 @@ const Navbar = () => {
                 Explore
               </Link>
               <Link
-                href="/seller"
+                href="/start_selling?source=top_nav"
                 className="hover:text-primary transition-colors flex items-center gap-1"
               >
                 <Globe className="h-4 w-4" />
@@ -142,7 +142,7 @@ const Navbar = () => {
                         <ArrowRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                       </Link>
                       <Link
-                        href="/seller"
+                        href="/start_selling?source=top_nav"
                         className="flex items-center justify-between group"
                       >
                         <div className="flex items-center gap-3 font-medium">
