@@ -8,17 +8,16 @@ import {
   ArrowRight,
   Play,
   Pause,
-  Volume2,
-  VolumeX,
   CheckCircle2,
   ShieldCheck,
   Star,
 } from "lucide-react";
+import { useStateContext } from "@/providers/StateProvider";
 
 const SellerHero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
+  const { setSignUpModal, signUpModal } = useStateContext();
 
   const togglePlay = () => {
     if (videoRef.current) {
@@ -88,6 +87,7 @@ const SellerHero = () => {
             <Button
               size="lg"
               className="h-14 px-10 text-lg font-bold group shadow-2xl shadow-primary/20"
+              onClick={() => setSignUpModal(true)}
             >
               Create your profile
               <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />

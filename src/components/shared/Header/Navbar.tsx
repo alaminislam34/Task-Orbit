@@ -27,10 +27,12 @@ import {
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import ServicesNavbarSection from "./ServicesNavbar";
+import { useStateContext } from "@/providers/StateProvider";
 
 const Navbar = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { setSignUpModal } = useStateContext();
 
   useEffect(() => {
     setMounted(true);
@@ -88,8 +90,12 @@ const Navbar = () => {
                   Sign In
                 </Button>
               </Link>
-              <Link href="/signup">
-                <Button size="sm" className="px-5">
+              <Link href="/start_selling?source=top_nav">
+                <Button
+                  size="sm"
+                  className="px-5"
+                  onClick={() => setSignUpModal(true)}
+                >
                   Join
                 </Button>
               </Link>

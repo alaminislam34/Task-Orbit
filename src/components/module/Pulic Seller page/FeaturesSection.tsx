@@ -10,6 +10,7 @@ import {
   Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useStateContext } from "@/providers/StateProvider";
 
 const features = [
   {
@@ -51,6 +52,7 @@ const features = [
 ];
 
 const FeaturesSection = () => {
+  const { setSignUpModal } = useStateContext();
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-4 md:px-8">
@@ -103,7 +105,12 @@ const FeaturesSection = () => {
         </div>
 
         <div className="flex items-center justify-center my-6">
-          <Button variant={"default"} size={"lg"} className={"px-6 py-2"}>
+          <Button
+            variant={"default"}
+            size={"lg"}
+            className={"px-6 py-2"}
+            onClick={() => setSignUpModal(true)}
+          >
             Get Started
           </Button>
         </div>

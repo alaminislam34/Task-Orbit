@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { StateProvider } from "@/providers/StateProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -44,7 +45,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <StateProvider>{children}</StateProvider>
           </ThemeProvider>
         </TanstackProvider>
       </body>
