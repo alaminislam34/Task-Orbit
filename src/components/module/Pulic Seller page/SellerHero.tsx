@@ -27,7 +27,7 @@ const SellerHero = () => {
   };
 
   return (
-    <section className="relative w-full min-h-[85vh] flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative w-full min-h-140 flex items-center justify-center overflow-hidden bg-black">
       {/* --- 1. Background Video Layer --- */}
       <div className="absolute inset-0 z-0">
         <video
@@ -60,7 +60,7 @@ const SellerHero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.1]"
+            className="text-5xl md:text-6xl font-bold tracking-tight text-white leading-[1.1]"
           >
             Work your way. <br />
             <span className="text-primary">Earn on your terms.</span>

@@ -32,7 +32,7 @@ import { useStateContext } from "@/providers/StateProvider";
 const Navbar = () => {
   const { theme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const { setSignUpModal } = useStateContext();
+  const { setSignUpModal, setSignInModal } = useStateContext();
 
   useEffect(() => {
     setMounted(true);
@@ -71,7 +71,7 @@ const Navbar = () => {
           <nav className="hidden md:flex items-center gap-6">
             <div className="flex items-center gap-6 text-sm font-semibold text-muted-foreground">
               <Link
-                href="/jobs"
+                href="/explore"
                 className="hover:text-primary transition-colors"
               >
                 Explore
@@ -85,11 +85,11 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="flex items-center gap-3 border-l pl-6">
-              <Link href="/login">
-                <Button variant="ghost" size="sm">
+              <div>
+                <Button variant="ghost" size="sm" onClick={() => setSignInModal(true)}>
                   Sign In
                 </Button>
-              </Link>
+              </div>
               <Link href="/start_selling?source=top_nav">
                 <Button
                   size="sm"
