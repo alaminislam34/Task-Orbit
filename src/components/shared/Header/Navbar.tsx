@@ -39,7 +39,7 @@ const Navbar = () => {
   }, []);
 
   const logoSrc =
-    theme === "dark" ? "/logos/taskorbit(dark).png" : "/logos/taskorbit.png";
+    theme === "dark" ? "/logos/dark.png" : "/logos/light.png";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
@@ -49,7 +49,7 @@ const Navbar = () => {
           <div className="flex items-center gap-8">
             <Link href="/" className="flex items-center space-x-2">
               <Image
-                src={mounted ? logoSrc : "/logos/taskorbit.png"}
+                src={mounted ? logoSrc : "/logos/light.png"}
                 alt="TaskOrbit Logo"
                 width={150}
                 height={55}
