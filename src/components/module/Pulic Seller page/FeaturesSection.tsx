@@ -88,7 +88,7 @@ const FeaturesSection = () => {
               className={`group relative p-8 rounded-3xl border bg-card hover:bg-accent/50 transition-all duration-300 ${feature.className}`}
             >
               <div
-                className={`w-12 h-12 rounded-2xl ${feature.bg} flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}
+                className={`w-12 h-12 rounded-xl ${feature.bg} flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}
               >
                 <feature.icon className={`w-6 h-6 ${feature.color}`} />
               </div>

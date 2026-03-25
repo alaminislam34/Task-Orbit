@@ -2,6 +2,10 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -19,14 +23,51 @@ import {
   X,
   Eye,
   EyeOff,
+  Loader2,
 } from "lucide-react";
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
 
+const clientSignUpSchema = z
+  .object({
+    fullName: z.string().min(2, "Full name is required"),
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+type ClientSignUpForm = z.infer<typeof clientSignUpSchema>;
+
 const ClientRegisterModal = () => {
   const { clientModal, setClientModal, setSignInModal } = useStateContext();
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<"google" | "github" | null>(
+    null,
+  );
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ClientSignUpForm>({
+    resolver: zodResolver(clientSignUpSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    mode: "onBlur",
+  });
+
+  const password = watch("password", "");
 
   const checks = {
     length: password.length >= 8,
@@ -40,14 +81,34 @@ const ClientRegisterModal = () => {
   const handleOpenChange = (open: boolean) => {
     setClientModal(open);
     if (!open) {
-      setPassword("");
+      reset();
       setShowPassword(false);
+      setShowConfirmPassword(false);
     }
   };
 
   const switchToSignIn = () => {
     setClientModal(false);
     setTimeout(() => setSignInModal(true), 300);
+  };
+
+  const onSubmit = async (_values: ClientSignUpForm) => {
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    toast.success("Account created successfully");
+    setClientModal(false);
+    reset();
+  };
+
+  const onSocialAuth = async (provider: "google" | "github") => {
+    try {
+      setSocialLoading(provider);
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      toast.success(`Continuing with ${provider === "google" ? "Google" : "GitHub"}`);
+    } catch {
+      toast.error("Social authentication failed");
+    } finally {
+      setSocialLoading(null);
+    }
   };
 
   return (
@@ -71,46 +132,87 @@ const ClientRegisterModal = () => {
             {/* Social Buttons */}
             <div className="grid grid-cols-2 gap-3">
               <Button
+                type="button"
+                onClick={() => onSocialAuth("google")}
+                disabled={socialLoading !== null}
                 variant="outline"
-                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all shadow-sm"
+                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow-sm"
               >
-                <Chrome className="w-4 h-4 text-red-500" />
+                {socialLoading === "google" ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Chrome className="w-4 h-4 text-red-500" />
+                )}
                 <span className="text-xs font-semibold">Google</span>
               </Button>
               <Button
+                type="button"
+                onClick={() => onSocialAuth("github")}
+                disabled={socialLoading !== null}
                 variant="outline"
-                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all shadow-sm"
+                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow-sm"
               >
-                <Github className="w-4 h-4" />
+                {socialLoading === "github" ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Github className="w-4 h-4" />
+                )}
                 <span className="text-xs font-semibold">GitHub</span>
               </Button>
             </div>
 
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium">First Name</Label>
-                  <Input
-                    placeholder="John"
-                    className="h-11 rounded-lg focus:ring-emerald-500"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium">Last Name</Label>
-                  <Input
-                    placeholder="Doe"
-                    className="h-11 rounded-lg focus:ring-emerald-500"
-                  />
-                </div>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Full Name</Label>
+                <Input
+                  placeholder="John Doe"
+                  aria-invalid={!!errors.fullName}
+                  {...register("fullName")}
+                  className={cn(
+                    "h-11 rounded-lg focus:ring-emerald-500",
+                    errors.fullName && "border-destructive",
+                  )}
+                />
+                <AnimatePresence>
+                  {errors.fullName?.message && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="text-xs text-destructive"
+                    >
+                      {errors.fullName.message}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Work Email</Label>
-                <Input
-                  type="email"
-                  placeholder="john@company.com"
-                  className="h-11 rounded-lg focus:ring-emerald-500"
-                />
+              <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium">Work Email</Label>
+                  <Input
+                    type="email"
+                    placeholder="john@company.com"
+                    aria-invalid={!!errors.email}
+                    {...register("email")}
+                    className={cn(
+                      "h-11 rounded-lg focus:ring-emerald-500",
+                      errors.email && "border-destructive",
+                    )}
+                  />
+                  <AnimatePresence>
+                    {errors.email?.message && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="text-xs text-destructive"
+                      >
+                        {errors.email.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
 
               {/* --- Password Field with Eye Button --- */}
@@ -119,8 +221,8 @@ const ClientRegisterModal = () => {
                 <div className="relative">
                   <Input
                     type={showPassword ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    aria-invalid={!!errors.password}
+                    {...register("password")}
                     placeholder="Create a strong password"
                     className="h-11 rounded-lg focus:ring-emerald-500 pr-10" // রাইট প্যাডিং দেওয়া হয়েছে আইকনের জন্য
                   />
@@ -136,6 +238,54 @@ const ClientRegisterModal = () => {
                     )}
                   </button>
                 </div>
+                <AnimatePresence>
+                  {errors.password?.message && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="text-xs text-destructive"
+                    >
+                      {errors.password.message}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
+
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    aria-invalid={!!errors.confirmPassword}
+                    {...register("confirmPassword")}
+                    placeholder="Confirm your password"
+                    className={cn(
+                      "h-11 rounded-lg focus:ring-emerald-500 pr-10",
+                      errors.confirmPassword && "border-destructive",
+                    )}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {errors.confirmPassword?.message && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="text-xs text-destructive"
+                    >
+                      {errors.confirmPassword.message}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
 
                 {/* Strength Meter Bar */}
                 {password.length > 0 && (
@@ -168,13 +318,23 @@ const ClientRegisterModal = () => {
               </div>
 
               <Button
+                type="submit"
                 disabled={strengthCount < 4}
                 className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-100 transition-all gap-2 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create My Account
-                <ArrowRight className="w-4 h-4" />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Creating Account...
+                  </>
+                ) : (
+                  <>
+                    Create My Account
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
               </Button>
-            </div>
+            </form>
 
             <div className="pt-4 border-t border-slate-50 text-center">
               <p className="text-sm text-slate-500">

@@ -1,7 +1,7 @@
+import { SuperAdminDashboardContent } from "@/components/module/SuperAdminDashboard";
+
 const SuperAdminHomePage = () => {
-  return (
-    <div>SuperAdminHomePage</div>
-  );
-}
+  return <SuperAdminDashboardContent />;
+};
 
 export default SuperAdminHomePage;

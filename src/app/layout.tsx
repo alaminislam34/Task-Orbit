@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import TanstackProvider from "@/providers/TanstackProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { StateProvider } from "@/providers/StateProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -45,7 +46,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <StateProvider>{children}</StateProvider>
+            <StateProvider>
+              {children}
+              <Toaster richColors position="top-right" />
+            </StateProvider>
           </ThemeProvider>
         </TanstackProvider>
       </body>

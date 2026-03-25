@@ -92,7 +92,7 @@ const SellectType = () => {
               transition={{ delay: index * 0.1 }}
               onClick={() => setSelectedRole(role.id)}
               className={cn(
-                "relative group cursor-pointer flex flex-col p-8 rounded-[2rem] border-2 transition-all duration-300",
+                "relative group cursor-pointer flex flex-col p-8 rounded-xl border-2 transition-all duration-300",
                 "bg-card hover:bg-accent/50", // Dark mode friendly backgrounds
                 isSelected
                   ? `border-${role.colorClass}-500 ring-4 ring-${role.colorClass}-500/10 shadow-2xl`
@@ -114,7 +114,7 @@ const SellectType = () => {
               {/* Icon Container */}
               <div
                 className={cn(
-                  "w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 duration-500",
+                  "w-16 h-16 rounded-xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 duration-500",
                   role.id === "seller"
                     ? "bg-emerald-500/10 text-emerald-600"
                     : role.id === "client"

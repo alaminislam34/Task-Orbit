@@ -78,11 +78,11 @@ const TalentGrowth = () => {
               className="relative z-10 group"
             >
               <div
-                className={`bg-background border ${item.border} p-8 rounded-[2.5rem] transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/5 group-hover:-translate-y-2`}
+                className={`bg-background border ${item.border} p-8 rounded-lg transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-primary/5 group-hover:-translate-y-2`}
               >
                 <div className="flex justify-between items-start mb-8">
                   <div
-                    className={`p-4 rounded-2xl bg-muted group-hover:bg-primary transition-colors duration-500`}
+                    className={`p-4 rounded-xl bg-muted group-hover:bg-primary transition-colors duration-500`}
                   >
                     <item.icon
                       className={`w-6 h-6 ${item.color} group-hover:text-primary-foreground`}

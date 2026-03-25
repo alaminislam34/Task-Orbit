@@ -96,7 +96,7 @@ const CategorySelection = () => {
             >
               {/* Icon & Count */}
               <div className="flex items-start justify-between">
-                <div className="p-4 rounded-2xl bg-secondary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                <div className="p-4 rounded-xl bg-secondary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
                   <cat.icon size={28} strokeWidth={1.5} />
                 </div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 group-hover:text-primary transition-colors">

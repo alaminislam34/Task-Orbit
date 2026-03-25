@@ -2,6 +2,10 @@
 
 import React from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -18,23 +22,79 @@ import {
   User,
   Briefcase,
   ArrowRight,
+  Eye,
+  EyeOff,
+  Loader2,
 } from "lucide-react";
 import { useStateContext } from "@/providers/StateProvider";
+import { cn } from "@/lib/utils";
+
+const signInSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+  password: z.string().min(1, "Password is required"),
+});
+
+type SignInFormValues = z.infer<typeof signInSchema>;
 
 const SignInModal = () => {
   const { signInModal, setSignInModal, setSignUpModal, setClientModal } =
     useStateContext();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [socialLoading, setSocialLoading] = React.useState<
+    "google" | "github" | null
+  >(null);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<SignInFormValues>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onBlur",
+  });
 
   const handleOpenChange = (open: boolean) => {
     setSignInModal(open);
+    if (!open) {
+      reset();
+      setShowPassword(false);
+    }
   };
 
   const handleSignUpRedirect = (type: "client" | "seller") => {
     setSignInModal(false);
     if (type === "client") {
-      setClientModal(true);
+      setTimeout(() => setClientModal(true), 300);
     } else {
-      setSignUpModal(false);
+      setTimeout(() => setSignUpModal(true), 300);
+    }
+  };
+
+  const onSubmit = async (values: SignInFormValues) => {
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    if (values.email.includes("fail")) {
+      toast.error("Sign in failed. Please check your credentials.");
+      return;
+    }
+    toast.success("Signed in successfully");
+    setSignInModal(false);
+    reset();
+  };
+
+  const onSocialAuth = async (provider: "google" | "github") => {
+    try {
+      setSocialLoading(provider);
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      toast.success(`Continuing with ${provider === "google" ? "Google" : "GitHub"}`);
+    } catch {
+      toast.error("Social authentication failed");
+    } finally {
+      setSocialLoading(null);
     }
   };
 
@@ -57,7 +117,7 @@ const SignInModal = () => {
             </DialogHeader>
 
             {/* --- Standard Login Form --- */}
-            <div className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label
                   htmlFor="email"
@@ -69,30 +129,96 @@ const SignInModal = () => {
                   id="email"
                   type="email"
                   placeholder="name@example.com"
-                  className="h-11 rounded-lg border-slate-200 focus:ring-emerald-500"
+                  aria-invalid={!!errors.email}
+                  {...register("email")}
+                  className={cn(
+                    "h-11 rounded-lg border-slate-200 focus:ring-emerald-500",
+                    errors.email && "border-destructive",
+                  )}
                 />
+                <AnimatePresence>
+                  {errors.email?.message && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="text-xs text-destructive"
+                    >
+                      {errors.email.message}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
-                  <Label htmlFor="password font-medium text-slate-700">
+                  <Label
+                    htmlFor="password"
+                    className="font-medium text-slate-700"
+                  >
                     Password
                   </Label>
-                  <button className="text-xs text-emerald-600 hover:text-emerald-700 font-semibold">
+                  <button
+                    type="button"
+                    className="text-xs text-emerald-600 hover:text-emerald-700 font-semibold"
+                  >
                     Forgot password?
                   </button>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="••••••••"
-                  className="h-11 rounded-lg border-slate-200 focus:ring-emerald-500"
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    aria-invalid={!!errors.password}
+                    {...register("password")}
+                    className={cn(
+                      "h-11 rounded-lg border-slate-200 focus:ring-emerald-500 pr-10",
+                      errors.password && "border-destructive",
+                    )}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-4 h-4" />
+                    ) : (
+                      <Eye className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {errors.password?.message && (
+                    <motion.p
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      className="text-xs text-destructive"
+                    >
+                      {errors.password.message}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </div>
-              <Button className="w-full h-11 bg-slate-900 hover:bg-black text-white font-semibold rounded-lg shadow-md transition-all gap-2">
-                <LogIn className="w-4 h-4" />
-                Sign In
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-11 bg-slate-900 hover:bg-black text-white font-semibold rounded-lg shadow-md transition-all gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Signing In...
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="w-4 h-4" />
+                    Sign In
+                  </>
+                )}
               </Button>
-            </div>
+            </form>
 
             {/* Divider */}
             <div className="relative">
@@ -109,17 +235,31 @@ const SignInModal = () => {
             {/* Social Logins */}
             <div className="grid grid-cols-2 gap-3">
               <Button
+                type="button"
+                onClick={() => onSocialAuth("google")}
+                disabled={socialLoading !== null}
                 variant="outline"
-                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all"
+                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01]"
               >
-                <Chrome className="w-4 h-4 text-red-500" />
+                {socialLoading === "google" ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Chrome className="w-4 h-4 text-red-500" />
+                )}
                 Google
               </Button>
               <Button
+                type="button"
+                onClick={() => onSocialAuth("github")}
+                disabled={socialLoading !== null}
                 variant="outline"
-                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all"
+                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01]"
               >
-                <Github className="w-4 h-4" />
+                {socialLoading === "github" ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Github className="w-4 h-4" />
+                )}
                 GitHub
               </Button>
             </div>
@@ -133,6 +273,7 @@ const SignInModal = () => {
               <div className="grid grid-cols-1 gap-2">
                 {/* Seller Option */}
                 <button
+                  type="button"
                   onClick={() => handleSignUpRedirect("seller")}
                   className="group flex items-center justify-between p-3 border border-emerald-100 bg-emerald-50/30 rounded-xl hover:bg-emerald-50 transition-all text-left"
                 >
@@ -154,6 +295,7 @@ const SignInModal = () => {
 
                 {/* Client Option */}
                 <button
+                  type="button"
                   onClick={() => handleSignUpRedirect("client")}
                   className="group flex items-center justify-between p-3 border border-slate-100 bg-slate-50/30 rounded-xl hover:bg-slate-50 transition-all text-left"
                 >

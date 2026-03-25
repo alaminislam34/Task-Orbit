@@ -77,7 +77,7 @@ const RecruiterSetup = () => {
       </div>
 
       {/* Form Card */}
-      <div className="bg-card border border-border rounded-[2.5rem] p-8 md:p-10 shadow-sm relative overflow-hidden">
+      <div className="bg-card border border-border rounded-lg p-8 md:p-10 shadow-sm relative overflow-hidden">
         <AnimatePresence mode="wait">
           {currentStep === 1 && (
             <motion.div

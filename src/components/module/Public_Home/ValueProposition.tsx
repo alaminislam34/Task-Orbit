@@ -65,7 +65,7 @@ const ValueProposition = () => {
 
           {/* Right Side: Visual Element */}
           <div className="flex-1 w-full">
-            <div className="relative aspect-video lg:aspect-square rounded-2xl overflow-hidden shadow-2xl border-8 border-background">
+            <div className="relative aspect-video lg:aspect-square rounded-xl overflow-hidden shadow-2xl border-8 border-background">
               <img
                 src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop"
                 alt="Team collaborating"

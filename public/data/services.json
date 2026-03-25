@@ -1,0 +1,2455 @@
+[
+  {
+    "id": "srv_001",
+    "slug": "build-high-end-bento-style-ui-nextjs",
+    "title": "I will build high-end professional Bento Style UI for your SaaS application",
+    "description": "Transform your SaaS with a modern, high-converting Bento grid layout. I specialize in creating visually stunning, performance-optimized interfaces using Next.js 14, Tailwind CSS, and Framer Motion.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Web Maintenance",
+      "tag": "Next.js Development"
+    },
+    "tags": ["Next.js", "Tailwind CSS", "Bento UI", "SaaS Design"],
+    "rating": 4.9,
+    "reviewCount": 1240,
+    "ordersInQueue": 12,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/seo.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/portfolio-1.jpg",
+          "alt": "SaaS Preview"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_001",
+      "name": "MD. Al Amin",
+      "username": "alamin_pro",
+      "avatar": "/avatars/amin.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Full-stack Architect & Next.js Expert",
+      "memberSince": "Jan 2024",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "2 hours ago",
+      "languages": [{ "language": "English", "level": "Fluent" }],
+      "about": "Professional software architect specializing in high-performance SaaS platforms."
+    },
+    "packages": [
+      {
+        "id": "p1",
+        "name": "Basic",
+        "title": "Essential Bento",
+        "price": 199,
+        "deliveryTime": 2,
+        "revisions": 2,
+        "features": [
+          { "label": "Responsive Design", "included": true },
+          { "label": "Source Code", "included": true },
+          { "label": "Number of Pages", "value": "1" }
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Standard",
+        "title": "Professional SaaS",
+        "price": 499,
+        "deliveryTime": 5,
+        "revisions": 5,
+        "features": [
+          { "label": "Responsive Design", "included": true },
+          { "label": "Source Code", "included": true },
+          { "label": "Number of Pages", "value": "5" }
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "Premium",
+        "title": "Enterprise Dashboard",
+        "price": 999,
+        "deliveryTime": 10,
+        "revisions": -1,
+        "features": [
+          { "label": "Responsive Design", "included": true },
+          { "label": "Source Code", "included": true },
+          { "label": "Number of Pages", "value": "Unlimited" }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Will the code be production-ready?",
+        "answer": "Yes, I use TypeScript and industry-standard practices."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r1",
+        "user": "Violet",
+        "rating": 5,
+        "comment": "Incredible attention to detail!",
+        "date": "2026-03-20",
+        "country": "UK"
+      }
+    ]
+  },
+  {
+    "id": "srv_002",
+    "slug": "design-modern-saas-landing-page-figma",
+    "title": "I will design a high-converting premium SaaS landing page in Figma",
+    "description": "I create pixel-perfect, modern designs that focus on user psychology and conversion. Get a professional Figma file with a complete design system and responsive layouts.",
+    "category": {
+      "main": "Graphics & Design",
+      "sub": "Web Design",
+      "tag": "UI/UX Design"
+    },
+    "tags": ["Figma", "UI/UX", "SaaS Design", "Landing Page"],
+    "rating": 4.8,
+    "reviewCount": 850,
+    "ordersInQueue": 4,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/design-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/design-1.jpg",
+          "alt": "Figma Preview"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_002",
+      "name": "Sarah Chen",
+      "username": "sarah_uiux",
+      "avatar": "/avatars/sarah.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "UI/UX Designer for Tech Startups",
+      "memberSince": "Mar 2023",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "5 hours ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Creative designer focused on clean, minimalist aesthetics for modern web applications."
+    },
+    "packages": [
+      {
+        "id": "p4",
+        "name": "Basic",
+        "title": "Single Page UI",
+        "price": 150,
+        "deliveryTime": 3,
+        "revisions": 3,
+        "features": [
+          { "label": "Source File", "included": true },
+          { "label": "Responsive Design", "included": true },
+          { "label": "Asset Export", "included": true }
+        ]
+      },
+      {
+        "id": "p5",
+        "name": "Standard",
+        "title": "Multi-page UI",
+        "price": 400,
+        "deliveryTime": 7,
+        "revisions": 5,
+        "features": [
+          { "label": "Source File", "included": true },
+          { "label": "Responsive Design", "included": true },
+          { "label": "Prototype", "included": true }
+        ]
+      },
+      {
+        "id": "p6",
+        "name": "Premium",
+        "title": "Full SaaS Branding",
+        "price": 850,
+        "deliveryTime": 14,
+        "revisions": -1,
+        "features": [
+          { "label": "Source File", "included": true },
+          { "label": "Design System", "included": true },
+          { "label": "Logo Design", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you provide development?",
+        "answer": "This service is for UI/UX design only. I provide the Figma file for developers."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r2",
+        "user": "John D.",
+        "rating": 5,
+        "comment": "Perfect design, very professional.",
+        "date": "2026-03-15",
+        "country": "USA"
+      }
+    ]
+  },
+  {
+    "id": "srv_003",
+    "slug": "build-scalable-backend-nodejs-postgresql",
+    "title": "I will build a scalable backend API with Node.js and PostgreSQL",
+    "description": "Robust, secure, and lightning-fast backend systems. I specialize in REST and GraphQL APIs using Express, NestJS, and Prisma for high-traffic applications.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Web Programming",
+      "tag": "Backend Development"
+    },
+    "tags": ["Node.js", "PostgreSQL", "Prisma", "API", "Redis"],
+    "rating": 5.0,
+    "reviewCount": 320,
+    "ordersInQueue": 7,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/backend-thumb.jpg",
+      "gallery": [
+        { "type": "image", "url": "/images/backend-1.jpg", "alt": "API Schema" }
+      ]
+    },
+    "seller": {
+      "id": "u_003",
+      "name": "Alex Rivera",
+      "username": "arivera_dev",
+      "avatar": "/avatars/alex.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Senior Backend Engineer",
+      "memberSince": "Jun 2023",
+      "avgResponseTime": "4 hours",
+      "lastDelivery": "1 day ago",
+      "languages": [{ "language": "English", "level": "Fluent" }],
+      "about": "I build the engines that power modern web applications with a focus on security and speed."
+    },
+    "packages": [
+      {
+        "id": "p7",
+        "name": "Basic",
+        "title": "Simple API",
+        "price": 250,
+        "deliveryTime": 4,
+        "revisions": 2,
+        "features": [
+          { "label": "Database Setup", "included": true },
+          { "label": "Auth System", "included": true },
+          { "label": "Documentation", "included": false }
+        ]
+      },
+      {
+        "id": "p8",
+        "name": "Standard",
+        "title": "Full API Suite",
+        "price": 600,
+        "deliveryTime": 10,
+        "revisions": 4,
+        "features": [
+          { "label": "Database Setup", "included": true },
+          { "label": "Auth System", "included": true },
+          { "label": "Documentation", "included": true }
+        ]
+      },
+      {
+        "id": "p9",
+        "name": "Premium",
+        "title": "Enterprise System",
+        "price": 1200,
+        "deliveryTime": 20,
+        "revisions": -1,
+        "features": [
+          { "label": "Database Setup", "included": true },
+          { "label": "Microservices", "included": true },
+          { "label": "Docker Setup", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Which database do you prefer?",
+        "answer": "I recommend PostgreSQL for relational data and Redis for caching."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r3",
+        "user": "TechCorp",
+        "rating": 5,
+        "comment": "Scalable and clean code.",
+        "date": "2026-02-28",
+        "country": "Germany"
+      }
+    ]
+  },
+  {
+    "id": "srv_004",
+    "slug": "cross-platform-react-native-app-development",
+    "title": "I will develop your cross-platform mobile app with React Native",
+    "description": "Turn your idea into a mobile reality. High-performance apps for iOS and Android using a single codebase. Native-like smooth animations and full hardware access.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Mobile Apps",
+      "tag": "Mobile Development"
+    },
+    "tags": ["React Native", "Expo", "iOS", "Android", "Mobile UI"],
+    "rating": 4.7,
+    "reviewCount": 156,
+    "ordersInQueue": 3,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/mobile-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/mobile-1.jpg",
+          "alt": "App Screenshot"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_004",
+      "name": "Leo Garcia",
+      "username": "leo_mobile",
+      "avatar": "/avatars/leo.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Mobile App Specialist",
+      "memberSince": "Sep 2023",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "12 hours ago",
+      "languages": [
+        { "language": "English", "level": "Fluent" },
+        { "language": "Spanish", "level": "Native" }
+      ],
+      "about": "Passionate mobile developer delivering high-quality React Native solutions."
+    },
+    "packages": [
+      {
+        "id": "p10",
+        "name": "Basic",
+        "title": "MVP Mobile App",
+        "price": 800,
+        "deliveryTime": 14,
+        "revisions": 3,
+        "features": [
+          { "label": "App Icon", "included": true },
+          { "label": "Screen Count", "value": "5" },
+          { "label": "Push Notifications", "included": false }
+        ]
+      },
+      {
+        "id": "p11",
+        "name": "Standard",
+        "title": "Full App Feature",
+        "price": 1500,
+        "deliveryTime": 30,
+        "revisions": 5,
+        "features": [
+          { "label": "App Icon", "included": true },
+          { "label": "Screen Count", "value": "12" },
+          { "label": "Push Notifications", "included": true }
+        ]
+      },
+      {
+        "id": "p12",
+        "name": "Premium",
+        "title": "Enterprise Mobile",
+        "price": 3000,
+        "deliveryTime": 60,
+        "revisions": -1,
+        "features": [
+          { "label": "App Icon", "included": true },
+          { "label": "Screen Count", "value": "25+" },
+          { "label": "Payment Integration", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Will you publish to the App Store?",
+        "answer": "Yes, the Premium package includes the publishing process."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r4",
+        "user": "StartupX",
+        "rating": 5,
+        "comment": "Our app looks amazing on both platforms.",
+        "date": "2026-03-01",
+        "country": "Canada"
+      }
+    ]
+  },
+  {
+    "id": "srv_005",
+    "slug": "setup-professional-devops-cicd-pipeline",
+    "title": "I will setup professional DevOps and CI/CD pipelines for your app",
+    "description": "Automate your deployment workflow. I setup GitHub Actions, Docker, Kubernetes, and AWS/Vercel deployments to make your development process seamless.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "DevOps",
+      "tag": "Cloud Services"
+    },
+    "tags": ["DevOps", "CI/CD", "Docker", "AWS", "GitHub Actions"],
+    "rating": 4.9,
+    "reviewCount": 98,
+    "ordersInQueue": 2,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/devops-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/devops-1.jpg",
+          "alt": "Pipeline Diagram"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_005",
+      "name": "David Kim",
+      "username": "dkim_ops",
+      "avatar": "/avatars/david.jpg",
+      "level": "Level 1 Seller",
+      "tagline": "Cloud & DevOps Architect",
+      "memberSince": "Dec 2024",
+      "avgResponseTime": "3 hours",
+      "lastDelivery": "3 days ago",
+      "languages": [{ "language": "English", "level": "Fluent" }],
+      "about": "Optimizing deployment speed and server reliability for modern tech teams."
+    },
+    "packages": [
+      {
+        "id": "p13",
+        "name": "Basic",
+        "title": "CI/CD Pipeline",
+        "price": 200,
+        "deliveryTime": 3,
+        "revisions": 2,
+        "features": [
+          { "label": "Dockerization", "included": true },
+          { "label": "Auto Deployment", "included": true },
+          { "label": "Monitoring", "included": false }
+        ]
+      },
+      {
+        "id": "p14",
+        "name": "Standard",
+        "title": "Cloud Migration",
+        "price": 500,
+        "deliveryTime": 7,
+        "revisions": 4,
+        "features": [
+          { "label": "Dockerization", "included": true },
+          { "label": "Auto Deployment", "included": true },
+          { "label": "Cloud Hosting Setup", "included": true }
+        ]
+      },
+      {
+        "id": "p15",
+        "name": "Premium",
+        "title": "Enterprise DevOps",
+        "price": 1200,
+        "deliveryTime": 14,
+        "revisions": -1,
+        "features": [
+          { "label": "Dockerization", "included": true },
+          { "label": "Kubernetes Setup", "included": true },
+          { "label": "24/7 Monitoring", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you support AWS?",
+        "answer": "Yes, I am an AWS Certified Solutions Architect."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r5",
+        "user": "MarketFlow",
+        "rating": 5,
+        "comment": "Fast and secure server setup.",
+        "date": "2026-03-10",
+        "country": "Singapore"
+      }
+    ]
+  },
+  {
+    "id": "srv_006",
+    "slug": "penetration-testing-and-security-audit",
+    "title": "I will perform a professional penetration test and security audit",
+    "description": "Secure your SaaS before hackers do. I provide comprehensive vulnerability assessments, OWASP Top 10 testing, and a detailed PDF report with remediation steps for your web application.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Cybersecurity",
+      "tag": "Ethical Hacking"
+    },
+    "tags": [
+      "Penetration Testing",
+      "Security Audit",
+      "Cybersecurity",
+      "OWASP",
+      "Vulnerability"
+    ],
+    "rating": 5.0,
+    "reviewCount": 84,
+    "ordersInQueue": 3,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/security-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/audit-report.jpg",
+          "alt": "Security Report Sample"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_006",
+      "name": "Marcus Vane",
+      "username": "mvane_sec",
+      "avatar": "/avatars/marcus.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "Certified Ethical Hacker (CEH)",
+      "memberSince": "Feb 2023",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "1 day ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Helping startups secure their infrastructure and protect user data with elite-level security testing."
+    },
+    "packages": [
+      {
+        "id": "p16",
+        "name": "Basic",
+        "title": "Quick Scan",
+        "price": 300,
+        "deliveryTime": 3,
+        "revisions": 1,
+        "features": [
+          { "label": "Vulnerability Scan", "included": true },
+          { "label": "Summary Report", "included": true },
+          { "label": "Manual Exploitation", "included": false }
+        ]
+      },
+      {
+        "id": "p17",
+        "name": "Standard",
+        "title": "Full Web Audit",
+        "price": 750,
+        "deliveryTime": 7,
+        "revisions": 2,
+        "features": [
+          { "label": "Vulnerability Scan", "included": true },
+          { "label": "Manual Exploitation", "included": true },
+          { "label": "API Security", "included": true }
+        ]
+      },
+      {
+        "id": "p18",
+        "name": "Premium",
+        "title": "Enterprise Security",
+        "price": 1500,
+        "deliveryTime": 14,
+        "revisions": 3,
+        "features": [
+          { "label": "Full Penetration Test", "included": true },
+          { "label": "Infrastructure Audit", "included": true },
+          { "label": "Consultation Call", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you sign an NDA?",
+        "answer": "Yes, I always sign a Non-Disclosure Agreement before starting any security audit."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r6",
+        "user": "FinTech_App",
+        "rating": 5,
+        "comment": "Found critical bugs we missed. Highly recommended.",
+        "date": "2026-03-22",
+        "country": "Switzerland"
+      }
+    ]
+  },
+  {
+    "id": "srv_007",
+    "slug": "custom-shopify-store-development-liquid",
+    "title": "I will build a high-converting custom Shopify store with Liquid",
+    "description": "Expert Shopify development using Liquid and Hydrogen. I create unique shopping experiences that don't look like standard templates. Focus on page speed and mobile conversion rates.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "E-Commerce",
+      "tag": "Shopify Development"
+    },
+    "tags": ["Shopify", "Liquid", "E-commerce", "Dropshipping", "Store Design"],
+    "rating": 4.9,
+    "reviewCount": 420,
+    "ordersInQueue": 6,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/shopify-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/store-1.jpg",
+          "alt": "Shopify Store Preview"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_007",
+      "name": "Elena Rossi",
+      "username": "elena_shop",
+      "avatar": "/avatars/elena.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Shopify Expert & Partner",
+      "memberSince": "May 2023",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "4 hours ago",
+      "languages": [
+        { "language": "English", "level": "Fluent" },
+        { "language": "Italian", "level": "Native" }
+      ],
+      "about": "I build e-commerce brands that sell. Specialist in custom themes and app integrations."
+    },
+    "packages": [
+      {
+        "id": "p19",
+        "name": "Basic",
+        "title": "Store Setup",
+        "price": 450,
+        "deliveryTime": 5,
+        "revisions": 3,
+        "features": [
+          { "label": "Theme Customization", "included": true },
+          { "label": "App Integration", "value": "3" },
+          { "label": "Product Upload", "value": "10" }
+        ]
+      },
+      {
+        "id": "p20",
+        "name": "Standard",
+        "title": "Custom Brand Store",
+        "price": 1200,
+        "deliveryTime": 14,
+        "revisions": 5,
+        "features": [
+          { "label": "Custom Liquid Sections", "included": true },
+          { "label": "App Integration", "value": "10" },
+          { "label": "SEO Setup", "included": true }
+        ]
+      },
+      {
+        "id": "p21",
+        "name": "Premium",
+        "title": "Scaling Enterprise",
+        "price": 2500,
+        "deliveryTime": 25,
+        "revisions": -1,
+        "features": [
+          { "label": "Headless Commerce", "included": true },
+          { "label": "Custom Checkout", "included": true },
+          { "label": "Speed Optimization", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can you migrate from WooCommerce?",
+        "answer": "Yes, I can migrate all products, customers, and order history seamlessly to Shopify."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r7",
+        "user": "LuxeDeco",
+        "rating": 5,
+        "comment": "Our sales increased by 40% after the redesign.",
+        "date": "2026-03-05",
+        "country": "France"
+      }
+    ]
+  },
+  {
+    "id": "srv_008",
+    "slug": "data-science-machine-learning-python-dashboard",
+    "title": "I will build custom machine learning models and data dashboards",
+    "description": "Turn your raw data into actionable insights. I build predictive models using Scikit-Learn/TensorFlow and visualize the results using Streamlit or PowerBI.",
+    "category": {
+      "main": "Data",
+      "sub": "Data Science",
+      "tag": "Machine Learning"
+    },
+    "tags": ["Python", "Data Science", "Machine Learning", "Tableau", "Pandas"],
+    "rating": 5.0,
+    "reviewCount": 112,
+    "ordersInQueue": 4,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/data-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/dashboard-1.jpg",
+          "alt": "Data Visualization"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_008",
+      "name": "Dr. Aris Thorne",
+      "username": "aris_data",
+      "avatar": "/avatars/aris.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "Data Scientist & PhD",
+      "memberSince": "Oct 2023",
+      "avgResponseTime": "5 hours",
+      "lastDelivery": "2 days ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Expert in statistical analysis and deep learning with 8+ years of industry experience."
+    },
+    "packages": [
+      {
+        "id": "p22",
+        "name": "Basic",
+        "title": "Data Analysis",
+        "price": 200,
+        "deliveryTime": 4,
+        "revisions": 2,
+        "features": [
+          { "label": "Data Cleaning", "included": true },
+          { "label": "Visualization", "included": true },
+          { "label": "Model Training", "included": false }
+        ]
+      },
+      {
+        "id": "p23",
+        "name": "Standard",
+        "title": "Predictive Model",
+        "price": 600,
+        "deliveryTime": 10,
+        "revisions": 4,
+        "features": [
+          { "label": "Data Cleaning", "included": true },
+          { "label": "ML Model", "included": true },
+          { "label": "Report", "included": true }
+        ]
+      },
+      {
+        "id": "p24",
+        "name": "Premium",
+        "title": "AI System Integration",
+        "price": 1800,
+        "deliveryTime": 21,
+        "revisions": -1,
+        "features": [
+          { "label": "Deployment", "included": true },
+          { "label": "Real-time Dashboard", "included": true },
+          { "label": "API Access", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What tools do you use?",
+        "answer": "Primary stack: Python (Pandas, Numpy), Scikit-Learn, TensorFlow, and Streamlit for dashboards."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r8",
+        "user": "LogisticsHub",
+        "rating": 5,
+        "comment": "The prediction model for our inventory is spot on.",
+        "date": "2026-02-18",
+        "country": "Netherlands"
+      }
+    ]
+  },
+  {
+    "id": "srv_009",
+    "slug": "unity-3d-game-development-csharp",
+    "title": "I will develop a professional 3D game in Unity",
+    "description": "From concept to store. I build optimized, high-quality 3D games for PC and Mobile using Unity. Expert in C# scripting, physics, and character controllers.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Game Development",
+      "tag": "Unity"
+    },
+    "tags": ["Unity", "C#", "Game Design", "3D Modeling", "Mobile Games"],
+    "rating": 4.8,
+    "reviewCount": 190,
+    "ordersInQueue": 2,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/game-thumb.jpg",
+      "gallery": [
+        { "type": "image", "url": "/images/game-play.jpg", "alt": "Game Scene" }
+      ]
+    },
+    "seller": {
+      "id": "u_009",
+      "name": "Hiroshi Sato",
+      "username": "hiro_games",
+      "avatar": "/avatars/hiro.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Senior Game Developer",
+      "memberSince": "Jan 2024",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "12 hours ago",
+      "languages": [
+        { "language": "English", "level": "Fluent" },
+        { "language": "Japanese", "level": "Native" }
+      ],
+      "about": "Bringing stories to life through interactive game experiences."
+    },
+    "packages": [
+      {
+        "id": "p25",
+        "name": "Basic",
+        "title": "Game Prototype",
+        "price": 500,
+        "deliveryTime": 7,
+        "revisions": 2,
+        "features": [
+          { "label": "Core Mechanics", "included": true },
+          { "label": "1 Level", "included": true },
+          { "label": "Assets Included", "included": false }
+        ]
+      },
+      {
+        "id": "p26",
+        "name": "Standard",
+        "title": "Full Game Loop",
+        "price": 2000,
+        "deliveryTime": 30,
+        "revisions": 5,
+        "features": [
+          { "label": "UI/UX Design", "included": true },
+          { "label": "Multi-Level", "included": true },
+          { "label": "Sound Effects", "included": true }
+        ]
+      },
+      {
+        "id": "p27",
+        "name": "Premium",
+        "title": "Publish-Ready Game",
+        "price": 5000,
+        "deliveryTime": 60,
+        "revisions": -1,
+        "features": [
+          { "label": "Ads/IAP Setup", "included": true },
+          { "label": "Custom 3D Models", "included": true },
+          { "label": "Optimization", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can you make multiplayer games?",
+        "answer": "Yes, I use Photon or Unity Netcode for multiplayer projects."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r9",
+        "user": "IndieStudio",
+        "rating": 5,
+        "comment": "Clean code and great communication.",
+        "date": "2026-03-01",
+        "country": "Japan"
+      }
+    ]
+  },
+  {
+    "id": "srv_010",
+    "slug": "technical-documentation-api-writing",
+    "title": "I will write professional technical documentation and API guides",
+    "description": "Stop losing developers due to poor docs. I create clear, concise, and professional API documentation, READMEs, and integration guides using Markdown or Swagger.",
+    "category": {
+      "main": "Writing & Translation",
+      "sub": "Technical Writing",
+      "tag": "API Documentation"
+    },
+    "tags": [
+      "Technical Writing",
+      "API Documentation",
+      "Swagger",
+      "Postman",
+      "Markdown"
+    ],
+    "rating": 5.0,
+    "reviewCount": 67,
+    "ordersInQueue": 1,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/writing-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/docs-sample.jpg",
+          "alt": "Documentation Screenshot"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_010",
+      "name": "Jordan Lee",
+      "username": "jordan_docs",
+      "avatar": "/avatars/jordan.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Technical Content Specialist",
+      "memberSince": "Nov 2023",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "2 days ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Bridging the gap between complex code and developer understanding."
+    },
+    "packages": [
+      {
+        "id": "p28",
+        "name": "Basic",
+        "title": "README Setup",
+        "price": 100,
+        "deliveryTime": 2,
+        "revisions": 2,
+        "features": [
+          { "label": "Basic README", "included": true },
+          { "label": "Install Guide", "included": true },
+          { "label": "API Reference", "included": false }
+        ]
+      },
+      {
+        "id": "p29",
+        "name": "Standard",
+        "title": "Full API Guide",
+        "price": 350,
+        "deliveryTime": 5,
+        "revisions": 4,
+        "features": [
+          { "label": "Swagger/OpenAPI", "included": true },
+          { "label": "Code Snippets", "included": true },
+          { "label": "Tutorials", "included": true }
+        ]
+      },
+      {
+        "id": "p30",
+        "name": "Premium",
+        "title": "Developer Portal",
+        "price": 900,
+        "deliveryTime": 14,
+        "revisions": -1,
+        "features": [
+          { "label": "Complete Knowledge Base", "included": true },
+          { "label": "Video Tutorials", "included": true },
+          { "label": "Deployment Guide", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What languages can you document?",
+        "answer": "I am proficient in documenting JS/TS, Python, Go, and Ruby APIs."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r10",
+        "user": "DevSaaS_Inc",
+        "rating": 5,
+        "comment": "Transformed our chaotic docs into a masterpiece.",
+        "date": "2026-03-12",
+        "country": "UK"
+      }
+    ]
+  },
+  {
+    "id": "srv_006",
+    "slug": "penetration-testing-security-audit",
+    "title": "I will perform a professional penetration test and security audit",
+    "description": "Secure your SaaS before hackers do. I provide comprehensive vulnerability assessments, OWASP Top 10 testing, and a detailed PDF report with remediation steps for your web application and cloud infrastructure.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Cybersecurity",
+      "tag": "Ethical Hacking"
+    },
+    "tags": ["Penetration Testing", "Security Audit", "OWASP", "Vulnerability"],
+    "rating": 5.0,
+    "reviewCount": 84,
+    "ordersInQueue": 3,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/security-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/audit-report.jpg",
+          "alt": "Security Report Sample"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_006",
+      "name": "Marcus Vane",
+      "username": "mvane_sec",
+      "avatar": "/avatars/marcus.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "Certified Ethical Hacker (CEH)",
+      "memberSince": "Feb 2023",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "1 day ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Helping startups secure their infrastructure and protect user data with elite-level security testing."
+    },
+    "packages": [
+      {
+        "id": "p16",
+        "name": "Basic",
+        "title": "Quick Scan",
+        "price": 300,
+        "deliveryTime": 3,
+        "revisions": 1,
+        "features": [
+          { "label": "Vulnerability Scan", "included": true },
+          { "label": "Summary Report", "included": true },
+          { "label": "Manual Exploitation", "included": false }
+        ]
+      },
+      {
+        "id": "p17",
+        "name": "Standard",
+        "title": "Full Web Audit",
+        "price": 750,
+        "deliveryTime": 7,
+        "revisions": 2,
+        "features": [
+          { "label": "Vulnerability Scan", "included": true },
+          { "label": "Manual Exploitation", "included": true },
+          { "label": "API Security", "included": true }
+        ]
+      },
+      {
+        "id": "p18",
+        "name": "Premium",
+        "title": "Enterprise Security",
+        "price": 1500,
+        "deliveryTime": 14,
+        "revisions": 3,
+        "features": [
+          { "label": "Full Penetration Test", "included": true },
+          { "label": "Infrastructure Audit", "included": true },
+          { "label": "Consultation Call", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you sign an NDA?",
+        "answer": "Yes, I always sign a Non-Disclosure Agreement before starting any security audit."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r6",
+        "user": "FinTech_App",
+        "rating": 5,
+        "comment": "Found critical bugs we missed. Highly recommended.",
+        "date": "2026-03-22",
+        "country": "Switzerland"
+      }
+    ]
+  },
+  {
+    "id": "srv_007",
+    "slug": "shopify-custom-theme-development",
+    "title": "I will build a high-converting custom Shopify store with Liquid",
+    "description": "Expert Shopify development using Liquid and Hydrogen. I create unique shopping experiences that don't look like standard templates. Focus on page speed and mobile conversion rates.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "E-Commerce",
+      "tag": "Shopify Development"
+    },
+    "tags": ["Shopify", "Liquid", "E-commerce", "Store Design"],
+    "rating": 4.9,
+    "reviewCount": 420,
+    "ordersInQueue": 6,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/shopify-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/store-1.jpg",
+          "alt": "Shopify Store Preview"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_007",
+      "name": "Elena Rossi",
+      "username": "elena_shop",
+      "avatar": "/avatars/elena.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Shopify Expert & Partner",
+      "memberSince": "May 2023",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "4 hours ago",
+      "languages": [{ "language": "English", "level": "Fluent" }],
+      "about": "I build e-commerce brands that sell. Specialist in custom themes and app integrations."
+    },
+    "packages": [
+      {
+        "id": "p19",
+        "name": "Basic",
+        "title": "Store Setup",
+        "price": 450,
+        "deliveryTime": 5,
+        "revisions": 3,
+        "features": [
+          { "label": "Theme Customization", "included": true },
+          { "label": "App Integration", "value": "3" },
+          { "label": "Product Upload", "value": "10" }
+        ]
+      },
+      {
+        "id": "p20",
+        "name": "Standard",
+        "title": "Custom Brand Store",
+        "price": 1200,
+        "deliveryTime": 14,
+        "revisions": 5,
+        "features": [
+          { "label": "Custom Liquid Sections", "included": true },
+          { "label": "SEO Setup", "included": true },
+          { "label": "Product Upload", "value": "50" }
+        ]
+      },
+      {
+        "id": "p21",
+        "name": "Premium",
+        "title": "Scaling Enterprise",
+        "price": 2500,
+        "deliveryTime": 25,
+        "revisions": -1,
+        "features": [
+          { "label": "Headless Commerce", "included": true },
+          { "label": "Custom Checkout", "included": true },
+          { "label": "Speed Optimization", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can you migrate from WooCommerce?",
+        "answer": "Yes, I can migrate all products, customers, and order history seamlessly to Shopify."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r7",
+        "user": "LuxeDeco",
+        "rating": 5,
+        "comment": "Our sales increased significantly after the redesign.",
+        "date": "2026-03-05",
+        "country": "France"
+      }
+    ]
+  },
+  {
+    "id": "srv_008",
+    "slug": "data-science-machine-learning-python",
+    "title": "I will build custom machine learning models and data dashboards",
+    "description": "Turn raw data into actionable insights. I build predictive models using Scikit-Learn/TensorFlow and visualize the results using Streamlit or PowerBI.",
+    "category": {
+      "main": "Data",
+      "sub": "Data Science",
+      "tag": "Machine Learning"
+    },
+    "tags": ["Python", "Data Science", "Machine Learning", "Pandas"],
+    "rating": 5.0,
+    "reviewCount": 112,
+    "ordersInQueue": 4,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/data-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/dashboard-1.jpg",
+          "alt": "Data Visualization"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_008",
+      "name": "Dr. Aris Thorne",
+      "username": "aris_data",
+      "avatar": "/avatars/aris.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "Data Scientist & PhD",
+      "memberSince": "Oct 2023",
+      "avgResponseTime": "5 hours",
+      "lastDelivery": "2 days ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Expert in statistical analysis and deep learning with 8+ years of industry experience."
+    },
+    "packages": [
+      {
+        "id": "p22",
+        "name": "Basic",
+        "title": "Data Analysis",
+        "price": 200,
+        "deliveryTime": 4,
+        "revisions": 2,
+        "features": [
+          { "label": "Data Cleaning", "included": true },
+          { "label": "Visualization", "included": true },
+          { "label": "Model Training", "included": false }
+        ]
+      },
+      {
+        "id": "p23",
+        "name": "Standard",
+        "title": "Predictive Model",
+        "price": 600,
+        "deliveryTime": 10,
+        "revisions": 4,
+        "features": [
+          { "label": "Data Cleaning", "included": true },
+          { "label": "ML Model", "included": true },
+          { "label": "Report", "included": true }
+        ]
+      },
+      {
+        "id": "p24",
+        "name": "Premium",
+        "title": "AI Integration",
+        "price": 1800,
+        "deliveryTime": 21,
+        "revisions": -1,
+        "features": [
+          { "label": "Deployment", "included": true },
+          { "label": "Real-time Dashboard", "included": true },
+          { "label": "API Access", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What tools do you use?",
+        "answer": "Primary stack: Python (Pandas, Numpy), Scikit-Learn, TensorFlow, and Streamlit."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r8",
+        "user": "LogisticsHub",
+        "rating": 5,
+        "comment": "The prediction model for our inventory is spot on.",
+        "date": "2026-02-18",
+        "country": "Netherlands"
+      }
+    ]
+  },
+  {
+    "id": "srv_009",
+    "slug": "unity-3d-game-development",
+    "title": "I will develop a professional 3D game in Unity",
+    "description": "From concept to store. I build optimized, high-quality 3D games for PC and Mobile using Unity. Expert in C# scripting, physics, and character controllers.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Game Development",
+      "tag": "Unity"
+    },
+    "tags": ["Unity", "C#", "Game Design", "3D Modeling"],
+    "rating": 4.8,
+    "reviewCount": 190,
+    "ordersInQueue": 2,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/game-thumb.jpg",
+      "gallery": [
+        { "type": "image", "url": "/images/game-play.jpg", "alt": "Game Scene" }
+      ]
+    },
+    "seller": {
+      "id": "u_009",
+      "name": "Hiroshi Sato",
+      "username": "hiro_games",
+      "avatar": "/avatars/hiro.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Senior Game Developer",
+      "memberSince": "Jan 2024",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "12 hours ago",
+      "languages": [{ "language": "English", "level": "Fluent" }],
+      "about": "Bringing stories to life through interactive game experiences."
+    },
+    "packages": [
+      {
+        "id": "p25",
+        "name": "Basic",
+        "title": "Game Prototype",
+        "price": 500,
+        "deliveryTime": 7,
+        "revisions": 2,
+        "features": [
+          { "label": "Core Mechanics", "included": true },
+          { "label": "1 Level", "included": true },
+          { "label": "Assets Included", "included": false }
+        ]
+      },
+      {
+        "id": "p26",
+        "name": "Standard",
+        "title": "Full Game Loop",
+        "price": 2000,
+        "deliveryTime": 30,
+        "revisions": 5,
+        "features": [
+          { "label": "UI/UX Design", "included": true },
+          { "label": "Multi-Level", "included": true },
+          { "label": "Sound Effects", "included": true }
+        ]
+      },
+      {
+        "id": "p27",
+        "name": "Premium",
+        "title": "Publish-Ready Game",
+        "price": 5000,
+        "deliveryTime": 60,
+        "revisions": -1,
+        "features": [
+          { "label": "Ads/IAP Setup", "included": true },
+          { "label": "Custom 3D Models", "included": true },
+          { "label": "Optimization", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can you make multiplayer games?",
+        "answer": "Yes, I use Photon or Unity Netcode for multiplayer projects."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r9",
+        "user": "IndieStudio",
+        "rating": 5,
+        "comment": "Clean code and great communication.",
+        "date": "2026-03-01",
+        "country": "Japan"
+      }
+    ]
+  },
+  {
+    "id": "srv_010",
+    "slug": "technical-api-documentation-writing",
+    "title": "I will write professional technical documentation and API guides",
+    "description": "Stop losing developers due to poor docs. I create clear, concise, and professional API documentation, READMEs, and integration guides using Markdown or Swagger.",
+    "category": {
+      "main": "Writing & Translation",
+      "sub": "Technical Writing",
+      "tag": "API Documentation"
+    },
+    "tags": ["Technical Writing", "Swagger", "Postman", "Markdown"],
+    "rating": 5.0,
+    "reviewCount": 67,
+    "ordersInQueue": 1,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/writing-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/docs-sample.jpg",
+          "alt": "Documentation Screenshot"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_010",
+      "name": "Jordan Lee",
+      "username": "jordan_docs",
+      "avatar": "/avatars/jordan.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Technical Content Specialist",
+      "memberSince": "Nov 2023",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "2 days ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Bridging the gap between complex code and developer understanding."
+    },
+    "packages": [
+      {
+        "id": "p28",
+        "name": "Basic",
+        "title": "README Setup",
+        "price": 100,
+        "deliveryTime": 2,
+        "revisions": 2,
+        "features": [
+          { "label": "Basic README", "included": true },
+          { "label": "Install Guide", "included": true },
+          { "label": "API Reference", "included": false }
+        ]
+      },
+      {
+        "id": "p29",
+        "name": "Standard",
+        "title": "Full API Guide",
+        "price": 350,
+        "deliveryTime": 5,
+        "revisions": 4,
+        "features": [
+          { "label": "Swagger/OpenAPI", "included": true },
+          { "label": "Code Snippets", "included": true },
+          { "label": "Tutorials", "included": true }
+        ]
+      },
+      {
+        "id": "p30",
+        "name": "Premium",
+        "title": "Developer Portal",
+        "price": 900,
+        "deliveryTime": 14,
+        "revisions": -1,
+        "features": [
+          { "label": "Complete Knowledge Base", "included": true },
+          { "label": "Video Tutorials", "included": true },
+          { "label": "Deployment Guide", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What languages can you document?",
+        "answer": "I am proficient in documenting JS/TS, Python, Go, and Ruby APIs."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r10",
+        "user": "DevSaaS_Inc",
+        "rating": 5,
+        "comment": "Transformed our docs into a masterpiece.",
+        "date": "2026-03-12",
+        "country": "UK"
+      }
+    ]
+  },
+  {
+    "id": "srv_011",
+    "slug": "saas-seo-strategy-and-backlink-building",
+    "title": "I will provide a complete SEO strategy and growth plan for your SaaS",
+    "description": "Stop guessing and start ranking. I provide a data-driven SEO roadmap including keyword research, technical audits, and a high-authority backlink strategy specifically for SaaS platforms.",
+    "category": {
+      "main": "Digital Marketing",
+      "sub": "Search Engine Optimization",
+      "tag": "SaaS SEO"
+    },
+    "tags": ["SEO", "SaaS Growth", "Keyword Research", "Backlinks"],
+    "rating": 4.9,
+    "reviewCount": 310,
+    "ordersInQueue": 5,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/seo-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/seo-results.jpg",
+          "alt": "Ranking Growth Graph"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_011",
+      "name": "James Miller",
+      "username": "jmiller_seo",
+      "avatar": "/avatars/james.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "SaaS Growth Strategist",
+      "memberSince": "Feb 2023",
+      "avgResponseTime": "3 hours",
+      "lastDelivery": "1 day ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Helping B2B SaaS companies scale their organic traffic through technical SEO."
+    },
+    "packages": [
+      {
+        "id": "p31",
+        "name": "Basic",
+        "title": "SEO Audit",
+        "price": 250,
+        "deliveryTime": 4,
+        "revisions": 2,
+        "features": [
+          { "label": "Technical Audit", "included": true },
+          { "label": "Keyword List", "value": "50" },
+          { "label": "Competitor Analysis", "included": false }
+        ]
+      },
+      {
+        "id": "p32",
+        "name": "Standard",
+        "title": "Growth Roadmap",
+        "price": 650,
+        "deliveryTime": 10,
+        "revisions": 4,
+        "features": [
+          { "label": "Technical Audit", "included": true },
+          { "label": "Keyword List", "value": "200" },
+          { "label": "On-page Optimization", "included": true }
+        ]
+      },
+      {
+        "id": "p33",
+        "name": "Premium",
+        "title": "Enterprise Scale",
+        "price": 1400,
+        "deliveryTime": 20,
+        "revisions": -1,
+        "features": [
+          { "label": "Full SEO Strategy", "included": true },
+          { "label": "Link Building", "included": true },
+          { "label": "Monthly Reporting", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "How long until I see results?",
+        "answer": "SEO is a long-term game; typically you see significant movement in 3 to 6 months."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r11",
+        "user": "CloudDesk",
+        "rating": 5,
+        "comment": "Our organic traffic doubled in 4 months.",
+        "date": "2026-03-10",
+        "country": "USA"
+      }
+    ]
+  },
+  {
+    "id": "srv_012",
+    "slug": "custom-motion-graphics-and-saas-explainer",
+    "title": "I will create professional motion graphics and SaaS explainer videos",
+    "description": "Explain your complex software in seconds. I create high-end 2D/3D motion graphics and UI animations that showcase your product's best features.",
+    "category": {
+      "main": "Video & Animation",
+      "sub": "Explainer Videos",
+      "tag": "Motion Graphics"
+    },
+    "tags": [
+      "After Effects",
+      "Motion Graphics",
+      "Explainer Video",
+      "SaaS Promo"
+    ],
+    "rating": 5.0,
+    "reviewCount": 145,
+    "ordersInQueue": 2,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/motion-thumb.jpg",
+      "gallery": [
+        {
+          "type": "video",
+          "url": "/videos/showreel.mp4",
+          "poster": "/images/motion-poster.jpg"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_012",
+      "name": "Amina Khan",
+      "username": "amina_motion",
+      "avatar": "/avatars/amina.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Senior Motion Designer",
+      "memberSince": "Aug 2023",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "5 hours ago",
+      "languages": [{ "language": "English", "level": "Fluent" }],
+      "about": "Visual storyteller specialized in tech and software product launches."
+    },
+    "packages": [
+      {
+        "id": "p34",
+        "name": "Basic",
+        "title": "15s Promo",
+        "price": 150,
+        "deliveryTime": 3,
+        "revisions": 2,
+        "features": [
+          { "label": "HD Resolution", "included": true },
+          { "label": "Background Music", "included": true },
+          { "label": "Voiceover", "included": false }
+        ]
+      },
+      {
+        "id": "p35",
+        "name": "Standard",
+        "title": "60s Explainer",
+        "price": 450,
+        "deliveryTime": 7,
+        "revisions": 5,
+        "features": [
+          { "label": "Full UI Animation", "included": true },
+          { "label": "Voiceover", "included": true },
+          { "label": "Script Writing", "included": true }
+        ]
+      },
+      {
+        "id": "p36",
+        "name": "Premium",
+        "title": "Full Brand Video",
+        "price": 900,
+        "deliveryTime": 14,
+        "revisions": -1,
+        "features": [
+          { "label": "4K Resolution", "included": true },
+          { "label": "Custom Illustrations", "included": true },
+          { "label": "Sound Design", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do I need to provide the script?",
+        "answer": "I can write it for you in the Standard and Premium packages."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r12",
+        "user": "Streamly",
+        "rating": 5,
+        "comment": "The UI animations are incredibly smooth.",
+        "date": "2026-03-18",
+        "country": "Canada"
+      }
+    ]
+  },
+  {
+    "id": "srv_013",
+    "slug": "smart-contract-development-solidity-ethereum",
+    "title": "I will develop secure smart contracts in Solidity for your Web3 project",
+    "description": "Security first. I build audited, gas-optimized smart contracts for ERC20 tokens, NFT collections, and complex DeFi protocols.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Blockchain",
+      "tag": "Smart Contracts"
+    },
+    "tags": ["Solidity", "Web3", "Ethereum", "Smart Contract", "NFT"],
+    "rating": 4.9,
+    "reviewCount": 78,
+    "ordersInQueue": 4,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/web3-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/code-audit.jpg",
+          "alt": "Solidity Code"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_013",
+      "name": "Wei Zhang",
+      "username": "wei_solidity",
+      "avatar": "/avatars/wei.jpg",
+      "level": "Level 1 Seller",
+      "tagline": "Blockchain Engineer",
+      "memberSince": "Jan 2024",
+      "avgResponseTime": "4 hours",
+      "lastDelivery": "2 days ago",
+      "languages": [
+        { "language": "English", "level": "Fluent" },
+        { "language": "Mandarin", "level": "Native" }
+      ],
+      "about": "Expert in Ethereum ecosystem and smart contract security."
+    },
+    "packages": [
+      {
+        "id": "p37",
+        "name": "Basic",
+        "title": "Token Contract",
+        "price": 400,
+        "deliveryTime": 5,
+        "revisions": 2,
+        "features": [
+          { "label": "ERC20/ERC721", "included": true },
+          { "label": "Gas Optimization", "included": true },
+          { "label": "Audit Report", "included": false }
+        ]
+      },
+      {
+        "id": "p38",
+        "name": "Standard",
+        "title": "NFT Minting Site",
+        "price": 1200,
+        "deliveryTime": 14,
+        "revisions": 4,
+        "features": [
+          { "label": "Smart Contract", "included": true },
+          { "label": "Minting Dapp", "included": true },
+          { "label": "Wallet Integration", "included": true }
+        ]
+      },
+      {
+        "id": "p39",
+        "name": "Premium",
+        "title": "Custom DeFi Protocol",
+        "price": 3500,
+        "deliveryTime": 30,
+        "revisions": -1,
+        "features": [
+          { "label": "Staking Logic", "included": true },
+          { "label": "Security Audit", "included": true },
+          { "label": "Post-launch Support", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Which networks do you support?",
+        "answer": "Ethereum, Polygon, BSC, and Arbitrum."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r13",
+        "user": "ArtBlock",
+        "rating": 5,
+        "comment": "Flawless NFT contract launch.",
+        "date": "2026-03-05",
+        "country": "Singapore"
+      }
+    ]
+  },
+  {
+    "id": "srv_014",
+    "slug": "professional-video-editing-for-youtube-ads",
+    "title": "I will provide professional video editing for YouTube and Social Media",
+    "description": "Viral-ready editing. I handle color grading, sound design, and fast-paced cuts to keep your audience engaged. Perfect for YouTubers and brand advertisements.",
+    "category": {
+      "main": "Video & Animation",
+      "sub": "Video Editing",
+      "tag": "Social Media"
+    },
+    "tags": ["Premiere Pro", "Video Editing", "Color Grading", "YouTube"],
+    "rating": 4.8,
+    "reviewCount": 560,
+    "ordersInQueue": 9,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/editing-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/editing-suite.jpg",
+          "alt": "Video Timeline"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_014",
+      "name": "Tom Baker",
+      "username": "tbaker_edits",
+      "avatar": "/avatars/tom.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "Master Video Editor",
+      "memberSince": "Jun 2023",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "3 hours ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Editing content that captures attention and drives results."
+    },
+    "packages": [
+      {
+        "id": "p40",
+        "name": "Basic",
+        "title": "5min Edit",
+        "price": 80,
+        "deliveryTime": 2,
+        "revisions": 3,
+        "features": [
+          { "label": "Color Grading", "included": true },
+          { "label": "Subtitles", "included": false },
+          { "label": "Raw Footage", "value": "15min" }
+        ]
+      },
+      {
+        "id": "p41",
+        "name": "Standard",
+        "title": "15min Advanced",
+        "price": 200,
+        "deliveryTime": 5,
+        "revisions": 5,
+        "features": [
+          { "label": "Motion Graphics", "included": true },
+          { "label": "Subtitles", "included": true },
+          { "label": "Sound Design", "included": true }
+        ]
+      },
+      {
+        "id": "p42",
+        "name": "Premium",
+        "title": "High-End Commercial",
+        "price": 500,
+        "deliveryTime": 10,
+        "revisions": -1,
+        "features": [
+          { "label": "Stock Footage", "included": true },
+          { "label": "Multi-cam Editing", "included": true },
+          { "label": "Social Media Cuts", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can you edit Vertical videos?",
+        "answer": "Yes, I can optimize any edit for TikTok, Reels, and YouTube Shorts."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r14",
+        "user": "VlogMaster",
+        "rating": 5,
+        "comment": "Tom is the best editor I've ever worked with.",
+        "date": "2026-03-24",
+        "country": "UK"
+      }
+    ]
+  },
+  {
+    "id": "srv_015",
+    "slug": "virtual-assistant-for-admin-and-data-entry",
+    "title": "I will be your professional virtual assistant for admin and data tasks",
+    "description": "Focus on growing your business while I handle the rest. I offer reliable administrative support, data entry, email management, and web research.",
+    "category": {
+      "main": "Business",
+      "sub": "Virtual Assistant",
+      "tag": "Administrative"
+    },
+    "tags": [
+      "Data Entry",
+      "Virtual Assistant",
+      "Admin Support",
+      "Email Management"
+    ],
+    "rating": 5.0,
+    "reviewCount": 230,
+    "ordersInQueue": 1,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/va-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/va-workspace.jpg",
+          "alt": "Organized Desktop"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_015",
+      "name": "Maria Santos",
+      "username": "maria_va",
+      "avatar": "/avatars/maria.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Executive Virtual Assistant",
+      "memberSince": "Oct 2023",
+      "avgResponseTime": "30 mins",
+      "lastDelivery": "1 hour ago",
+      "languages": [
+        { "language": "English", "level": "Fluent" },
+        { "language": "Spanish", "level": "Native" }
+      ],
+      "about": "Highly organized and proactive assistant helping busy entrepreneurs stay on track."
+    },
+    "packages": [
+      {
+        "id": "p43",
+        "name": "Basic",
+        "title": "2 Hours Admin",
+        "price": 40,
+        "deliveryTime": 1,
+        "revisions": 1,
+        "features": [
+          { "label": "Data Entry", "included": true },
+          { "label": "Web Research", "included": true },
+          { "label": "Phone Calls", "included": false }
+        ]
+      },
+      {
+        "id": "p44",
+        "name": "Standard",
+        "title": "10 Hours Weekly",
+        "price": 180,
+        "deliveryTime": 7,
+        "revisions": 3,
+        "features": [
+          { "label": "Email Management", "included": true },
+          { "label": "Calendar Sync", "included": true },
+          { "label": "CRM Updates", "included": true }
+        ]
+      },
+      {
+        "id": "p45",
+        "name": "Premium",
+        "title": "Monthly Full Support",
+        "price": 600,
+        "deliveryTime": 30,
+        "revisions": -1,
+        "features": [
+          { "label": "Priority Response", "included": true },
+          { "label": "Travel Booking", "included": true },
+          { "label": "Full Admin Suite", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "What tools are you familiar with?",
+        "answer": "I am an expert in G-Suite, Slack, Trello, Notion, and Salesforce."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r15",
+        "user": "EcoStore",
+        "rating": 5,
+        "comment": "Maria is an absolute life-saver.",
+        "date": "2026-03-21",
+        "country": "Spain"
+      }
+    ]
+  },
+  {
+    "id": "srv_016",
+    "slug": "high-end-mobile-app-ui-ux-design",
+    "title": "I will design a modern high-end UI/UX for your mobile application",
+    "description": "I create stunning, user-centric mobile interfaces that provide a seamless user journey. Using Figma, I build interactive prototypes and comprehensive design systems tailored for iOS and Android.",
+    "category": {
+      "main": "Graphics & Design",
+      "sub": "App Design",
+      "tag": "Mobile UI/UX"
+    },
+    "tags": ["Mobile Design", "UI/UX", "Figma", "iOS Design", "Android UI"],
+    "rating": 4.9,
+    "reviewCount": 215,
+    "ordersInQueue": 6,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/mobile-ui-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/app-screens.jpg",
+          "alt": "Mobile App Screens"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_016",
+      "name": "Sophia Martinez",
+      "username": "sophia_designs",
+      "avatar": "/avatars/sophia.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "Senior UI/UX Designer",
+      "memberSince": "Jan 2024",
+      "avgResponseTime": "1 hour",
+      "lastDelivery": "3 hours ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Specializing in aesthetic and functional mobile designs for startups and enterprises."
+    },
+    "packages": [
+      {
+        "id": "p46",
+        "name": "Basic",
+        "title": "3 Screen Design",
+        "price": 120,
+        "deliveryTime": 3,
+        "revisions": 3,
+        "features": [
+          { "label": "Source File", "included": true },
+          { "label": "Interactive Prototype", "included": false },
+          { "label": "Asset Export", "included": true }
+        ]
+      },
+      {
+        "id": "p47",
+        "name": "Standard",
+        "title": "10 Screen Design",
+        "price": 350,
+        "deliveryTime": 7,
+        "revisions": 5,
+        "features": [
+          { "label": "Source File", "included": true },
+          { "label": "Interactive Prototype", "included": true },
+          { "label": "Design System", "included": true }
+        ]
+      },
+      {
+        "id": "p48",
+        "name": "Premium",
+        "title": "Full App UI Kit",
+        "price": 800,
+        "deliveryTime": 15,
+        "revisions": -1,
+        "features": [
+          { "label": "Full Design System", "included": true },
+          { "label": "Unlimited Screens", "value": "25+" },
+          { "label": "Developer Handoff", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you provide development?",
+        "answer": "No, I specialize exclusively in the UI/UX design and prototyping phase."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r16",
+        "user": "FinGo_App",
+        "rating": 5,
+        "comment": "Best design we've ever received. Simply stunning.",
+        "date": "2026-03-22",
+        "country": "USA"
+      }
+    ]
+  },
+  {
+    "id": "srv_017",
+    "slug": "aws-cloud-architecture-and-optimization",
+    "title": "I will design and optimize your AWS cloud infrastructure",
+    "description": "Scale your SaaS with confidence. I provide expert AWS architecture design focusing on high availability, security, and cost optimization (FinOps).",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Cloud Computing",
+      "tag": "AWS Architecture"
+    },
+    "tags": ["AWS", "Cloud Architect", "Terraform", "Serverless"],
+    "rating": 5.0,
+    "reviewCount": 92,
+    "ordersInQueue": 2,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/aws-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/infra-diagram.jpg",
+          "alt": "AWS Infrastructure Diagram"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_017",
+      "name": "Kevin Peterson",
+      "username": "kp_cloud",
+      "avatar": "/avatars/kevin.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Certified AWS Solutions Architect",
+      "memberSince": "Mar 2023",
+      "avgResponseTime": "4 hours",
+      "lastDelivery": "1 day ago",
+      "languages": [{ "language": "English", "level": "Fluent" }],
+      "about": "Building resilient and cost-effective cloud solutions for modern web platforms."
+    },
+    "packages": [
+      {
+        "id": "p49",
+        "name": "Basic",
+        "title": "Cost Optimization",
+        "price": 200,
+        "deliveryTime": 2,
+        "revisions": 1,
+        "features": [
+          { "label": "Audit Report", "included": true },
+          { "label": "Security Check", "included": true },
+          { "label": "Implementation", "included": false }
+        ]
+      },
+      {
+        "id": "p50",
+        "name": "Standard",
+        "title": "Serverless Setup",
+        "price": 600,
+        "deliveryTime": 5,
+        "revisions": 3,
+        "features": [
+          { "label": "Lambda/API Gateway", "included": true },
+          { "label": "IaC (Terraform)", "included": true },
+          { "label": "Monitoring", "included": true }
+        ]
+      },
+      {
+        "id": "p51",
+        "name": "Premium",
+        "title": "Full Infrastructure",
+        "price": 1500,
+        "deliveryTime": 14,
+        "revisions": -1,
+        "features": [
+          { "label": "High Availability", "included": true },
+          { "label": "CI/CD Pipeline", "included": true },
+          { "label": "24/7 Support", "value": "1 Month" }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can you help reduce my AWS bill?",
+        "answer": "Yes, cost optimization is a key part of my audit process."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r17",
+        "user": "SaaS_Hero",
+        "rating": 5,
+        "comment": "Reduced our monthly costs by 35%!",
+        "date": "2026-03-15",
+        "country": "Canada"
+      }
+    ]
+  },
+  {
+    "id": "srv_018",
+    "slug": "content-strategy-and-technical-copywriting",
+    "title": "I will create a data-driven content strategy and technical copy",
+    "description": "Drive organic traffic and convert visitors. I write high-quality technical blog posts, whitepapers, and landing page copy that speaks your brand's voice.",
+    "category": {
+      "main": "Writing & Translation",
+      "sub": "Content Writing",
+      "tag": "SaaS Copywriting"
+    },
+    "tags": ["Copywriting", "Content Strategy", "SaaS Writing", "SEO Content"],
+    "rating": 4.8,
+    "reviewCount": 138,
+    "ordersInQueue": 4,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/writing-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/content-plan.jpg",
+          "alt": "Content Calendar Sample"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_018",
+      "name": "Emma Wilson",
+      "username": "emma_writes",
+      "avatar": "/avatars/emma.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "SaaS & Tech Copywriter",
+      "memberSince": "Jun 2023",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "6 hours ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Helping tech companies communicate value through compelling storytelling."
+    },
+    "packages": [
+      {
+        "id": "p52",
+        "name": "Basic",
+        "title": "1 Blog Post",
+        "price": 90,
+        "deliveryTime": 2,
+        "revisions": 2,
+        "features": [
+          { "label": "Word Count", "value": "1000" },
+          { "label": "SEO Keywords", "included": true },
+          { "label": "Topic Research", "included": true }
+        ]
+      },
+      {
+        "id": "p53",
+        "name": "Standard",
+        "title": "Content Bundle",
+        "price": 300,
+        "deliveryTime": 7,
+        "revisions": 4,
+        "features": [
+          { "label": "Word Count", "value": "4000" },
+          { "label": "Social Snippets", "included": true },
+          { "label": "Topic Research", "included": true }
+        ]
+      },
+      {
+        "id": "p54",
+        "name": "Premium",
+        "title": "Monthly Content Lead",
+        "price": 1000,
+        "deliveryTime": 30,
+        "revisions": -1,
+        "features": [
+          { "label": "Strategy Doc", "included": true },
+          { "label": "Weekly Posts", "value": "4" },
+          { "label": "Email Copy", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Do you write for AI-niche?",
+        "answer": "Yes, I am highly experienced in writing about AI, ML, and Blockchain technologies."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r18",
+        "user": "TechFlow_AI",
+        "rating": 5,
+        "comment": "Emma has a gift for making complex topics easy to read.",
+        "date": "2026-03-10",
+        "country": "UK"
+      }
+    ]
+  },
+  {
+    "id": "srv_019",
+    "slug": "blockchain-security-audit-smart-contracts",
+    "title": "I will perform a security audit on your smart contracts",
+    "description": "Protect your protocol. I perform manual and automated audits of Solidity smart contracts to identify reentrancy, gas limits, and logic vulnerabilities.",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Blockchain",
+      "tag": "Security Audit"
+    },
+    "tags": ["Solidity", "Security", "Blockchain Audit", "Web3"],
+    "rating": 5.0,
+    "reviewCount": 45,
+    "ordersInQueue": 1,
+    "isPro": true,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/audit-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/audit-certificate.jpg",
+          "alt": "Audit Badge"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_019",
+      "name": "Viktor Volkov",
+      "username": "viktor_sec",
+      "avatar": "/avatars/viktor.jpg",
+      "level": "Top Rated Seller",
+      "tagline": "Web3 Security Engineer",
+      "memberSince": "Feb 2024",
+      "avgResponseTime": "6 hours",
+      "lastDelivery": "2 days ago",
+      "languages": [
+        { "language": "English", "level": "Fluent" },
+        { "language": "Russian", "level": "Native" }
+      ],
+      "about": "Ensuring the integrity of decentralized finance through rigorous security audits."
+    },
+    "packages": [
+      {
+        "id": "p55",
+        "name": "Basic",
+        "title": "Automated Scan",
+        "price": 500,
+        "deliveryTime": 3,
+        "revisions": 1,
+        "features": [
+          { "label": "Tool Scan", "included": true },
+          { "label": "Summary Report", "included": true },
+          { "label": "Manual Review", "included": false }
+        ]
+      },
+      {
+        "id": "p56",
+        "name": "Standard",
+        "title": "Full Manual Audit",
+        "price": 2000,
+        "deliveryTime": 10,
+        "revisions": 2,
+        "features": [
+          { "label": "Manual Review", "included": true },
+          { "label": "Remediation Support", "included": true },
+          { "label": "Gas Optimization", "included": true }
+        ]
+      },
+      {
+        "id": "p57",
+        "name": "Premium",
+        "title": "Enterprise Audit",
+        "price": 5000,
+        "deliveryTime": 20,
+        "revisions": 3,
+        "features": [
+          { "label": "Double Review", "included": true },
+          { "label": "Formal Verification", "included": true },
+          { "label": "Post-Audit Call", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Will you provide a public report?",
+        "answer": "Yes, I can provide a branded PDF that you can share with your community."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r19",
+        "user": "DeFi_Protocol",
+        "rating": 5,
+        "comment": "Meticulous and professional. Found a critical edge-case.",
+        "date": "2026-03-24",
+        "country": "Germany"
+      }
+    ]
+  },
+  {
+    "id": "srv_020",
+    "slug": "custom-crm-and-dashboard-development",
+    "title": "I will build a custom CRM and internal dashboard for your business",
+    "description": "Manage your operations efficiently. I build custom CRMs and administrative dashboards using React/Next.js and powerful backend integration (Supabase/Firebase).",
+    "category": {
+      "main": "Programming & Tech",
+      "sub": "Web Programming",
+      "tag": "Internal Tools"
+    },
+    "tags": ["CRM", "React", "Next.js", "Dashboard", "Admin"],
+    "rating": 4.9,
+    "reviewCount": 110,
+    "ordersInQueue": 3,
+    "isPro": false,
+    "isVerified": true,
+    "media": {
+      "thumbnail": "/images/crm-thumb.jpg",
+      "gallery": [
+        {
+          "type": "image",
+          "url": "/images/crm-preview.jpg",
+          "alt": "CRM UI Dashboard"
+        }
+      ]
+    },
+    "seller": {
+      "id": "u_020",
+      "name": "Liam Connor",
+      "username": "liam_dev",
+      "avatar": "/avatars/liam.jpg",
+      "level": "Level 2 Seller",
+      "tagline": "Full-stack Developer",
+      "memberSince": "Oct 2023",
+      "avgResponseTime": "2 hours",
+      "lastDelivery": "12 hours ago",
+      "languages": [{ "language": "English", "level": "Native" }],
+      "about": "Building tools that simplify business workflows and data management."
+    },
+    "packages": [
+      {
+        "id": "p58",
+        "name": "Basic",
+        "title": "Admin Table",
+        "price": 300,
+        "deliveryTime": 5,
+        "revisions": 3,
+        "features": [
+          { "label": "CRUD Ops", "included": true },
+          { "label": "Search/Filter", "included": true },
+          { "label": "User Roles", "included": false }
+        ]
+      },
+      {
+        "id": "p59",
+        "name": "Standard",
+        "title": "Full Custom CRM",
+        "price": 1200,
+        "deliveryTime": 15,
+        "revisions": 5,
+        "features": [
+          { "label": "User Roles", "included": true },
+          { "label": "Analytics Charts", "included": true },
+          { "label": "Email Integration", "included": true }
+        ]
+      },
+      {
+        "id": "p60",
+        "name": "Premium",
+        "title": "Enterprise Suite",
+        "price": 3500,
+        "deliveryTime": 30,
+        "revisions": -1,
+        "features": [
+          { "label": "Full Automation", "included": true },
+          { "label": "Scalable Backend", "included": true },
+          { "label": "API Access", "included": true }
+        ]
+      }
+    ],
+    "faqs": [
+      {
+        "question": "Can you integrate with Stripe?",
+        "answer": "Yes, I specialize in Stripe/PayPal integrations for payment tracking."
+      }
+    ],
+    "reviews": [
+      {
+        "id": "r20",
+        "user": "RealEstate_Pro",
+        "rating": 5,
+        "comment": "The custom dashboard saved our team hours of work.",
+        "date": "2026-03-20",
+        "country": "Australia"
+      }
+    ]
+  }
+]

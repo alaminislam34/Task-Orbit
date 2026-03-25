@@ -2,6 +2,10 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -20,18 +24,54 @@ import {
   EyeOff,
   Check,
   X,
+  Loader2,
 } from "lucide-react";
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
 
+const sellerSignUpSchema = z
+  .object({
+    fullName: z.string().min(2, "Full name is required"),
+    email: z.string().email("Please enter a valid email address"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(8, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+type SellerSignUpForm = z.infer<typeof sellerSignUpSchema>;
+
 const SellerAuthModal = () => {
   const [view, setView] = useState<"initial" | "email">("initial");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<"google" | "github" | null>(
+    null,
+  );
 
-  const { signUpModal, setSignUpModal } = useStateContext();
+  const { signUpModal, setSignUpModal, setSignInModal } = useStateContext();
 
-  // পাসওয়ার্ড ভ্যালিডেশন চেক
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<SellerSignUpForm>({
+    resolver: zodResolver(sellerSignUpSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    mode: "onBlur",
+  });
+
+  const password = watch("password", "");
+
   const checks = {
     length: password.length >= 8,
     number: /[0-9]/.test(password),
@@ -46,10 +86,35 @@ const SellerAuthModal = () => {
     if (!open) {
       setTimeout(() => {
         setView("initial");
-        setPassword("");
+        reset();
         setShowPassword(false);
+        setShowConfirmPassword(false);
       }, 300);
     }
+  };
+
+  const onSubmit = async (_values: SellerSignUpForm) => {
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    toast.success("Seller account created successfully");
+    setSignUpModal(false);
+    reset();
+  };
+
+  const onSocialAuth = async (provider: "google" | "github") => {
+    try {
+      setSocialLoading(provider);
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      toast.success(`Continuing with ${provider === "google" ? "Google" : "GitHub"}`);
+    } catch {
+      toast.error("Social authentication failed");
+    } finally {
+      setSocialLoading(null);
+    }
+  };
+
+  const switchToSignIn = () => {
+    setSignUpModal(false);
+    setTimeout(() => setSignInModal(true), 300);
   };
 
   return (
@@ -75,17 +140,31 @@ const SellerAuthModal = () => {
 
               <div className="grid gap-3">
                 <Button
+                  type="button"
+                  onClick={() => onSocialAuth("google")}
+                  disabled={socialLoading !== null}
                   variant="outline"
-                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-xl transition-all"
+                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-xl transition-all duration-200 hover:scale-[1.01]"
                 >
-                  <Chrome className="w-5 h-5 text-red-500" />
+                  {socialLoading === "google" ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Chrome className="w-5 h-5 text-red-500" />
+                  )}
                   Continue with Google
                 </Button>
                 <Button
+                  type="button"
+                  onClick={() => onSocialAuth("github")}
+                  disabled={socialLoading !== null}
                   variant="outline"
-                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-xl transition-all"
+                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-xl transition-all duration-200 hover:scale-[1.01]"
                 >
-                  <Github className="w-5 h-5" />
+                  {socialLoading === "github" ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Github className="w-5 h-5" />
+                  )}
                   Continue with GitHub
                 </Button>
               </div>
@@ -120,6 +199,7 @@ const SellerAuthModal = () => {
             >
               <DialogHeader>
                 <button
+                  type="button"
                   onClick={() => setView("initial")}
                   className="text-xs font-semibold text-emerald-600 hover:underline mb-2 flex items-center gap-1 w-fit"
                 >
@@ -130,14 +210,57 @@ const SellerAuthModal = () => {
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="fullName">Full Name</Label>
+                  <Input
+                    id="fullName"
+                    placeholder="John Doe"
+                    aria-invalid={!!errors.fullName}
+                    {...register("fullName")}
+                    className={cn(
+                      "h-11 rounded-lg border-slate-200 focus:ring-emerald-500",
+                      errors.fullName && "border-destructive",
+                    )}
+                  />
+                  <AnimatePresence>
+                    {errors.fullName?.message && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="text-xs text-destructive"
+                      >
+                        {errors.fullName.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+                </div>
+
                 <div className="space-y-2">
                   <Label htmlFor="email">Email Address</Label>
                   <Input
                     id="email"
                     placeholder="name@company.com"
-                    className="h-11 rounded-lg border-slate-200 focus:ring-emerald-500"
+                    aria-invalid={!!errors.email}
+                    {...register("email")}
+                    className={cn(
+                      "h-11 rounded-lg border-slate-200 focus:ring-emerald-500",
+                      errors.email && "border-destructive",
+                    )}
                   />
+                  <AnimatePresence>
+                    {errors.email?.message && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="text-xs text-destructive"
+                      >
+                        {errors.email.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Password with Eye Button & Validation */}
@@ -147,10 +270,13 @@ const SellerAuthModal = () => {
                     <Input
                       id="password"
                       type={showPassword ? "text" : "password"}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      aria-invalid={!!errors.password}
+                      {...register("password")}
                       placeholder="••••••••"
-                      className="h-11 rounded-lg border-slate-200 pr-10"
+                      className={cn(
+                        "h-11 rounded-lg border-slate-200 pr-10",
+                        errors.password && "border-destructive",
+                      )}
                     />
                     <button
                       type="button"
@@ -164,6 +290,55 @@ const SellerAuthModal = () => {
                       )}
                     </button>
                   </div>
+                  <AnimatePresence>
+                    {errors.password?.message && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="text-xs text-destructive"
+                      >
+                        {errors.password.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
+
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      type={showConfirmPassword ? "text" : "password"}
+                      aria-invalid={!!errors.confirmPassword}
+                      {...register("confirmPassword")}
+                      placeholder="Confirm password"
+                      className={cn(
+                        "h-11 rounded-lg border-slate-200 pr-10",
+                        errors.confirmPassword && "border-destructive",
+                      )}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    >
+                      {showConfirmPassword ? (
+                        <EyeOff className="w-4 h-4" />
+                      ) : (
+                        <Eye className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
+                  <AnimatePresence>
+                    {errors.confirmPassword?.message && (
+                      <motion.p
+                        initial={{ opacity: 0, y: -4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -4 }}
+                        className="text-xs text-destructive"
+                      >
+                        {errors.confirmPassword.message}
+                      </motion.p>
+                    )}
+                  </AnimatePresence>
 
                   {/* Strength Bar */}
                   {password.length > 0 && (
@@ -196,13 +371,34 @@ const SellerAuthModal = () => {
                 </div>
 
                 <Button
+                  type="submit"
                   disabled={strengthCount < 4}
                   className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-200 transition-all gap-2 disabled:opacity-50"
                 >
-                  Create Account
-                  <ArrowRight className="w-4 h-4" />
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Creating Account...
+                    </>
+                  ) : (
+                    <>
+                      Create Account
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </Button>
-              </div>
+
+                <p className="text-center text-sm text-slate-500">
+                  Already have an account?{" "}
+                  <button
+                    type="button"
+                    onClick={switchToSignIn}
+                    className="text-emerald-600 font-bold hover:underline"
+                  >
+                    Sign In
+                  </button>
+                </p>
+              </form>
             </motion.div>
           )}
         </AnimatePresence>

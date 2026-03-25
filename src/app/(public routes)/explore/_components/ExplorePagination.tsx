@@ -79,14 +79,16 @@ const ExplorePagination = ({
           Show items per page:
         </span>
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button
-              variant="outline"
-              size="sm"
-              className="h-10 rounded-xl px-4 gap-2 font-bold border-border bg-card"
-            >
-              {pageSize} <LayoutList className="w-3.5 h-3.5 opacity-50" />
-            </Button>
+          <DropdownMenuTrigger
+            render={
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-10 rounded-xl px-4 gap-2 font-bold border-border bg-card"
+              />
+            }
+          >
+            {pageSize} <LayoutList className="w-3.5 h-3.5 opacity-50" />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="rounded-xl min-w-25">
             {[8, 16, 32, 64].map((size) => (

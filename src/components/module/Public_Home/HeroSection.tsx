@@ -38,7 +38,7 @@ const HeroSection = () => {
             </p>
 
             {/* 3. The Theme-Adaptive Search Bar */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 p-2 bg-card border border-border shadow-md rounded-2xl max-w-2xl group focus-within:border-primary/50 transition-all">
+            <div className="flex flex-col sm:flex-row items-center gap-3 p-2 bg-card border border-border shadow-md rounded-xl max-w-2xl group focus-within:border-primary/50 transition-all">
               <div className="relative w-full flex items-center">
                 <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
                 <Input
@@ -79,7 +79,7 @@ const HeroSection = () => {
 
           {/* 4. The Visual Column (Premium Bento Feel) */}
           <div className="lg:col-span-5 relative hidden lg:block">
-            <div className="relative z-10 rounded-[2.5rem] overflow-hidden shadow-2xl border-12 border-card">
+            <div className="relative z-10 rounded-lg overflow-hidden shadow-2xl border-12 border-card">
               <div className="w-full h-130 bg-muted flex items-center justify-center pointer-events-none">
                 {/* This would be your high-res image */}
                 {/* <Image
@@ -96,7 +96,7 @@ const HeroSection = () => {
               </div>
 
               {/* Floating Glass UI Piece */}
-              <div className="absolute top-10 left-0 bg-background/60 backdrop-blur-xl p-4 rounded-2xl border border-border shadow-xl animate-bounce-slow">
+              <div className="absolute top-10 left-0 bg-background/60 backdrop-blur-xl p-4 rounded-xl border border-border shadow-xl animate-bounce-slow">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
                   <span className="text-sm font-bold">

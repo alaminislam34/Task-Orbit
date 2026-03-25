@@ -69,7 +69,7 @@ const EcosystemSection = () => {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border/50 border overflow-hidden rounded-2xl shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border/50 border overflow-hidden rounded-xl shadow-sm">
           {ecosystems.map((item, i) => (
             <div
               key={i}

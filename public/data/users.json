@@ -1,0 +1,469 @@
+[
+  {
+    "id": "usr_sel_001",
+    "role": "SELLER",
+    "base": {
+      "name": "MD. Al Amin Islam",
+      "username": "alamin_dev",
+      "email": "alamin@taskorbit.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=AlAmin",
+      "isVerified": true,
+      "status": "ONLINE"
+    },
+    "profile": {
+      "title": "Full Stack Next.js Expert & Bento UI Designer",
+      "bio": "Specializing in high-end SaaS applications and pixel-perfect UI.",
+      "skills": ["Next.js", "TypeScript", "Tailwind CSS", "Prisma", "AWS"],
+      "rating": 4.9,
+      "reviewCount": 124,
+      "completedOrders": 85,
+      "responseTime": "1h",
+      "languages": ["English (Fluent)", "Bengali (Native)"],
+      "earnings": 12500.0,
+      "availability": {
+        "isAcceptingOrders": true,
+        "weeklyHours": 40
+      }
+    },
+    "socials": {
+      "github": "https://github.com/alamin",
+      "portfolio": "https://alamin.dev"
+    },
+    "crmData": {
+      "suggestedClients": ["usr_cli_002", "usr_cli_005"],
+      "lastActive": "2026-03-26T14:20:00Z",
+      "accountHealth": "98%"
+    }
+  },
+  {
+    "id": "usr_cli_002",
+    "role": "CLIENT",
+    "base": {
+      "name": "Violet Evergarden",
+      "username": "violet_tech",
+      "email": "violet@agency.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Violet",
+      "isVerified": true,
+      "status": "OFFLINE"
+    },
+    "profile": {
+      "company": {
+        "name": "Violet Tech Solutions",
+        "website": "https://violettech.io",
+        "size": "11-50 employees",
+        "industry": "Software & SaaS"
+      },
+      "bio": "Building next-gen automated logistics platforms. Always looking for top-tier Next.js talent.",
+      "totalSpent": 14200.5,
+      "activeOrders": 2,
+      "completedOrders": 24,
+      "avgRating": 4.8,
+      "paymentVerified": true,
+      "preferredCategories": [
+        "Web Development",
+        "UI/UX Design",
+        "Cloud Infrastructure"
+      ],
+      "budgetPreference": "MID_TO_HIGH",
+      "country": "United States",
+      "timezone": "EST (GMT-5)"
+    },
+    "history": {
+      "lastHired": "2026-03-15T10:00:00Z",
+      "topSellersHired": ["usr_sel_001", "usr_sel_042"],
+      "reviewLeft": 22
+    },
+    "crmData": {
+      "matchingSellers": ["usr_sel_001", "usr_sel_088"],
+      "lastActive": "2026-03-25T18:30:00Z",
+      "clientTier": "GOLD",
+      "isSpam": false
+    }
+  },
+  {
+    "id": "usr_rec_003",
+    "role": "RECRUITER",
+    "base": {
+      "name": "K M Saiful Islam",
+      "username": "saiful_recruit",
+      "email": "saiful@talent.io",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Saiful",
+      "isVerified": true,
+      "status": "BUSY"
+    },
+    "profile": {
+      "agency": {
+        "name": "TechTalent Global",
+        "position": "Senior Talent Acquisition Specialist",
+        "website": "https://techtalent.io",
+        "location": "Dhaka, Bangladesh"
+      },
+      "bio": "Searching for high-end Full-Stack developers and DevOps experts for European startups.",
+      "specialization": [
+        "Software Engineering",
+        "UI/UX Design",
+        "Textile Tech"
+      ],
+      "activeJobPosts": 3,
+      "totalHires": 45,
+      "isPremium": true,
+      "avgResponseTime": "2h",
+      "hiringQuota": {
+        "monthly": 10,
+        "remaining": 7
+      }
+    },
+    "hiringPreferences": {
+      "targetRoles": ["Senior Next.js Developer", "Fabric Production Manager"],
+      "minExperience": "3+ Years",
+      "preferredStack": ["React", "TypeScript", "Node.js", "AWS"],
+      "remoteOnly": true
+    },
+    "crmData": {
+      "topCandidates": ["usr_sel_001", "usr_sel_012"],
+      "lastActive": "2026-03-26T10:00:00Z",
+      "recruitmentHealth": "Excellent",
+      "flaggedCandidates": ["usr_sel_999"]
+    }
+  },
+  {
+    "id": "usr_nor_004",
+    "role": "NORMAL",
+    "base": {
+      "name": "Rakib Ahmed",
+      "username": "rakib_99",
+      "email": "rakib@gmail.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Rakib",
+      "isVerified": false,
+      "status": "ONLINE"
+    },
+    "onboarding": {
+      "step": 2,
+      "isProfileComplete": false,
+      "interestedIn": ["Next.js", "Logo Design", "Digital Marketing"],
+      "accountTypePreference": "UNDECIDED"
+    },
+    "browsingHistory": {
+      "recentlyViewedServices": ["ser_101", "ser_205"],
+      "savedSellers": ["usr_sel_001"],
+      "searchQueries": [
+        "Best Next.js developers in Bangladesh",
+        "Cheap logo design"
+      ]
+    },
+    "crmData": {
+      "conversionProbability": "HIGH",
+      "suggestedPath": "CLIENT",
+      "lastActive": "2026-03-26T12:00:00Z",
+      "marketingEmailsSent": 3
+    }
+  },
+  {
+    "id": "usr_sel_005",
+    "role": "SELLER",
+    "base": {
+      "name": "Sarah Jenkins",
+      "username": "sarah_designs",
+      "email": "sarah@pixel.io",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
+      "isVerified": true,
+      "status": "ONLINE"
+    },
+    "profile": {
+      "title": "Brand Identity Specialist & 3D Artist",
+      "bio": "Helping startups stand out with custom 3D assets and minimalist branding.",
+      "skills": ["Blender", "Adobe Illustrator", "Figma", "Logo Design"],
+      "rating": 5.0,
+      "reviewCount": 312,
+      "completedOrders": 450,
+      "responseTime": "30m",
+      "languages": ["English (Native)", "Spanish (Conversational)"],
+      "earnings": 48200.0,
+      "availability": {
+        "isAcceptingOrders": false,
+        "weeklyHours": 20
+      }
+    },
+    "socials": {
+      "github": "",
+      "portfolio": "https://sarah.pixel.io",
+      "dribbble": "https://dribbble.com/sarah"
+    },
+    "crmData": {
+      "suggestedClients": ["usr_cli_008"],
+      "lastActive": "2026-03-26T14:45:00Z",
+      "accountHealth": "100%"
+    }
+  },
+  {
+    "id": "usr_cli_008",
+    "role": "CLIENT",
+    "base": {
+      "name": "Luke Harrison",
+      "username": "luke_h",
+      "email": "luke@fintech-global.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Luke",
+      "isVerified": true,
+      "status": "ONLINE"
+    },
+    "profile": {
+      "company": {
+        "name": "FinTech Global",
+        "website": "https://fintech-global.com",
+        "size": "500+ employees",
+        "industry": "Finance"
+      },
+      "bio": "CTO at FinTech Global. Scaling our engineering team and looking for AWS experts.",
+      "totalSpent": 89400.0,
+      "activeOrders": 5,
+      "completedOrders": 112,
+      "avgRating": 4.9,
+      "paymentVerified": true,
+      "preferredCategories": [
+        "Cloud Infrastructure",
+        "Cybersecurity",
+        "Next.js"
+      ],
+      "budgetPreference": "HIGH",
+      "country": "United Kingdom",
+      "timezone": "GMT (UTC+0)"
+    },
+    "history": {
+      "lastHired": "2026-03-24T09:15:00Z",
+      "topSellersHired": ["usr_sel_001", "usr_sel_010"],
+      "reviewLeft": 105
+    },
+    "crmData": {
+      "matchingSellers": ["usr_sel_001"],
+      "lastActive": "2026-03-26T13:00:00Z",
+      "clientTier": "PLATINUM",
+      "isSpam": false
+    }
+  },
+  {
+    "id": "usr_rec_012",
+    "role": "RECRUITER",
+    "base": {
+      "name": "Emma Watson",
+      "username": "emma_recruits",
+      "email": "emma@fashion-talent.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma",
+      "isVerified": true,
+      "status": "OFFLINE"
+    },
+    "profile": {
+      "agency": {
+        "name": "Fashion Talent Scout",
+        "position": "Lead Talent Partner",
+        "website": "https://fashion-talent.com",
+        "location": "Milan, Italy"
+      },
+      "bio": "Connecting the best textile engineers and designers with luxury fashion houses.",
+      "specialization": ["Textile Tech", "Fashion Design"],
+      "activeJobPosts": 8,
+      "totalHires": 120,
+      "isPremium": true,
+      "avgResponseTime": "4h",
+      "hiringQuota": {
+        "monthly": 20,
+        "remaining": 4
+      }
+    },
+    "hiringPreferences": {
+      "targetRoles": ["Fabric Production Manager", "Quality Control Lead"],
+      "minExperience": "5+ Years",
+      "preferredStack": [],
+      "remoteOnly": false
+    },
+    "crmData": {
+      "topCandidates": ["usr_sel_045"],
+      "lastActive": "2026-03-25T16:20:00Z",
+      "recruitmentHealth": "Good",
+      "flaggedCandidates": []
+    }
+  },
+  {
+    "id": "usr_nor_015",
+    "role": "NORMAL",
+    "base": {
+      "name": "Ariful Islam",
+      "username": "arif_2026",
+      "email": "arif@outlook.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Arif",
+      "isVerified": false,
+      "status": "ONLINE"
+    },
+    "onboarding": {
+      "step": 1,
+      "isProfileComplete": false,
+      "interestedIn": ["Mobile App Development", "UI/UX"],
+      "accountTypePreference": "SELLER"
+    },
+    "browsingHistory": {
+      "recentlyViewedServices": [],
+      "savedSellers": ["usr_sel_001"],
+      "searchQueries": [
+        "How to become a seller on TaskOrbit",
+        "React Native course"
+      ]
+    },
+    "crmData": {
+      "conversionProbability": "MEDIUM",
+      "suggestedPath": "SELLER",
+      "lastActive": "2026-03-26T15:10:00Z",
+      "marketingEmailsSent": 1
+    }
+  },
+  {
+    "id": "usr_sel_009",
+    "role": "SELLER",
+    "base": {
+      "name": "Anika Tabassum",
+      "username": "anika_pixels",
+      "email": "anika@designstudio.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Anika",
+      "isVerified": true,
+      "status": "BUSY"
+    },
+    "profile": {
+      "title": "Senior UI/UX Architect & Framer Expert",
+      "bio": "Specializing in high-conversion landing pages and complex dashboard UX.",
+      "skills": ["Figma", "Framer", "Adobe XD", "UI/UX", "Prototyping"],
+      "rating": 4.9,
+      "reviewCount": 210,
+      "completedOrders": 340,
+      "responseTime": "2h",
+      "languages": ["Bengali (Native)", "English (Fluent)"],
+      "earnings": 32000.0,
+      "availability": {
+        "isAcceptingOrders": true,
+        "weeklyHours": 30
+      }
+    },
+    "socials": {
+      "github": "https://github.com/anika",
+      "behance": "https://behance.net/anika"
+    },
+    "crmData": {
+      "suggestedClients": ["usr_cli_010"],
+      "lastActive": "2026-03-26T09:15:00Z",
+      "accountHealth": "95%"
+    }
+  },
+  {
+    "id": "usr_cli_010",
+    "role": "CLIENT",
+    "base": {
+      "name": "David Miller",
+      "username": "david_m",
+      "email": "david@startup-hub.io",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
+      "isVerified": true,
+      "status": "ONLINE"
+    },
+    "profile": {
+      "company": {
+        "name": "Startup Hub Inc.",
+        "website": "https://startuphub.io",
+        "size": "2-10 employees",
+        "industry": "Venture Capital"
+      },
+      "bio": "Founding Partner at Startup Hub. We hire developers for our portfolio companies.",
+      "totalSpent": 25600.0,
+      "activeOrders": 1,
+      "completedOrders": 18,
+      "avgRating": 5.0,
+      "paymentVerified": true,
+      "preferredCategories": [
+        "MVP Development",
+        "Pitch Deck Design",
+        "Next.js"
+      ],
+      "budgetPreference": "HIGH",
+      "country": "Canada",
+      "timezone": "PST (GMT-8)"
+    },
+    "history": {
+      "lastHired": "2026-03-20T14:00:00Z",
+      "topSellersHired": ["usr_sel_001", "usr_sel_009"],
+      "reviewLeft": 15
+    },
+    "crmData": {
+      "matchingSellers": ["usr_sel_001", "usr_sel_009"],
+      "lastActive": "2026-03-26T10:30:00Z",
+      "clientTier": "SILVER",
+      "isSpam": false
+    }
+  },
+  {
+    "id": "usr_rec_015",
+    "role": "RECRUITER",
+    "base": {
+      "name": "Sophia Rodriguez",
+      "username": "sophia_hr",
+      "email": "sophia@global-talent.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Sophia",
+      "isVerified": true,
+      "status": "ONLINE"
+    },
+    "profile": {
+      "agency": {
+        "name": "Global Talent Source",
+        "position": "Technical Recruiter",
+        "website": "https://global-talent.com",
+        "location": "Madrid, Spain"
+      },
+      "bio": "Specialized in sourcing MERN and PERN stack developers for North American startups.",
+      "specialization": ["Web Development", "Mobile Apps"],
+      "activeJobPosts": 12,
+      "totalHires": 88,
+      "isPremium": true,
+      "avgResponseTime": "1h",
+      "hiringQuota": {
+        "monthly": 30,
+        "remaining": 12
+      }
+    },
+    "hiringPreferences": {
+      "targetRoles": ["Full Stack Developer", "Backend Architect"],
+      "minExperience": "4+ Years",
+      "preferredStack": ["PostgreSQL", "Express", "React", "Node.js"],
+      "remoteOnly": true
+    },
+    "crmData": {
+      "topCandidates": ["usr_sel_001"],
+      "lastActive": "2026-03-26T11:45:00Z",
+      "recruitmentHealth": "Excellent",
+      "flaggedCandidates": []
+    }
+  },
+  {
+    "id": "usr_nor_020",
+    "role": "NORMAL",
+    "base": {
+      "name": "Tanvir Hossain",
+      "username": "tanvir_h",
+      "email": "tanvir@yahoo.com",
+      "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Tanvir",
+      "isVerified": false,
+      "status": "OFFLINE"
+    },
+    "onboarding": {
+      "step": 0,
+      "isProfileComplete": false,
+      "interestedIn": [],
+      "accountTypePreference": "UNKNOWN"
+    },
+    "browsingHistory": {
+      "recentlyViewedServices": [],
+      "savedSellers": [],
+      "searchQueries": []
+    },
+    "crmData": {
+      "conversionProbability": "LOW",
+      "suggestedPath": "RE-ENGAGE",
+      "lastActive": "2026-02-15T08:00:00Z",
+      "marketingEmailsSent": 5
+    }
+  }
+]

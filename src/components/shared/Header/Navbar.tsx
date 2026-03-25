@@ -30,30 +30,21 @@ import ServicesNavbarSection from "./ServicesNavbar";
 import { useStateContext } from "@/providers/StateProvider";
 
 const Navbar = () => {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const { setSignUpModal, setSignInModal } = useStateContext();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const logoSrc =
-    theme === "dark" ? "/logos/dark.png" : "/logos/light.png";
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background">
-      <div className="relative">
-        <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-8 ">
+      <div className="relative w-full">
+        <div className="max-w-360 w-11/12 mx-auto flex h-16 items-center justify-between">
           {/* Left: Logo & Search */}
           <div className="flex items-center gap-8">
-            <Link href="/" className="flex items-center space-x-2">
+            <Link href="/" className="flex items-center">
               <Image
-                src={mounted ? logoSrc : "/logos/light.png"}
+                src={"/logos/T_O.png"}
                 alt="TaskOrbit Logo"
                 width={150}
                 height={55}
-                className="object-contain"
+                className="object-contain w-16 h-auto"
               />
             </Link>
 
@@ -86,7 +77,11 @@ const Navbar = () => {
             </div>
             <div className="flex items-center gap-3 border-l pl-6">
               <div>
-                <Button variant="ghost" size="sm" onClick={() => setSignInModal(true)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSignInModal(true)}
+                >
                   Sign In
                 </Button>
               </div>
