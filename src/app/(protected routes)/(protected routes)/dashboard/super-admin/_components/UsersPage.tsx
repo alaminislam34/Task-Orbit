@@ -34,7 +34,7 @@ const SuperAdminUsersPage = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch("/data/users"); // Your API Endpoint
+        const response = await fetch("/data/users.json");
         const data = await response.json();
         setUsers(data);
       } catch (error) {
@@ -86,10 +86,10 @@ const SuperAdminUsersPage = () => {
       </div>
 
       {/* CRM Table Section */}
-      <Card className="border-border/50 shadow-xl shadow-black/5 rounded-3xl overflow-hidden bg-card">
+      <Card className="border-border/50 shadow-xl shadow-black/5 overflow-hidden bg-card">
         <CardHeader className="border-b border-border/50 bg-muted/20 p-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 bg-background border border-border rounded-xl px-3 py-1.5 focus-within:ring-2 ring-emerald-500/20 transition-all">
+            <div className="flex items-center gap-2 bg-background border border-border rounded-lg px-3 py-1.5 focus-within:ring-2 ring-emerald-500/20 transition-all">
               <Search className="w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Search CRM..."
@@ -125,7 +125,7 @@ const SuperAdminUsersPage = () => {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-muted/30 border-b border-border text-[10px] uppercase font-black tracking-[0.1em] text-muted-foreground">
+                <tr className="bg-muted/30 border-b border-border text-[10px] uppercase font-black tracking-widest text-muted-foreground">
                   <th className="px-6 py-5">User Details</th>
                   <th className="px-6 py-5">Role & Badge</th>
                   <th className="px-6 py-5">Activity/Info</th>
