@@ -24,7 +24,6 @@ const Explore = () => {
       try {
         const response = await fetch("/data/services.json");
         const json = await response.json();
-        // For demo: if you have less than 12 items, we repeat them to test pagination/grid
         setData(json);
       } catch (error) {
         console.error("Error loading services:", error);
@@ -36,7 +35,7 @@ const Explore = () => {
     fetchData();
   }, [activeTab]);
 
-  const totalResults = activeTab === "services" ? 1240 : 450;
+  const totalResults = data.length;
   const totalPages = Math.ceil(totalResults / pageSize);
 
   const handlePageChange = (page: number) => {

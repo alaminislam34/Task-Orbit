@@ -28,7 +28,7 @@ const ServiceByIdPage = () => {
   const { slug } = useParams();
   const [service, setService] = useState<any>(null);
   const [services, setServices] = useState<any[]>([]);
-  const [activePackage, setActivePackage] = useState(0); // 0: Basic, 1: Standard, 2: Premium
+  const [activePackage, setActivePackage] = useState(0);
   const [loading, setLoading] = useState(true);
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
@@ -59,7 +59,10 @@ const ServiceByIdPage = () => {
     const pool = services.filter((item) => item.slug !== currentSlug);
     const source = pool.length ? pool : services;
 
-    return Array.from({ length: 4 }, (_, index) => source[index % source.length]);
+    return Array.from(
+      { length: 4 },
+      (_, index) => source[index % source.length],
+    );
   }, [service?.slug, services]);
 
   if (loading)
@@ -178,26 +181,6 @@ const ServiceByIdPage = () => {
                   </Badge>
                 </div>
               </div>
-            </div>
-          </section>
-
-          {/* Sticky Package Nav */}
-          <section className="sticky top-3 z-20 rounded-xl border border-border/60 bg-background/90 p-2 shadow-lg supports-backdrop-filter:backdrop-blur-xl">
-            <div className="grid grid-cols-3 gap-2">
-              {service.packages.map((pkg: any, index: number) => (
-                <button
-                  key={pkg.id}
-                  onClick={() => setActivePackage(index)}
-                  className={cn(
-                    "rounded-lg px-3 py-2 text-xs font-black uppercase tracking-widest transition-colors sm:text-sm",
-                    activePackage === index
-                      ? "bg-emerald-500 text-white"
-                      : "bg-muted/40 text-muted-foreground hover:bg-muted",
-                  )}
-                >
-                  {pkg.name}
-                </button>
-              ))}
             </div>
           </section>
 

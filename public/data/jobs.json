@@ -1,0 +1,199 @@
+[
+  {
+    "id": "1",
+    "title": "Senior React Developer",
+    "slug": "senior-react-developer",
+    "shortDescription": "Build scalable frontend applications using React.",
+    "description": "We are looking for an experienced React developer to build modern, scalable web applications with clean architecture.",
+
+    "company": {
+      "name": "TechNova Ltd.",
+      "logo": "https://via.placeholder.com/50",
+      "location": "Remote",
+      "verified": true
+    },
+
+    "category": "Development",
+    "experienceLevel": "Intermediate",
+    "jobType": "Remote",
+
+    "salary": {
+      "min": 1200,
+      "max": 2500,
+      "currency": "USD",
+      "type": "Monthly"
+    },
+
+    "skills": ["React", "JavaScript", "Tailwind CSS"],
+    "tags": ["Featured", "Urgent"],
+
+    "applicantsCount": 14,
+    "postedAt": "2 days ago",
+    "deadline": "2026-04-10"
+  },
+
+  {
+    "id": "2",
+    "title": "Node.js Backend Engineer",
+    "slug": "nodejs-backend-engineer",
+    "shortDescription": "Develop secure and scalable backend APIs.",
+    "description": "Seeking a backend engineer with strong Node.js and database experience.",
+
+    "company": {
+      "name": "CodeCraft Inc.",
+      "logo": "https://via.placeholder.com/50",
+      "location": "USA",
+      "verified": false
+    },
+
+    "category": "Development",
+    "experienceLevel": "Expert",
+    "jobType": "Full-time",
+
+    "salary": {
+      "min": 2000,
+      "max": 4000,
+      "currency": "USD",
+      "type": "Monthly"
+    },
+
+    "skills": ["Node.js", "PostgreSQL", "Express"],
+    "tags": ["Remote"],
+
+    "applicantsCount": 22,
+    "postedAt": "5 days ago",
+    "deadline": "2026-04-15"
+  },
+
+  {
+    "id": "3",
+    "title": "UI/UX Designer",
+    "slug": "ui-ux-designer",
+    "shortDescription": "Design clean and modern user interfaces.",
+    "description": "Looking for a creative UI/UX designer with SaaS experience.",
+
+    "company": {
+      "name": "DesignFlow",
+      "logo": "https://via.placeholder.com/50",
+      "location": "UK",
+      "verified": true
+    },
+
+    "category": "Design",
+    "experienceLevel": "Entry",
+    "jobType": "Freelance",
+
+    "salary": {
+      "min": 500,
+      "max": 1500,
+      "currency": "USD",
+      "type": "Fixed"
+    },
+
+    "skills": ["Figma", "UI Design", "UX Research"],
+    "tags": [],
+
+    "applicantsCount": 8,
+    "postedAt": "1 day ago",
+    "deadline": "2026-04-05"
+  },
+
+  {
+    "id": "4",
+    "title": "Full Stack Developer (MERN)",
+    "slug": "fullstack-mern-developer",
+    "shortDescription": "Work on both frontend and backend systems.",
+    "description": "We need a MERN stack developer for a long-term project.",
+
+    "company": {
+      "name": "NextGen Solutions",
+      "logo": "https://via.placeholder.com/50",
+      "location": "Canada",
+      "verified": true
+    },
+
+    "category": "Development",
+    "experienceLevel": "Intermediate",
+    "jobType": "Full-time",
+
+    "salary": {
+      "min": 1500,
+      "max": 3000,
+      "currency": "USD",
+      "type": "Monthly"
+    },
+
+    "skills": ["MongoDB", "Express", "React", "Node.js"],
+    "tags": ["Featured"],
+
+    "applicantsCount": 30,
+    "postedAt": "3 days ago",
+    "deadline": "2026-04-20"
+  },
+
+  {
+    "id": "5",
+    "title": "Digital Marketing Specialist",
+    "slug": "digital-marketing-specialist",
+    "shortDescription": "Manage SEO and marketing campaigns.",
+    "description": "Looking for a marketing expert to grow our online presence.",
+
+    "company": {
+      "name": "GrowthHackers",
+      "logo": "https://via.placeholder.com/50",
+      "location": "Remote",
+      "verified": false
+    },
+
+    "category": "Marketing",
+    "experienceLevel": "Intermediate",
+    "jobType": "Part-time",
+
+    "salary": {
+      "min": 800,
+      "max": 1800,
+      "currency": "USD",
+      "type": "Monthly"
+    },
+
+    "skills": ["SEO", "Google Ads", "Content Marketing"],
+    "tags": ["Urgent"],
+
+    "applicantsCount": 11,
+    "postedAt": "4 days ago",
+    "deadline": "2026-04-12"
+  },
+
+  {
+    "id": "6",
+    "title": "Python Data Analyst",
+    "slug": "python-data-analyst",
+    "shortDescription": "Analyze data and generate insights.",
+    "description": "We need a data analyst skilled in Python and data visualization.",
+
+    "company": {
+      "name": "DataMind",
+      "logo": "https://via.placeholder.com/50",
+      "location": "Germany",
+      "verified": true
+    },
+
+    "category": "Data Science",
+    "experienceLevel": "Expert",
+    "jobType": "Remote",
+
+    "salary": {
+      "min": 1800,
+      "max": 3500,
+      "currency": "USD",
+      "type": "Monthly"
+    },
+
+    "skills": ["Python", "Pandas", "Power BI"],
+    "tags": [],
+
+    "applicantsCount": 19,
+    "postedAt": "6 days ago",
+    "deadline": "2026-04-18"
+  }
+]
