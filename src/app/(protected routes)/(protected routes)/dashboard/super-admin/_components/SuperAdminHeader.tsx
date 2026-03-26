@@ -66,7 +66,7 @@ export function SuperAdminHeader() {
               }
             >
               <Avatar size="sm" className="border border-border/70">
-                <AvatarFallback>SA</AvatarFallback>
+                <AvatarFallback></AvatarFallback>
               </Avatar>
               <span className="hidden text-sm font-medium md:inline">Super Admin</span>
             </DropdownMenuTrigger>

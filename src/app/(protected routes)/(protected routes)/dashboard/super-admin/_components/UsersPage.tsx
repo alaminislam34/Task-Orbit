@@ -73,9 +73,7 @@ const SuperAdminUsersPage = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-black tracking-tight">
-            User Management
-          </h1>
+          <h1 className="text-2xl">User Management</h1>
           <p className="text-muted-foreground font-medium text-sm">
             Real-time CRM monitoring for TaskOrbit.
           </p>
