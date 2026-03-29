@@ -66,6 +66,12 @@ const Navbar = () => {
                 Explore
               </Link>
               <Link
+                href={"/career"}
+                className="hover:text-primary transition-colors"
+              >
+                Career
+              </Link>
+              <Link
                 href="/start_selling?source=top_nav"
                 className="hover:text-primary transition-colors flex items-center gap-1"
               >
