@@ -1,7 +1,11 @@
+import AdminDashboardHome from "./_components/module/AdminDashboardHome";
+
 const AdminHomePage = () => {
   return (
-    <div>AdminHomePage</div>
+    <div>
+      <AdminDashboardHome />
+    </div>
   );
-}
+};
 
 export default AdminHomePage;

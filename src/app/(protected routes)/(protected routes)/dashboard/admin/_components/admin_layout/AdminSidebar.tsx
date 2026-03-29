@@ -18,51 +18,43 @@ import {
 } from "@/components/shared/admin/AdminSidebar";
 
 const SIDEBAR_ITEMS: AdminSidebarItem[] = [
-  { label: "Dashboard", href: "/dashboard/super-admin", icon: Gauge },
-  { label: "Users", href: "/dashboard/super-admin/manage-users", icon: Users },
+  { label: "Dashboard", href: "/dashboard/admin", icon: Gauge },
+  { label: "Users", href: "/dashboard/admin/manage-users", icon: Users },
   {
     label: "Projects",
-    href: "/dashboard/super-admin/manage-projects",
+    href: "/dashboard/admin/manage-projects",
     icon: FolderKanban,
   },
   {
     label: "Jobs",
-    href: "/dashboard/super-admin/manage-jobs",
+    href: "/dashboard/admin/manage-jobs",
     icon: BriefcaseBusiness,
   },
   {
     label: "Applications",
-    href: "/dashboard/super-admin/manage-applications",
+    href: "/dashboard/admin/manage-applications",
     icon: FileText,
   },
   {
     label: "Payments",
-    href: "/dashboard/super-admin/manage-payments",
+    href: "/dashboard/admin/manage-payments",
     icon: CreditCard,
   },
-  {
-    label: "Reviews",
-    href: "/dashboard/super-admin/manage-reviews",
-    icon: Star,
-  },
-  {
-    label: "Reports",
-    href: "/dashboard/super-admin/manage-reports",
-    icon: FileText,
-  },
+  { label: "Reviews", href: "/dashboard/admin/manage-reviews", icon: Star },
+  { label: "Reports", href: "/dashboard/admin/manage-reports", icon: FileText },
   {
     label: "Settings",
-    href: "/dashboard/super-admin/settings",
+    href: "/dashboard/admin/settings",
     icon: Settings,
   },
 ];
 
-export function SuperAdminSidebar() {
+export function AdminSidebarComponents() {
   return (
     <AdminSidebar
       items={SIDEBAR_ITEMS}
       brandTitle="TaskOrbit Admin"
-      brandHref="/dashboard/super-admin"
+      brandHref="/dashboard/admin"
       brandIcon={<Shield className="size-4" />}
       footerText="Manage platform operations from one place."
     />

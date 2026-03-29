@@ -1,3 +1,5 @@
+import { AdminShell } from "./_components/admin_layout/AdminLayout";
+
 export default function AdminDashboardLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,9 @@ export default function AdminDashboardLayout({
 }>) {
   return (
     <>
-      <section>{children}</section>
+      <section>
+        <AdminShell>{children}</AdminShell>
+      </section>
     </>
   );
 }
