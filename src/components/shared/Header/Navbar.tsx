@@ -1,9 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useTheme } from "next-themes";
 import {
   Search,
   Menu,
@@ -26,7 +24,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
-import ServicesNavbarSection from "./ServicesNavbar";
+// import ServicesNavbarSection from "./ServicesNavbar";
 import { useStateContext } from "@/providers/StateProvider";
 
 const Navbar = () => {
@@ -182,7 +180,7 @@ const Navbar = () => {
             </Sheet>
           </div>
         </div>
-        <ServicesNavbarSection />
+        {/* <ServicesNavbarSection /> */}
       </div>
     </header>
   );
