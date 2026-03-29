@@ -1,4 +1,4 @@
-import UsersPage from "../_components/UsersPage";
+import UsersPage from "../_components/module/SuperAdminHome/UsersPage";
 
 const SuperAdminUsersPage = () => {
   return (

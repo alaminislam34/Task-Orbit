@@ -15,7 +15,7 @@ import {
 import {
   AdminSidebar,
   type AdminSidebarItem,
-} from "@/components/shared/admin/AdminSidebar";
+} from "@/components/shared/Sidebar/Sidebar";
 
 const SIDEBAR_ITEMS: AdminSidebarItem[] = [
   { label: "Dashboard", href: "/dashboard/admin", icon: Gauge },

@@ -119,14 +119,12 @@ export function AdminSidebar({
                       tooltip={item.label}
                       isActive={isActive}
                       render={<Link href={item.href} />}
-                      className={clsx(
-                        "transition-colors duration-200",
-                        isActive &&
-                          "bg-primary/10 text-primary hover:bg-primary/15 hover:text-primary",
-                      )}
+                      className={clsx("transition-colors duration-200")}
                     >
                       <item.icon className="size-4" />
-                      <AnimatedLabel isVisible={showLabels}>{item.label}</AnimatedLabel>
+                      <AnimatedLabel isVisible={showLabels}>
+                        {item.label}
+                      </AnimatedLabel>
                     </SidebarMenuButton>
 
                     {item.badge && showLabels ? (

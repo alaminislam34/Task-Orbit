@@ -1,9 +1,8 @@
 "use client";
 
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-
-import { SuperAdminHeader } from "./SuperAdminHeader";
-import { SuperAdminSidebar } from "./SuperAdminSidebar";
+import { SuperAdminSidebar } from "../shared/SuperAdminSidebar";
+import { SuperAdminHeader } from "../shared/SuperAdminHeader";
 
 type SuperAdminShellProps = {
   children: React.ReactNode;

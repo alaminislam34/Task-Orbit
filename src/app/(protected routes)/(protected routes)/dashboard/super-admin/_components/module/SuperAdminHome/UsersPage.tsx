@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
-const SuperAdminUsersPage = () => {
+const UsersPage = () => {
   const [users, setUsers] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState("all");
   const [loading, setLoading] = useState(true);
@@ -62,11 +62,6 @@ const SuperAdminUsersPage = () => {
     };
     return styles[role] || styles.NORMAL;
   };
-
-  if (loading)
-    return (
-      <div className="p-10 text-center font-bold">Loading CRM Data...</div>
-    );
 
   return (
     <div className="p-6 space-y-8 bg-background min-h-screen">
@@ -255,4 +250,4 @@ const SuperAdminUsersPage = () => {
   );
 };
 
-export default SuperAdminUsersPage;
+export default UsersPage;

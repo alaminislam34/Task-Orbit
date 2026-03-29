@@ -10,43 +10,70 @@ import {
   Shield,
   Star,
   Users,
+  BriefcaseBusinessIcon,
+  UserSearch,
+  UserCheck,
 } from "lucide-react";
 
 import {
   AdminSidebar,
   type AdminSidebarItem,
-} from "@/components/shared/admin/AdminSidebar";
+} from "@/components/shared/Sidebar/Sidebar";
 
 const SIDEBAR_ITEMS: AdminSidebarItem[] = [
   { label: "Dashboard", href: "/dashboard/super-admin", icon: Gauge },
-  { label: "Users", href: "/dashboard/super-admin/manage-users", icon: Users },
   {
-    label: "Projects",
+    label: "Manage Clients",
+    href: "/dashboard/super-admin/manage-clients",
+    icon: UserCheck,
+  },
+  {
+    label: "Manage Sellers",
+    href: "/dashboard/super-admin/manage-sellers",
+    icon: BriefcaseBusinessIcon,
+  },
+  {
+    label: "Manage Recruiters",
+    href: "/dashboard/super-admin/manage-recruiters",
+    icon: UserSearch,
+  },
+  {
+    label: "Users",
+    href: "/dashboard/super-admin/manage-users",
+    icon: Users,
+  },
+  {
+    label: "Manage Orders",
+    href: "/dashboard/super-admin/manage-orders",
+    icon: CreditCard,
+  },
+  {
+    label: "Manage Projects",
     href: "/dashboard/super-admin/manage-projects",
     icon: FolderKanban,
   },
   {
-    label: "Jobs",
+    label: "Manage Jobs",
     href: "/dashboard/super-admin/manage-jobs",
     icon: BriefcaseBusiness,
   },
   {
-    label: "Applications",
+    label: "Manage Applications",
     href: "/dashboard/super-admin/manage-applications",
     icon: FileText,
   },
   {
-    label: "Payments",
+    label: "Manage Payments",
     href: "/dashboard/super-admin/manage-payments",
     icon: CreditCard,
   },
   {
-    label: "Reviews",
+    label: "Manage Reviews",
     href: "/dashboard/super-admin/manage-reviews",
     icon: Star,
   },
   {
-    label: "Reports",
+    label: "Manage Reports",
     href: "/dashboard/super-admin/manage-reports",
     icon: FileText,
   },
