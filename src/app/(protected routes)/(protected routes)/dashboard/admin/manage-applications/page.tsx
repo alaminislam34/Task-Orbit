@@ -1,7 +1,7 @@
+import Applications from "../_components/module/applications/Applications";
+
 const AdminManageApplicationPage = () => {
-  return (
-    <div>AdminManageApplicationPage</div>
-  );
-}
+  return <Applications />;
+};
 
 export default AdminManageApplicationPage;

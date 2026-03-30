@@ -1,9 +1,9 @@
-import AdminUserManagePage from "../_components/module/manage-users/AdminManageUserPage";
+import UserManagePage from "../_components/module/manage-users/AdminManageUserPage";
 
 const AdminManageUserPage = () => {
   return (
     <div>
-      <AdminUserManagePage />
+      <UserManagePage />
     </div>
   );
 };

@@ -9,7 +9,9 @@ import {
   Settings,
   Shield,
   Star,
+  UserCheck2,
   Users,
+  UserSearch,
 } from "lucide-react";
 
 import {
@@ -19,7 +21,27 @@ import {
 
 const SIDEBAR_ITEMS: AdminSidebarItem[] = [
   { label: "Dashboard", href: "/dashboard/admin", icon: Gauge },
-  { label: "Users", href: "/dashboard/admin/manage-users", icon: Users },
+  { label: "Guests", href: "/dashboard/admin/manage-users", icon: Users },
+  {
+    label: "Clients",
+    href: "/dashboard/admin/manage-clients",
+    icon: UserSearch,
+  },
+  {
+    label: "Sellers",
+    href: "/dashboard/admin/manage-sellers",
+    icon: BriefcaseBusiness,
+  },
+  {
+    label: "Recruiters",
+    href: "/dashboard/admin/manage-recruiters",
+    icon: UserCheck2,
+  },
+  {
+    label: "Users By Role",
+    href: "/dashboard/admin/manage-users-by-role",
+    icon: Users,
+  },
   {
     label: "Projects",
     href: "/dashboard/admin/manage-projects",

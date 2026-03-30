@@ -118,7 +118,17 @@ export function AdminSidebar({
                     <SidebarMenuButton
                       tooltip={item.label}
                       isActive={isActive}
-                      render={<Link href={item.href} />}
+                      render={
+                        <Link
+                          href={item.href}
+                          className={clsx(
+                            "flex items-center gap-2 w-full h-full px-2 py-1.5 rounded-md transition-colors duration-200",
+                            isActive
+                              ? "bg-primary/10 text-white dark:bg-primary/20"
+                              : "hover:bg-accent",
+                          )}
+                        />
+                      }
                       className={clsx("transition-colors duration-200")}
                     >
                       <item.icon className="size-4" />

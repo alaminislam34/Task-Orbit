@@ -1,0 +1,192 @@
+[
+  {
+    "id": "app_001",
+    "job": {
+      "id": "job_101",
+      "title": "Build a Responsive Website"
+    },
+    "applicant": {
+      "id": "user_201",
+      "name": "Arafat Rahman",
+      "email": "arafat@example.com",
+      "avatar": "https://randomuser.me/api/portraits/men/1.jpg"
+    },
+    "coverLetter": "I can build a modern responsive website using React and Tailwind CSS.",
+    "proposedBudget": 300,
+    "proposedDeadline": 5,
+    "status": "pending",
+    "appliedAt": "2026-03-28T09:15:00Z",
+    "updatedAt": "2026-03-28T09:15:00Z"
+  },
+  {
+    "id": "app_002",
+    "job": {
+      "id": "job_102",
+      "title": "Mobile App UI Design"
+    },
+    "applicant": {
+      "id": "user_202",
+      "name": "Nusrat Jahan",
+      "email": "nusrat@example.com",
+      "avatar": "https://randomuser.me/api/portraits/women/2.jpg"
+    },
+    "coverLetter": "Experienced UI/UX designer with 4+ years. I will deliver clean and modern design.",
+    "proposedBudget": 200,
+    "proposedDeadline": 3,
+    "status": "shortlisted",
+    "appliedAt": "2026-03-27T14:20:00Z",
+    "updatedAt": "2026-03-28T10:00:00Z"
+  },
+  {
+    "id": "app_003",
+    "job": {
+      "id": "job_103",
+      "title": "Fix Bugs in Node.js API"
+    },
+    "applicant": {
+      "id": "user_203",
+      "name": "Tanvir Hasan",
+      "email": "tanvir@example.com",
+      "avatar": "https://randomuser.me/api/portraits/men/3.jpg"
+    },
+    "coverLetter": "I specialize in backend debugging and can quickly fix your API issues.",
+    "proposedBudget": 150,
+    "proposedDeadline": 2,
+    "status": "accepted",
+    "appliedAt": "2026-03-26T11:45:00Z",
+    "updatedAt": "2026-03-27T08:30:00Z"
+  },
+  {
+    "id": "app_004",
+    "job": {
+      "id": "job_104",
+      "title": "E-commerce Website Development"
+    },
+    "applicant": {
+      "id": "user_204",
+      "name": "Sadia Akter",
+      "email": "sadia@example.com",
+      "avatar": "https://randomuser.me/api/portraits/women/4.jpg"
+    },
+    "coverLetter": "I have built multiple e-commerce platforms using Next.js and Stripe integration.",
+    "proposedBudget": 800,
+    "proposedDeadline": 10,
+    "status": "rejected",
+    "appliedAt": "2026-03-25T16:10:00Z",
+    "updatedAt": "2026-03-26T09:00:00Z"
+  },
+  {
+    "id": "app_005",
+    "job": {
+      "id": "job_105",
+      "title": "WordPress Landing Page"
+    },
+    "applicant": {
+      "id": "user_205",
+      "name": "Mehedi Hasan",
+      "email": "mehedi@example.com",
+      "avatar": "https://randomuser.me/api/portraits/men/5.jpg"
+    },
+    "coverLetter": "I can create a high-converting landing page using Elementor.",
+    "proposedBudget": 120,
+    "proposedDeadline": 2,
+    "status": "pending",
+    "appliedAt": "2026-03-29T07:30:00Z",
+    "updatedAt": "2026-03-29T07:30:00Z"
+  },
+  {
+    "id": "app_006",
+    "job": {
+      "id": "job_106",
+      "title": "React Dashboard Development"
+    },
+    "applicant": {
+      "id": "user_206",
+      "name": "Imran Hossain",
+      "email": "imran@example.com",
+      "avatar": "https://randomuser.me/api/portraits/men/6.jpg"
+    },
+    "coverLetter": "I have strong experience building admin dashboards using React, Next.js, and charts.",
+    "proposedBudget": 400,
+    "proposedDeadline": 6,
+    "status": "shortlisted",
+    "appliedAt": "2026-03-29T12:10:00Z",
+    "updatedAt": "2026-03-29T15:00:00Z"
+  },
+  {
+    "id": "app_007",
+    "job": {
+      "id": "job_107",
+      "title": "Logo Design for Startup"
+    },
+    "applicant": {
+      "id": "user_207",
+      "name": "Farhana Yasmin",
+      "email": "farhana@example.com",
+      "avatar": "https://randomuser.me/api/portraits/women/7.jpg"
+    },
+    "coverLetter": "Creative logo designer with a strong portfolio. I will deliver unique and modern concepts.",
+    "proposedBudget": 80,
+    "proposedDeadline": 2,
+    "status": "pending",
+    "appliedAt": "2026-03-28T18:25:00Z",
+    "updatedAt": "2026-03-28T18:25:00Z"
+  },
+  {
+    "id": "app_008",
+    "job": {
+      "id": "job_108",
+      "title": "Laravel Backend Development"
+    },
+    "applicant": {
+      "id": "user_208",
+      "name": "Rakibul Islam",
+      "email": "rakib@example.com",
+      "avatar": "https://randomuser.me/api/portraits/men/8.jpg"
+    },
+    "coverLetter": "Experienced Laravel developer. I can build scalable and secure backend systems.",
+    "proposedBudget": 600,
+    "proposedDeadline": 8,
+    "status": "accepted",
+    "appliedAt": "2026-03-27T10:40:00Z",
+    "updatedAt": "2026-03-28T09:20:00Z"
+  },
+  {
+    "id": "app_009",
+    "job": {
+      "id": "job_109",
+      "title": "SEO Optimization for Website"
+    },
+    "applicant": {
+      "id": "user_209",
+      "name": "Jahidul Karim",
+      "email": "jahid@example.com",
+      "avatar": "https://randomuser.me/api/portraits/men/9.jpg"
+    },
+    "coverLetter": "SEO expert with proven results in ranking websites on Google first page.",
+    "proposedBudget": 250,
+    "proposedDeadline": 7,
+    "status": "rejected",
+    "appliedAt": "2026-03-26T13:55:00Z",
+    "updatedAt": "2026-03-27T08:10:00Z"
+  },
+  {
+    "id": "app_010",
+    "job": {
+      "id": "job_110",
+      "title": "Flutter Mobile App Development"
+    },
+    "applicant": {
+      "id": "user_210",
+      "name": "Sharmin Akter",
+      "email": "sharmin@example.com",
+      "avatar": "https://randomuser.me/api/portraits/women/10.jpg"
+    },
+    "coverLetter": "Flutter developer with experience building cross-platform mobile apps.",
+    "proposedBudget": 700,
+    "proposedDeadline": 9,
+    "status": "pending",
+    "appliedAt": "2026-03-29T16:45:00Z",
+    "updatedAt": "2026-03-29T16:45:00Z"
+  }
+]
