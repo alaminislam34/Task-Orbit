@@ -449,7 +449,12 @@ export default function ClientManagePage() {
           >
             View Reports
           </Button>
-          <Button variant="outline" size="sm" className="ml-2">
+          <Button
+            render={<Link href="/dashboard/admin/manage-clients/settings" />}
+            variant="outline"
+            size="sm"
+            className="ml-2"
+          >
             Settings
           </Button>{" "}
         </div>
