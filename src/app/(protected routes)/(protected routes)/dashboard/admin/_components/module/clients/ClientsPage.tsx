@@ -2,18 +2,15 @@
 
 import React, { useEffect, useState, useMemo } from "react";
 import {
-  User,
   Eye,
   Edit2,
   Trash2,
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
   ShieldCheck,
-  AlertCircle,
+  AlertTriangle,
+  Mail,
 } from "lucide-react";
 
-// Existing Reusable Components
+// Reusable Components
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -26,58 +23,15 @@ import {
 import CommonTable, { Column } from "@/components/shared/Table/C_Table";
 import { TableToolbar } from "@/components/shared/Table/TableToolbar";
 import { ClientStats } from "./ClientStats";
+import Link from "next/link";
+import { Progress } from "@/components/ui/progress";
+import { ClientUser } from "@/types/data.types";
 
-interface ClientUser {
-  id: string;
-  role: "CLIENT" | "SELLER" | "ADMIN"; // Specific literal types are better for Senior devs
-  createdAt?: string;
-  base: {
-    name: string;
-    username: string;
-    email: string;
-    avatar?: string;
-    status: "ONLINE" | "OFFLINE";
-    isVerified: boolean;
-  };
-  profile?: {
-    // Company Information
-    company?: {
-      name: string;
-      website: string;
-      size: string;
-      industry: string;
-    };
-    bio?: string;
-
-    // Financials & Stats
-    totalSpent?: number;
-    activeOrders?: number;
-    completedOrders?: number;
-    avgRating?: number;
-
-    // Preferences & Trust
-    paymentVerified?: boolean;
-    preferredCategories?: string[];
-    budgetPreference?: "LOW" | "MID" | "HIGH" | "MID_TO_HIGH";
-
-    // Geography
-    country?: string;
-    timezone?: string;
-  };
-  history?: {
-    lastHired?: string;
-    topSellersHired?: string[];
-    reviewLeft?: number;
-  };
-  crmData: {
-    lastActive: string;
-    accountHealth: number; // Derived 0-100
-    clientTier: "BRONZE" | "SILVER" | "GOLD" | "PLATINUM";
-    matchingSellers?: string[];
-    isSpam?: boolean;
-  };
-}
 const PAGE_SIZE = 8;
+
+function cn(...inputs: any[]) {
+  return inputs.filter(Boolean).join(" ");
+}
 
 export default function ClientManagePage() {
   const [rawData, setRawData] = useState<ClientUser[]>([]);
@@ -111,13 +65,11 @@ export default function ClientManagePage() {
         [client.base.name, client.base.username, client.base.email].some(
           (field) => field.toLowerCase().includes(search.toLowerCase()),
         );
-
       const matchesStatus =
         !filters.status || client.base.status === filters.status;
       const matchesVerified =
         !filters.verified ||
         String(client.base.isVerified) === filters.verified;
-
       return matchesSearch && matchesStatus && matchesVerified;
     });
   }, [rawData, search, filters]);
@@ -138,66 +90,81 @@ export default function ClientManagePage() {
       currency: "USD",
     }).format(value || 0);
 
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return "-";
+  const formatDate = (date?: string) => {
+    if (!date) return "-";
     return new Intl.DateTimeFormat("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
-    }).format(new Date(dateString));
+    }).format(new Date(date));
+  };
+
+  const getRisk = (health: number) => {
+    if (health >= 80)
+      return {
+        label: "Safe",
+        class: "bg-emerald-50 text-emerald-700 border-emerald-100",
+        icon: ShieldCheck,
+      };
+    if (health >= 50)
+      return {
+        label: "Warning",
+        class: "bg-amber-50 text-amber-700 border-amber-100",
+        icon: AlertTriangle,
+      };
+    return {
+      label: "Risk",
+      class: "bg-rose-50 text-rose-700 border-rose-100",
+      icon: AlertTriangle,
+    };
   };
 
   const columns: Column<ClientUser>[] = [
     {
-      header: "Client & Company",
+      header: "Client",
       accessor: "base.name",
-      className: "min-w-[250px]",
+      // Sticky column keeps identity visible while scrolling right
+      className:
+        "min-w-[220px] sticky left-0 z-10 bg-white border-r shadow-[2px_0_5px_-2px_rgba(0,0,0,0.05)]",
       render: (row) => (
         <div className="flex items-center gap-3">
-          <Avatar className="h-10 w-10 border-2 border-slate-100">
-            <AvatarImage src={row.base.avatar} alt={row.base.name} />
-            <AvatarFallback className="font-bold">
+          <Avatar className="h-9 w-9 border border-slate-100 shadow-sm">
+            <AvatarImage src={row.base.avatar} />
+            <AvatarFallback className="text-xs">
               {row.base.name.charAt(0)}
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col overflow-hidden">
-            <span className="font-semibold text-slate-900 truncate">
+            <span className="font-semibold text-sm truncate text-slate-900">
               {row.base.name}
             </span>
-            <span className="text-xs text-muted-foreground truncate">
-              {row.profile?.company?.name || `@${row.base.username}`}
+            <span className="text-[10px] text-muted-foreground truncate italic">
+              @{row.base.username}
             </span>
           </div>
         </div>
       ),
     },
     {
-      header: "Tier",
-      accessor: "crmData.clientTier",
+      header: "Email",
+      accessor: "base.email",
+      className: "min-w-[200px]",
       render: (row) => (
-        <Badge
-          variant="secondary"
-          className={cn(
-            "font-bold shadow-none border-none",
-            row.crmData.clientTier === "GOLD"
-              ? "bg-amber-100 text-amber-700"
-              : row.crmData.clientTier === "PLATINUM"
-                ? "bg-indigo-100 text-indigo-700"
-                : "bg-slate-100 text-slate-700",
-          )}
-        >
-          {row.crmData.clientTier}
-        </Badge>
+        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+          <Mail size={12} />
+          <span className="truncate">{row.base.email}</span>
+        </div>
       ),
     },
     {
       header: "Status",
       accessor: "base.status",
+      className: "min-w-[110px]",
       render: (row) => (
         <Badge
           variant="outline"
           className={cn(
-            "capitalize font-medium px-2.5",
+            "capitalize font-medium text-[10px] px-2",
             row.base.status === "ONLINE"
               ? "border-emerald-200 bg-emerald-50 text-emerald-700"
               : "border-slate-200 bg-slate-50 text-slate-600",
@@ -214,18 +181,87 @@ export default function ClientManagePage() {
       ),
     },
     {
-      header: "Financials",
+      header: "Tier",
+      accessor: "crmData.clientTier",
+      className: "min-w-[100px]",
+      render: (row) => (
+        <Badge
+          className={cn(
+            "shadow-none border-none text-[10px] uppercase tracking-wider",
+            row.crmData.clientTier === "GOLD"
+              ? "bg-amber-100 text-amber-700"
+              : row.crmData.clientTier === "PLATINUM"
+                ? "bg-indigo-100 text-indigo-700"
+                : "bg-slate-100 text-slate-700",
+          )}
+        >
+          {row.crmData.clientTier}
+        </Badge>
+      ),
+    },
+    {
+      header: "Spending",
       accessor: "profile.totalSpent",
+      className: "min-w-[130px]",
       render: (row) => (
         <div className="flex flex-col">
           <span className="text-sm font-bold text-slate-700">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(row.profile?.totalSpent || 0)}
+            {formatCurrency(row.profile?.totalSpent)}
           </span>
-          <span className="text-[10px] text-muted-foreground uppercase font-medium">
-            {row.profile?.completedOrders || 0} Completed
+          <span className="text-[10px] text-muted-foreground">
+            {row.profile?.completedOrders || 0} orders
+          </span>
+        </div>
+      ),
+    },
+    {
+      header: "Health",
+      accessor: "crmData.accountHealth",
+      className: "min-w-[140px]",
+      render: (row) => {
+        const health = row.crmData?.accountHealth ?? 75;
+        return (
+          <div className="flex flex-col gap-1">
+            <Progress value={health} className="h-1.5 w-24" />
+            <span className="text-[10px] text-muted-foreground font-medium">
+              {health}% Score
+            </span>
+          </div>
+        );
+      },
+    },
+    {
+      header: "Risk",
+      accessor: "crmData.accountHealth",
+      className: "min-w-[100px]",
+      render: (row) => {
+        const risk = getRisk(row.crmData.accountHealth);
+        const Icon = risk.icon;
+        return (
+          <Badge
+            className={cn(
+              "flex items-center gap-1 text-[10px] shadow-none border font-medium",
+              risk.class,
+            )}
+          >
+            <Icon size={10} /> {risk.label}
+          </Badge>
+        );
+      },
+    },
+    {
+      header: "Verification",
+      accessor: "base.isVerified",
+      className: "min-w-[130px]",
+      render: (row) => (
+        <div className="flex items-center gap-2">
+          {row.base.isVerified ? (
+            <ShieldCheck className="text-blue-500 h-4 w-4" />
+          ) : (
+            <AlertTriangle className="text-slate-300 h-4 w-4" />
+          )}
+          <span className="text-[10px] font-medium text-slate-500 uppercase">
+            {row.profile?.paymentVerified ? "Verified" : "Pending"}
           </span>
         </div>
       ),
@@ -233,34 +269,14 @@ export default function ClientManagePage() {
     {
       header: "Activity",
       accessor: "crmData.lastActive",
+      className: "min-w-[150px]",
       render: (row) => (
-        <div className="flex flex-col">
-          <span className="text-sm text-slate-600 font-medium">
-            {new Intl.DateTimeFormat("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            }).format(new Date(row.crmData.lastActive))}
+        <div className="flex flex-col text-[11px]">
+          <span className="font-medium text-slate-700">
+            {formatDate(row.crmData.lastActive)}
           </span>
-          <span className="text-[10px] text-muted-foreground truncate">
-            {row.profile?.country || "Global"} •{" "}
-            {row.profile?.timezone || "UTC"}
-          </span>
-        </div>
-      ),
-    },
-    {
-      header: "Verification",
-      accessor: "base.isVerified",
-      render: (row) => (
-        <div className="flex items-center gap-2">
-          {row.base.isVerified ? (
-            <ShieldCheck className="h-5 w-5 text-blue-500" />
-          ) : (
-            <AlertCircle className="h-5 w-5 text-slate-300" />
-          )}
-          <span className="text-xs font-medium text-slate-500">
-            {row.profile?.paymentVerified ? "Payment ✓" : "ID Only"}
+          <span className="text-[10px] text-muted-foreground">
+            {row.profile?.country || "Global"}
           </span>
         </div>
       ),
@@ -287,104 +303,99 @@ export default function ClientManagePage() {
   ];
 
   return (
-    <div className="w-full space-y-6">
-      <ClientStats data={rawData} loading={isLoading} />
+    <div className="w-full min-w-0 max-w-full space-y-6 overflow-x-hidden">
+      <div className="w-full min-w-0 max-w-full p-1">
+        <ClientStats data={rawData} loading={isLoading} />
+      </div>
 
-      <CommonTable
-        columns={columns}
-        data={paginatedData}
-        loading={isLoading}
-        pagination={{
-          page: currentPage,
-          totalPages: totalPages,
-          onPageChange: setCurrentPage,
-        }}
-        actions={(row) => (
-          // 1. TooltipProvider wraps the group (no delayDuration here)
-          <TooltipProvider>
-            <div className="flex items-center gap-1 justify-end">
-              {/* 2. Move  to the Tooltip component */}
-              <Tooltip>
-                <TooltipTrigger>
-                  {/* 3. Use <span> to wrap Button since asChild is disabled */}
-                  <span className="inline-block">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 hover:bg-slate-100"
-                      onClick={() => console.log("View", row.id)}
-                    >
-                      <Eye size={16} className="text-slate-500" />
-                    </Button>
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>View Details</TooltipContent>
-              </Tooltip>
+      {/* --- RESPONSIVE WRAPPER --- */}
+      <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div className="w-full min-w-0 max-w-full">
+          <CommonTable
+            columns={columns}
+            data={paginatedData}
+            loading={isLoading}
+            pagination={{
+              page: currentPage,
+              totalPages: totalPages,
+              onPageChange: setCurrentPage,
+            }}
+            actions={(row) => (
+              <TooltipProvider>
+                {/* min-width on actions ensures they don't wrap or squish */}
+                <div className="flex items-center gap-1 justify-end pr-4 min-w-32.5">
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-slate-500 hover:text-indigo-600"
+                      >
+                        <Link
+                          href={`/dashboard/admin/manage-clients/${row.id}`}
+                        >
+                          <Eye size={16} />
+                        </Link>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>View Details</TooltipContent>
+                  </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger>
-                  <span className="inline-block">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 hover:bg-indigo-50 hover:text-indigo-600"
-                      onClick={() => console.log("Edit", row.id)}
-                    >
-                      <Edit2 size={16} />
-                    </Button>
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>Edit Client</TooltipContent>
-              </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 hover:bg-indigo-50 hover:text-indigo-600"
+                      >
+                        <Edit2 size={16} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Edit Client</TooltipContent>
+                  </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger>
-                  <span className="inline-block">
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 hover:bg-rose-50 hover:text-rose-600"
-                      onClick={() => console.log("Delete", row.id)}
-                    >
-                      <Trash2 size={16} />
-                    </Button>
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent>Delete Client</TooltipContent>
-              </Tooltip>
-            </div>
-          </TooltipProvider>
-        )}
-      >
-        <TableToolbar
-          searchProps={{
-            value: search,
-            onChange: setSearch,
-            placeholder: "Search clients...",
-          }}
-          filterProps={{
-            filters: filterOptions,
-            value: filters,
-            onChange: setFilters,
-            onReset: () => {
-              setSearch("");
-              setFilters({});
-            },
-          }}
-        >
-          <Button
-            size="sm"
-            variant="default"
-            className="bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 hover:bg-rose-50 hover:text-rose-600"
+                      >
+                        <Trash2 size={16} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Delete Client</TooltipContent>
+                  </Tooltip>
+                </div>
+              </TooltipProvider>
+            )}
           >
-            Add Client
-          </Button>
-        </TableToolbar>
-      </CommonTable>
+            <TableToolbar
+              searchProps={{
+                value: search,
+                onChange: setSearch,
+                placeholder: "Search clients...",
+              }}
+              filterProps={{
+                filters: filterOptions,
+                value: filters,
+                onChange: setFilters,
+                onReset: () => {
+                  setSearch("");
+                  setFilters({});
+                },
+              }}
+            >
+              <Button
+                size="sm"
+                className="bg-slate-900 hover:bg-slate-800 text-white font-medium"
+              >
+                Add Client
+              </Button>
+            </TableToolbar>
+          </CommonTable>
+        </div>
+      </div>
     </div>
   );
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(" ");
 }

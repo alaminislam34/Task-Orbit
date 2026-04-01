@@ -27,14 +27,14 @@ export function TableToolbar({
   children,
 }: TableToolbarProps) {
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-4 w-full">
+    <div className="mb-4 flex w-full min-w-0 max-w-full flex-col gap-4 md:flex-row md:items-center md:justify-between">
       {/* Left Side: Search */}
-      <div className="flex items-center flex-1 min-w-0">
+      <div className="flex min-w-0 flex-1 items-center">
         <TableSearch {...searchProps} />
       </div>
 
       {/* Right Side: Filters + Actions */}
-      <div className="flex flex-row items-center gap-2 overflow-x-auto pb-1 md:pb-0">
+      <div className="flex max-w-full flex-row items-center gap-2 overflow-x-auto pb-1 md:pb-0">
         {filterProps && (
           <TableFilters
             filters={filterProps.filters}
@@ -46,7 +46,7 @@ export function TableToolbar({
 
         {/* Render passed actions (Buttons, etc.) */}
         {children && (
-          <div className="flex items-center gap-2 ml-auto">{children}</div>
+          <div className="ml-auto flex shrink-0 items-center gap-2">{children}</div>
         )}
       </div>
     </div>

@@ -59,7 +59,7 @@ const MARKETPLACE_METRICS = [
 
 const AdminDashboardHome = () => {
   return (
-    <div className="flex flex-col gap-8 p-6 md:p-10 max-w-400 mx-auto">
+    <div className="flex flex-col gap-8 p-6 md:p-10">
       {/* Header with Quick Actions */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>

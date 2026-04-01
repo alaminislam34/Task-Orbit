@@ -49,10 +49,10 @@ const CommonTable = <T extends Record<string, any>>({
   const columnCount = columns.length + (actions ? 1 : 0);
 
   return (
-    <div className={cn("w-full space-y-4", className)}>
+    <div className={cn("w-full min-w-0 max-w-full space-y-4", className)}>
       {/* Top Section Slot */}
       {children && (
-        <div className="flex items-center justify-between gap-4">
+        <div className="w-full min-w-0 max-w-full flex items-center justify-between gap-4">
           {children}
         </div>
       )}
