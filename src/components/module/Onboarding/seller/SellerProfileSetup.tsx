@@ -114,7 +114,7 @@ const SellerProfileSetup = () => {
       </div>
 
       {/* Form Content */}
-      <div className="bg-card border border-border rounded-xl p-8 md:p-10 shadow-sm relative overflow-hidden transition-colors">
+      <div className="bg-card border border-border rounded-lg p-8 md:p-10 shadow-sm relative overflow-hidden transition-colors">
         <AnimatePresence mode="wait">
           {currentStep === 1 && (
             <motion.div
@@ -213,7 +213,7 @@ const SellerProfileSetup = () => {
                   </Button>
                 </div>
 
-                <div className="flex flex-wrap gap-2 min-h-25 p-4 border border-dashed rounded-xl border-border bg-muted/20">
+                <div className="flex flex-wrap gap-2 min-h-25 p-4 border border-dashed rounded-lg border-border bg-muted/20">
                   {formData.skills.length === 0 && (
                     <p className="text-xs text-muted-foreground m-auto">
                       No skills added yet.
@@ -265,7 +265,7 @@ const SellerProfileSetup = () => {
                           setFormData({ ...formData, experience: level })
                         }
                         className={cn(
-                          "py-3 rounded-xl border-2 transition-all text-sm font-bold",
+                          "py-3 rounded-lg border-2 transition-all text-sm font-bold",
                           formData.experience === level
                             ? "border-emerald-500 bg-emerald-500/10 text-emerald-600"
                             : "border-border hover:border-muted-foreground/30",

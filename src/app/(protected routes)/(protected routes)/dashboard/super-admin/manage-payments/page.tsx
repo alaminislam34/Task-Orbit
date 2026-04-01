@@ -77,10 +77,10 @@ const SuperAdminPaymentPage = () => {
           <p className="text-muted-foreground font-medium text-sm">Review transactions, handle payouts, and manage fees.</p>
         </div>
         <div className="flex gap-2">
-           <Button variant="outline" className="rounded-xl font-bold border-2 gap-2">
+           <Button variant="outline" className="rounded-lg font-bold border-2 gap-2">
              <Download className="w-4 h-4" /> Report
            </Button>
-           <Button className="bg-slate-900 text-white font-bold rounded-xl px-6">
+           <Button className="bg-slate-900 text-white font-bold rounded-lg px-6">
              Process Batch Payouts
            </Button>
         </div>
@@ -95,7 +95,7 @@ const SuperAdminPaymentPage = () => {
                 <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">{stat.label}</p>
                 <h3 className="text-2xl font-black mt-1 tracking-tight">{stat.value}</h3>
               </div>
-              <div className={cn(stat.bg, stat.color, "p-3 rounded-2xl")}>
+              <div className={cn(stat.bg, stat.color, "p-3 rounded-lg")}>
                 <stat.icon className="w-5 h-5" />
               </div>
             </CardContent>
@@ -104,10 +104,10 @@ const SuperAdminPaymentPage = () => {
       </div>
 
       {/* Transaction Management */}
-      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-3xl overflow-hidden bg-card">
+      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-lg overflow-hidden bg-card">
         <CardHeader className="bg-muted/10 border-b border-border/40 p-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 bg-background border rounded-xl px-3 py-1.5 w-full lg:w-80">
+            <div className="flex items-center gap-2 bg-background border rounded-lg px-3 py-1.5 w-full lg:w-80">
               <Search className="w-4 h-4 text-muted-foreground" />
               <Input placeholder="Search Transaction ID or User..." className="border-none focus-visible:ring-0 font-medium text-sm" />
             </div>
@@ -192,7 +192,7 @@ const SuperAdminPaymentPage = () => {
                             <MoreVertical className="w-4 h-4 text-muted-foreground" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="rounded-xl w-44 p-2 border-border shadow-2xl">
+                        <DropdownMenuContent align="end" className="rounded-lg w-44 p-2 border-border shadow-2xl">
                           <DropdownMenuItem className="font-bold text-xs gap-3 p-2.5 cursor-pointer">
                             View Invoice
                           </DropdownMenuItem>

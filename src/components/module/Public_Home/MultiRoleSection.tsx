@@ -95,7 +95,7 @@ const MultiRoleSection = () => {
         {/* 2. Dynamic Content Area */}
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-125">
           {/* Left: Image with subtle animations */}
-          <div className="relative group overflow-hidden rounded-3xl shadow-2xl">
+          <div className="relative group overflow-hidden rounded-lg shadow-2xl">
             <img
               src={active.image}
               alt={active.title}

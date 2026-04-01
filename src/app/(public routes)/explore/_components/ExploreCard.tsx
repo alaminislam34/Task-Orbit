@@ -25,7 +25,7 @@ const ExploreCard = ({ data, type, viewMode }: CardProps) => {
   return (
     <div
       className={cn(
-        "group bg-card border border-border/60 rounded-xl overflow-hidden transition-all duration-300",
+        "group bg-card border border-border/60 rounded-lg overflow-hidden transition-all duration-300",
         "hover:shadow-[0_20px_50px_rgba(16,185,129,0.1)] hover:border-emerald-500/40",
         isGrid
           ? "flex flex-col h-full"

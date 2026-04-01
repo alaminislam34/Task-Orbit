@@ -85,10 +85,10 @@ const FeaturesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group relative p-8 rounded-3xl border bg-card hover:bg-accent/50 transition-all duration-300 ${feature.className}`}
+              className={`group relative p-8 rounded-lg border bg-card hover:bg-accent/50 transition-all duration-300 ${feature.className}`}
             >
               <div
-                className={`w-12 h-12 rounded-xl ${feature.bg} flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}
+                className={`w-12 h-12 rounded-lg ${feature.bg} flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}
               >
                 <feature.icon className={`w-6 h-6 ${feature.color}`} />
               </div>
@@ -99,7 +99,7 @@ const FeaturesSection = () => {
               </p>
 
               {/* Subtle Decorative Gradient on Hover */}
-              <div className="absolute inset-0 rounded-3xl bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <div className="absolute inset-0 rounded-lg bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
             </motion.div>
           ))}
         </div>

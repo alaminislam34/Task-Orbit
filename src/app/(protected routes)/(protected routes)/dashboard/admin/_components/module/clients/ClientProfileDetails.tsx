@@ -93,7 +93,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       {/* --- HEADER SECTION --- */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
           <Avatar className="h-20 w-20 border-4 border-slate-50 shadow-sm">
             <AvatarImage src={client.base.avatar} alt={client.base.name} />
@@ -202,7 +202,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
         {/* Left Column: Core Data */}
         <div className="lg:col-span-2 space-y-6">
           {/* Company & Bio */}
-          <Card className="rounded-2xl border-slate-200">
+          <Card className="rounded-lg border-slate-200">
             <CardHeader className="pb-3 border-b border-slate-50">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Building2 className="h-5 w-5 text-slate-400" /> Company
@@ -256,7 +256,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
           </Card>
 
           {/* History & Sellers */}
-          <Card className="rounded-2xl border-slate-200">
+          <Card className="rounded-lg border-slate-200">
             <CardHeader className="pb-3 border-b border-slate-50">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Clock className="h-5 w-5 text-slate-400" /> Hiring History &
@@ -265,7 +265,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
             </CardHeader>
             <CardContent className="pt-6">
               <div className="grid sm:grid-cols-3 gap-6 mb-8">
-                <div className="bg-slate-50 p-4 rounded-xl">
+                <div className="bg-slate-50 p-4 rounded-lg">
                   <span className="text-xs font-medium text-slate-500 block mb-1">
                     Last Active
                   </span>
@@ -273,7 +273,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
                     {formatDate(client.crmData.lastActive)}
                   </span>
                 </div>
-                <div className="bg-slate-50 p-4 rounded-xl">
+                <div className="bg-slate-50 p-4 rounded-lg">
                   <span className="text-xs font-medium text-slate-500 block mb-1">
                     Last Hired
                   </span>
@@ -281,7 +281,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
                     {formatDate(client.history?.lastHired)}
                   </span>
                 </div>
-                <div className="bg-slate-50 p-4 rounded-xl">
+                <div className="bg-slate-50 p-4 rounded-lg">
                   <span className="text-xs font-medium text-slate-500 block mb-1">
                     Reviews Left
                   </span>
@@ -315,7 +315,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
         {/* Right Column: Health & Trust */}
         <div className="space-y-6">
           {/* Health & Risk */}
-          <Card className="rounded-2xl border-slate-200 overflow-hidden">
+          <Card className="rounded-lg border-slate-200 overflow-hidden">
             <div
               className={cn(
                 "h-2 w-full",
@@ -354,7 +354,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
           </Card>
 
           {/* Verification Status */}
-          <Card className="rounded-2xl border-slate-200">
+          <Card className="rounded-lg border-slate-200">
             <CardHeader>
               <CardTitle className="text-lg">Trust & Security</CardTitle>
             </CardHeader>
@@ -379,7 +379,7 @@ export default function ClientProfileDetails({ client }: ClientProfileProps) {
           </Card>
 
           {/* Location Preferences */}
-          <Card className="rounded-2xl border-slate-200 bg-slate-900 text-slate-50">
+          <Card className="rounded-lg border-slate-200 bg-slate-900 text-slate-50">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Globe className="h-5 w-5 text-slate-400" /> Context
@@ -431,9 +431,9 @@ function StatItem({
   color: string;
 }) {
   return (
-    <Card className="rounded-2xl border-slate-200 shadow-sm">
+    <Card className="rounded-lg border-slate-200 shadow-sm">
       <CardContent className="p-5 flex items-center gap-4">
-        <div className={cn("p-2.5 rounded-xl bg-slate-50", color)}>
+        <div className={cn("p-2.5 rounded-lg bg-slate-50", color)}>
           <Icon className="h-5 w-5" />
         </div>
         <div>
@@ -460,7 +460,7 @@ function VerificationItem({
 }) {
   const isPositive = reverse ? !status : status;
   return (
-    <div className="flex items-center justify-between p-3 rounded-xl border border-slate-50 bg-slate-50/50">
+    <div className="flex items-center justify-between p-3 rounded-lg border border-slate-50 bg-slate-50/50">
       <div className="flex items-center gap-3">
         <Icon
           className={cn(

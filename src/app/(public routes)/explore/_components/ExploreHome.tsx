@@ -91,7 +91,7 @@ const Explore = () => {
               {[...Array(pageSize)].map((_, i) => (
                 <div
                   key={i}
-                  className="h-100 w-full bg-muted/50 animate-pulse rounded-xl border border-border/50"
+                  className="h-100 w-full bg-muted/50 animate-pulse rounded-lg border border-border/50"
                 />
               ))}
             </motion.div>

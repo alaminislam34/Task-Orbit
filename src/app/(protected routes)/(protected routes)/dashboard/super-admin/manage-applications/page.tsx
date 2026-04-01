@@ -114,10 +114,10 @@ const SuperAdminApplicationPage = () => {
           </p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="rounded-xl font-bold border-2">
+          <Button variant="outline" className="rounded-lg font-bold border-2">
             Verification Logs
           </Button>
-          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl px-6">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg px-6">
             Auto-Verify Settings
           </Button>
         </div>
@@ -137,7 +137,7 @@ const SuperAdminApplicationPage = () => {
                 </p>
                 <h3 className="text-2xl font-black mt-1">{stat.value}</h3>
               </div>
-              <div className={cn(stat.bg, stat.color, "p-3 rounded-2xl")}>
+              <div className={cn(stat.bg, stat.color, "p-3 rounded-lg")}>
                 <stat.icon className="w-5 h-5" />
               </div>
             </CardContent>
@@ -146,10 +146,10 @@ const SuperAdminApplicationPage = () => {
       </div>
 
       {/* Applications Table */}
-      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-3xl overflow-hidden">
+      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-lg overflow-hidden">
         <CardHeader className="bg-muted/10 border-b border-border/40 p-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 bg-background border rounded-xl px-3 py-1.5 w-full lg:w-80">
+            <div className="flex items-center gap-2 bg-background border rounded-lg px-3 py-1.5 w-full lg:w-80">
               <Search className="w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Search by name or specialization..."
@@ -277,7 +277,7 @@ const SuperAdminApplicationPage = () => {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent
                             align="end"
-                            className="rounded-xl w-48 p-2 border-border shadow-2xl"
+                            className="rounded-lg w-48 p-2 border-border shadow-2xl"
                           >
                             <DropdownMenuItem className="font-bold text-xs gap-3 p-2.5 cursor-pointer">
                               <Eye className="w-4 h-4 text-blue-500" /> Full

@@ -146,10 +146,10 @@ export default function ClientsReportsDashboard() {
         </div>
         <ClientStats data={[]} loading />
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <Skeleton className="h-80 w-full rounded-xl" />
-          <Skeleton className="h-80 w-full rounded-xl" />
+          <Skeleton className="h-80 w-full rounded-lg" />
+          <Skeleton className="h-80 w-full rounded-lg" />
         </div>
-        <Skeleton className="h-80 w-full rounded-xl" />
+        <Skeleton className="h-80 w-full rounded-lg" />
       </div>
     );
   }

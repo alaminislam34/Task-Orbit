@@ -70,7 +70,7 @@ export default function ReviewsSection({ reviews }: ReviewsSectionProps) {
         </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-5 md:p-6">
+      <div className="rounded-lg border border-border bg-card p-5 md:p-6">
         <div className="space-y-2">
           {ratingCounts.map((item) => {
             const width = (item.count / maxCount) * 100;
@@ -99,7 +99,7 @@ export default function ReviewsSection({ reviews }: ReviewsSectionProps) {
         {sortedReviews.map((review) => (
           <div
             key={review.id}
-            className="rounded-xl border border-border bg-muted/20 p-4 transition-colors hover:border-emerald-500/30"
+            className="rounded-lg border border-border bg-muted/20 p-4 transition-colors hover:border-emerald-500/30"
           >
             <div className="mb-2 flex items-center justify-between gap-3">
               <div>

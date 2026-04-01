@@ -239,7 +239,7 @@ const SignInModal = () => {
                 onClick={() => onSocialAuth("google")}
                 disabled={socialLoading !== null}
                 variant="outline"
-                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01]"
+                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-lg transition-all duration-200 hover:scale-[1.01]"
               >
                 {socialLoading === "google" ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -253,7 +253,7 @@ const SignInModal = () => {
                 onClick={() => onSocialAuth("github")}
                 disabled={socialLoading !== null}
                 variant="outline"
-                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01]"
+                className="py-5 border-slate-200 hover:bg-slate-50 gap-2 rounded-lg transition-all duration-200 hover:scale-[1.01]"
               >
                 {socialLoading === "github" ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -275,7 +275,7 @@ const SignInModal = () => {
                 <button
                   type="button"
                   onClick={() => handleSignUpRedirect("seller")}
-                  className="group flex items-center justify-between p-3 border border-emerald-100 bg-emerald-50/30 rounded-xl hover:bg-emerald-50 transition-all text-left"
+                  className="group flex items-center justify-between p-3 border border-emerald-100 bg-emerald-50/30 rounded-lg hover:bg-emerald-50 transition-all text-left"
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-emerald-100 rounded-lg text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
@@ -297,7 +297,7 @@ const SignInModal = () => {
                 <button
                   type="button"
                   onClick={() => handleSignUpRedirect("client")}
-                  className="group flex items-center justify-between p-3 border border-slate-100 bg-slate-50/30 rounded-xl hover:bg-slate-50 transition-all text-left"
+                  className="group flex items-center justify-between p-3 border border-slate-100 bg-slate-50/30 rounded-lg hover:bg-slate-50 transition-all text-left"
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-slate-200 rounded-lg text-slate-600 group-hover:bg-slate-900 group-hover:text-white transition-colors">

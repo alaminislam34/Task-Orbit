@@ -118,7 +118,7 @@ const SuperAdminJobsPage = () => {
             Monitor recruitment activities and talent acquisition.
           </p>
         </div>
-        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl px-8 shadow-lg shadow-indigo-500/20">
+        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg px-8 shadow-lg shadow-indigo-500/20">
           Post Internal Job
         </Button>
       </div>
@@ -139,7 +139,7 @@ const SuperAdminJobsPage = () => {
                   {stat.value}
                 </h3>
               </div>
-              <div className={cn(stat.bg, stat.color, "p-3 rounded-2xl")}>
+              <div className={cn(stat.bg, stat.color, "p-3 rounded-lg")}>
                 <stat.icon className="w-5 h-5" />
               </div>
             </CardContent>
@@ -148,10 +148,10 @@ const SuperAdminJobsPage = () => {
       </div>
 
       {/* Filter & Table */}
-      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-3xl overflow-hidden">
+      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-lg overflow-hidden">
         <CardHeader className="bg-muted/10 border-b border-border/40 p-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 bg-background border rounded-xl px-3 py-1.5 w-full lg:w-80">
+            <div className="flex items-center gap-2 bg-background border rounded-lg px-3 py-1.5 w-full lg:w-80">
               <Search className="w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Search jobs, skills or agencies..."
@@ -276,7 +276,7 @@ const SuperAdminJobsPage = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                           align="end"
-                          className="rounded-xl w-48 p-2 border-border shadow-2xl"
+                          className="rounded-lg w-48 p-2 border-border shadow-2xl"
                         >
                           <DropdownMenuItem className="font-bold text-xs gap-3 p-2.5 cursor-pointer">
                             <ExternalLink className="w-4 h-4 text-indigo-500" />{" "}

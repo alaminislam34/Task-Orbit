@@ -82,7 +82,7 @@ const TalentGrowth = () => {
               >
                 <div className="flex justify-between items-start mb-8">
                   <div
-                    className={`p-4 rounded-xl bg-muted group-hover:bg-primary transition-colors duration-500`}
+                    className={`p-4 rounded-lg bg-muted group-hover:bg-primary transition-colors duration-500`}
                   >
                     <item.icon
                       className={`w-6 h-6 ${item.color} group-hover:text-primary-foreground`}

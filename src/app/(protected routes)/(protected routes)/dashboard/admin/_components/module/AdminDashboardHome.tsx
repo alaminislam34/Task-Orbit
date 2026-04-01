@@ -132,7 +132,7 @@ const AdminDashboardHome = () => {
               {[1, 2, 3].map((_, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between p-4 rounded-xl border bg-card/50 hover:bg-accent/10 transition-colors"
+                  className="flex items-center justify-between p-4 rounded-lg border bg-card/50 hover:bg-accent/10 transition-colors"
                 >
                   <div className="flex gap-4">
                     <div className="size-10 rounded-lg bg-red-100 dark:bg-red-950 flex items-center justify-center">

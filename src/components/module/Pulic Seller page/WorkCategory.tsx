@@ -86,7 +86,7 @@ const CategorySelection = () => {
         </div>
 
         {/* Professional Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/50 border border-border overflow-hidden rounded-3xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/50 border border-border overflow-hidden rounded-lg">
           {categories.map((cat) => (
             <motion.div
               key={cat.id}
@@ -96,7 +96,7 @@ const CategorySelection = () => {
             >
               {/* Icon & Count */}
               <div className="flex items-start justify-between">
-                <div className="p-4 rounded-xl bg-secondary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                <div className="p-4 rounded-lg bg-secondary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
                   <cat.icon size={28} strokeWidth={1.5} />
                 </div>
                 <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60 group-hover:text-primary transition-colors">

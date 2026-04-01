@@ -191,7 +191,7 @@ const RecruiterSetup = () => {
                         key={scale}
                         onClick={() => setFormData({...formData, hiringScale: scale})}
                         className={cn(
-                          "py-3 rounded-xl border-2 transition-all text-sm font-bold",
+                          "py-3 rounded-lg border-2 transition-all text-sm font-bold",
                           formData.hiringScale === scale 
                             ? "border-purple-500 bg-purple-500/10 text-purple-600" 
                             : "border-border hover:border-purple-500/30"

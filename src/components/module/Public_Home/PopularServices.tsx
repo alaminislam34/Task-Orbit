@@ -55,7 +55,7 @@ const CategorySection = () => {
             <Link
               key={index}
               href={`/services/${cat.title.toLowerCase()}`}
-              className={`group relative overflow-hidden rounded-xl h-60 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${cat.color}`}
+              className={`group relative overflow-hidden rounded-lg h-60 shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${cat.color}`}
             >
               {/* Image with overlay */}
               <div className="absolute inset-0 opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">

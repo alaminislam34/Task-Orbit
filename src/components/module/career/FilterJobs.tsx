@@ -37,7 +37,7 @@ const JobFilters: React.FC<FilterProps> = ({ filters, setFilters }) => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-200 dark:border-slate-800 sticky top-24">
+    <div className="bg-white dark:bg-slate-900 p-6 rounded-lg border border-gray-200 dark:border-slate-800 sticky top-24">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
           <Filter className="w-5 h-5 text-green-600" /> Filters
@@ -86,7 +86,7 @@ const JobFilters: React.FC<FilterProps> = ({ filters, setFilters }) => {
           <select
             value={filters.level}
             onChange={(e) => handleFilterChange("level", e.target.value)}
-            className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-sm focus:ring-2 focus:ring-green-500 outline-none"
+            className="w-full p-2.5 bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg text-sm focus:ring-2 focus:ring-green-500 outline-none"
           >
             {levels.map((lvl) => (
               <option key={lvl} value={lvl}>

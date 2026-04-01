@@ -48,7 +48,7 @@ const ExplorePagination = ({
             size="icon"
             onClick={() => onPageChange(i)}
             className={cn(
-              "w-10 h-10 rounded-xl font-bold transition-all",
+              "w-10 h-10 rounded-lg font-bold transition-all",
               currentPage === i
                 ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-500/20 border-none"
                 : "border-border hover:border-emerald-500/50 hover:text-emerald-500 bg-card",
@@ -84,13 +84,13 @@ const ExplorePagination = ({
               <Button
                 variant="outline"
                 size="sm"
-                className="h-10 rounded-xl px-4 gap-2 font-bold border-border bg-card"
+                className="h-10 rounded-lg px-4 gap-2 font-bold border-border bg-card"
               />
             }
           >
             {pageSize} <LayoutList className="w-3.5 h-3.5 opacity-50" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="rounded-xl min-w-25">
+          <DropdownMenuContent align="start" className="rounded-lg min-w-25">
             {[8, 16, 32, 64].map((size) => (
               <DropdownMenuItem
                 key={size}
@@ -114,7 +114,7 @@ const ExplorePagination = ({
           size="icon"
           disabled={currentPage === 1}
           onClick={() => onPageChange(currentPage - 1)}
-          className="w-10 h-10 rounded-xl border-border bg-card hover:border-emerald-500/50 disabled:opacity-30 transition-all"
+          className="w-10 h-10 rounded-lg border-border bg-card hover:border-emerald-500/50 disabled:opacity-30 transition-all"
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
@@ -126,7 +126,7 @@ const ExplorePagination = ({
           size="icon"
           disabled={currentPage === totalPages}
           onClick={() => onPageChange(currentPage + 1)}
-          className="w-10 h-10 rounded-xl border-border bg-card hover:border-emerald-500/50 disabled:opacity-30 transition-all"
+          className="w-10 h-10 rounded-lg border-border bg-card hover:border-emerald-500/50 disabled:opacity-30 transition-all"
         >
           <ChevronRight className="w-5 h-5" />
         </Button>

@@ -47,7 +47,7 @@ const SuperAdminSettingPage = () => {
             Fine-tune TaskOrbit's core parameters and logic.
           </p>
         </div>
-        <Button className="bg-slate-900 text-white font-bold rounded-xl px-8 flex gap-2">
+        <Button className="bg-slate-900 text-white font-bold rounded-lg px-8 flex gap-2">
           <Save className="w-4 h-4" /> Save Changes
         </Button>
       </div>
@@ -60,7 +60,7 @@ const SuperAdminSettingPage = () => {
               key={item.id}
               onClick={() => setActiveSection(item.id)}
               className={cn(
-                "w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all",
+                "w-full flex items-center gap-3 px-4 py-3 rounded-lg font-bold text-sm transition-all",
                 activeSection === item.id
                   ? "bg-slate-900 text-white shadow-lg shadow-slate-200"
                   : "text-muted-foreground hover:bg-muted",
@@ -76,7 +76,7 @@ const SuperAdminSettingPage = () => {
         <main className="lg:col-span-9 space-y-6">
           {/* General Section */}
           {activeSection === "general" && (
-            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-3xl">
+            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-lg">
               <CardHeader>
                 <CardTitle className="text-lg font-black uppercase">
                   Platform Info
@@ -93,7 +93,7 @@ const SuperAdminSettingPage = () => {
                     </Label>
                     <Input
                       defaultValue="TaskOrbit"
-                      className="rounded-xl font-medium"
+                      className="rounded-lg font-medium"
                     />
                   </div>
                   <div className="space-y-2">
@@ -102,11 +102,11 @@ const SuperAdminSettingPage = () => {
                     </Label>
                     <Input
                       defaultValue="support@taskorbit.com"
-                      className="rounded-xl font-medium"
+                      className="rounded-lg font-medium"
                     />
                   </div>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl border border-border/50">
+                <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50">
                   <div className="space-y-0.5">
                     <p className="text-sm font-black">Maintenance Mode</p>
                     <p className="text-xs text-muted-foreground font-medium">
@@ -121,7 +121,7 @@ const SuperAdminSettingPage = () => {
 
           {/* Billing & Fees Section */}
           {activeSection === "billing" && (
-            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-3xl">
+            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-lg">
               <CardHeader>
                 <CardTitle className="text-lg font-black uppercase">
                   Revenue & Commission
@@ -131,8 +131,8 @@ const SuperAdminSettingPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="flex items-center gap-6 p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-3xl">
-                  <div className="p-4 bg-emerald-500 rounded-2xl text-white">
+                <div className="flex items-center gap-6 p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-lg">
+                  <div className="p-4 bg-emerald-500 rounded-lg text-white">
                     <Percent className="w-6 h-6" />
                   </div>
                   <div className="flex-1 space-y-1">
@@ -143,7 +143,7 @@ const SuperAdminSettingPage = () => {
                       <Input
                         type="number"
                         defaultValue="10"
-                        className="w-32 rounded-xl font-black text-xl border-emerald-500/30"
+                        className="w-32 rounded-lg font-black text-xl border-emerald-500/30"
                       />
                       <p className="text-xs text-muted-foreground font-medium italic">
                         Applied to all successfully completed projects.
@@ -152,13 +152,13 @@ const SuperAdminSettingPage = () => {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 border rounded-2xl space-y-2">
+                  <div className="p-4 border rounded-lg space-y-2">
                     <p className="text-sm font-black">Minimum Payout</p>
-                    <Input defaultValue="$50.00" className="rounded-xl" />
+                    <Input defaultValue="$50.00" className="rounded-lg" />
                   </div>
-                  <div className="p-4 border rounded-2xl space-y-2">
+                  <div className="p-4 border rounded-lg space-y-2">
                     <p className="text-sm font-black">Tax Registration (VAT)</p>
-                    <Input defaultValue="15%" className="rounded-xl" />
+                    <Input defaultValue="15%" className="rounded-lg" />
                   </div>
                 </div>
               </CardContent>
@@ -167,7 +167,7 @@ const SuperAdminSettingPage = () => {
 
           {/* Security Section */}
           {activeSection === "security" && (
-            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-3xl">
+            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-lg">
               <CardHeader>
                 <CardTitle className="text-lg font-black uppercase text-rose-600 flex items-center gap-2">
                   <Lock className="w-5 h-5" /> Security Protocol
@@ -193,7 +193,7 @@ const SuperAdminSettingPage = () => {
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between p-4 hover:bg-muted/20 transition-colors rounded-2xl border border-transparent hover:border-border/50"
+                    className="flex items-center justify-between p-4 hover:bg-muted/20 transition-colors rounded-lg border border-transparent hover:border-border/50"
                   >
                     <div className="space-y-0.5">
                       <p className="text-sm font-black">{item.label}</p>
@@ -210,7 +210,7 @@ const SuperAdminSettingPage = () => {
 
           {/* Database Backup Section */}
           {activeSection === "backup" && (
-            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-3xl overflow-hidden">
+            <Card className="border-border/40 shadow-xl shadow-black/5 rounded-lg overflow-hidden">
               <div className="p-8 bg-slate-900 text-white flex items-center justify-between">
                 <div className="space-y-1">
                   <h3 className="text-xl font-black uppercase italic tracking-tighter">
@@ -220,12 +220,12 @@ const SuperAdminSettingPage = () => {
                     Last backup: 2 hours ago
                   </p>
                 </div>
-                <Button className="bg-white text-slate-900 hover:bg-slate-100 font-black rounded-xl px-6 gap-2">
+                <Button className="bg-white text-slate-900 hover:bg-slate-100 font-black rounded-lg px-6 gap-2">
                   <RefreshCcw className="w-4 h-4" /> Run Manual Backup
                 </Button>
               </div>
               <CardContent className="p-6">
-                <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl flex gap-4">
+                <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-lg flex gap-4">
                   <RefreshCcw className="w-5 h-5 text-amber-600 animate-spin" />
                   <p className="text-xs font-bold text-amber-700">
                     Automated backup to AWS S3 is currently in progress. System

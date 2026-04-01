@@ -144,7 +144,7 @@ const SellerAuthModal = () => {
                   onClick={() => onSocialAuth("google")}
                   disabled={socialLoading !== null}
                   variant="outline"
-                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-xl transition-all duration-200 hover:scale-[1.01]"
+                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-lg transition-all duration-200 hover:scale-[1.01]"
                 >
                   {socialLoading === "google" ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -158,7 +158,7 @@ const SellerAuthModal = () => {
                   onClick={() => onSocialAuth("github")}
                   disabled={socialLoading !== null}
                   variant="outline"
-                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-xl transition-all duration-200 hover:scale-[1.01]"
+                  className="w-full py-6 border-slate-200 hover:bg-slate-50 gap-3 rounded-lg transition-all duration-200 hover:scale-[1.01]"
                 >
                   {socialLoading === "github" ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
@@ -183,7 +183,7 @@ const SellerAuthModal = () => {
               <Button
                 onClick={() => setView("email")}
                 variant="ghost"
-                className="w-full py-6 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl gap-2 border border-dashed border-slate-200"
+                className="w-full py-6 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg gap-2 border border-dashed border-slate-200"
               >
                 <Mail className="w-5 h-5" />
                 Continue with Email
@@ -373,7 +373,7 @@ const SellerAuthModal = () => {
                 <Button
                   type="submit"
                   disabled={strengthCount < 4}
-                  className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-200 transition-all gap-2 disabled:opacity-50"
+                  className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-lg shadow-emerald-200 transition-all gap-2 disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
