@@ -7,7 +7,7 @@ export default function AdminDashboardLayout({
 }>) {
   return (
     <>
-      <section>
+      <section className="min-w-0 max-w-full overflow-x-hidden">
         <AdminShell>{children}</AdminShell>
       </section>
     </>
