@@ -26,6 +26,12 @@ import { ClientStats } from "./ClientStats";
 import Link from "next/link";
 import { Progress } from "@/components/ui/progress";
 import { ClientUser } from "@/types/data.types";
+import { useExportClients } from "@/hooks/useExportClients";
+import ImportClientsModal, {
+  ImportClientRow,
+} from "@/app/(protected routes)/(protected routes)/dashboard/admin/_components/module/clients/ImportClientsModal";
+import BulkActionsBar from "@/app/(protected routes)/(protected routes)/dashboard/admin/_components/module/clients/BulkActionsBar";
+import { useBulkSelection } from "@/hooks/useBulkSelection";
 
 const PAGE_SIZE = 8;
 
@@ -302,19 +308,172 @@ export default function ClientManagePage() {
     },
   ];
 
+  const { isExporting, exportCSV } = useExportClients(filteredData);
+  const bulkSelection = useBulkSelection();
+
+  const filteredIds = useMemo(
+    () => filteredData.map((client) => client.id),
+    [filteredData],
+  );
+  const visibleIds = useMemo(
+    () => paginatedData.map((client) => client.id),
+    [paginatedData],
+  );
+  const visibleSelectionState = bulkSelection.getSelectionState(visibleIds);
+
+  const handleImportClients = (importedRows: ImportClientRow[]) => {
+    const now = new Date().toISOString();
+
+    const nextClients: ClientUser[] = importedRows.map((row, index) => {
+      const baseUsername = row.email.split("@")[0] || `client_${index + 1}`;
+
+      return {
+        id:
+          typeof crypto !== "undefined" && crypto.randomUUID
+            ? crypto.randomUUID()
+            : `imported-${Date.now()}-${index}`,
+        role: "CLIENT",
+        createdAt: now,
+        base: {
+          name: row.name,
+          username: baseUsername,
+          email: row.email,
+          status: row.status,
+          isVerified: false,
+        },
+        profile: {
+          totalSpent: 0,
+          activeOrders: 0,
+          completedOrders: 0,
+          paymentVerified: false,
+          country: "Global",
+        },
+        crmData: {
+          lastActive: now,
+          accountHealth: 70,
+          clientTier: "SILVER",
+          isSpam: false,
+        },
+      };
+    });
+
+    setRawData((prev) => [...nextClients, ...prev]);
+  };
+
+  const handleBulkDelete = () => {
+    const selectedSet = new Set(bulkSelection.getSelectedList());
+    setRawData((prev) => prev.filter((client) => !selectedSet.has(client.id)));
+    bulkSelection.clearAll();
+  };
+
+  const handleBulkStatusChange = (status: "ONLINE" | "OFFLINE") => {
+    const selectedSet = new Set(bulkSelection.getSelectedList());
+    setRawData((prev) =>
+      prev.map((client) =>
+        selectedSet.has(client.id)
+          ? {
+              ...client,
+              base: {
+                ...client.base,
+                status,
+              },
+            }
+          : client,
+      ),
+    );
+  };
+
+  const handleBulkMarkVerified = () => {
+    const selectedSet = new Set(bulkSelection.getSelectedList());
+    setRawData((prev) =>
+      prev.map((client) =>
+        selectedSet.has(client.id)
+          ? {
+              ...client,
+              base: {
+                ...client.base,
+                isVerified: true,
+              },
+              profile: {
+                ...client.profile,
+                paymentVerified: true,
+              },
+            }
+          : client,
+      ),
+    );
+  };
+
   return (
     <div className="w-full min-w-0 max-w-full space-y-6 overflow-x-hidden">
+      <div>
+        <h2 className="text-2xl font-bold tracking-tight">Manage Clients</h2>
+        <p className="text-sm text-muted-foreground mt-1">
+          View and manage all clients registered on the platform.
+        </p>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="ml-2"
+            onClick={exportCSV}
+            disabled={isExporting}
+          >
+            {isExporting ? "Exporting..." : "Export Data"}
+          </Button>
+
+          <ImportClientsModal
+            onImport={handleImportClients}
+            trigger={
+              <Button variant="outline" size="sm" className="ml-2">
+                Import Clients
+              </Button>
+            }
+          />
+
+          <BulkActionsBar
+            selectedCount={bulkSelection.selectedCount}
+            totalCount={filteredIds.length}
+            onSelectAll={() => bulkSelection.toggleMany(filteredIds, true)}
+            onClearAll={bulkSelection.clearAll}
+            onChangeStatus={handleBulkStatusChange}
+            onMarkVerified={handleBulkMarkVerified}
+            onDelete={handleBulkDelete}
+          />
+
+          <Button
+            render={<Link href="/dashboard/admin/manage-clients/reports" />}
+            variant="outline"
+            size="sm"
+            className="ml-2"
+          >
+            View Reports
+          </Button>
+          <Button variant="outline" size="sm" className="ml-2">
+            Settings
+          </Button>{" "}
+        </div>
+      </div>
       <div className="w-full min-w-0 max-w-full p-1">
         <ClientStats data={rawData} loading={isLoading} />
       </div>
 
       {/* --- RESPONSIVE WRAPPER --- */}
-      <div className="w-full min-w-0 max-w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="w-full min-w-0 max-w-full overflow-hidden">
         <div className="w-full min-w-0 max-w-full">
           <CommonTable
             columns={columns}
             data={paginatedData}
             loading={isLoading}
+            selection={{
+              getRowId: (row) => row.id,
+              selectedRowIds: bulkSelection.selectedIds,
+              allVisibleSelected: visibleSelectionState.allSelected,
+              someVisibleSelected: visibleSelectionState.someSelected,
+              onToggleAllVisible: (checked) =>
+                bulkSelection.toggleMany(visibleIds, checked),
+              onToggleRow: bulkSelection.toggleOne,
+            }}
             pagination={{
               page: currentPage,
               totalPages: totalPages,
@@ -385,14 +544,7 @@ export default function ClientManagePage() {
                   setFilters({});
                 },
               }}
-            >
-              <Button
-                size="sm"
-                className="bg-slate-900 hover:bg-slate-800 text-white font-medium"
-              >
-                Add Client
-              </Button>
-            </TableToolbar>
+            ></TableToolbar>
           </CommonTable>
         </div>
       </div>

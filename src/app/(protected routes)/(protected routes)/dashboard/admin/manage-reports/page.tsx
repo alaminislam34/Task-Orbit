@@ -1,7 +1,9 @@
 const AdminManageReportPage = () => {
   return (
-    <div>AdminManageReportPage</div>
+    <div>
+      <h1>Client Reports</h1>
+    </div>
   );
-}
+};
 
 export default AdminManageReportPage;
