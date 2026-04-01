@@ -37,11 +37,7 @@ const SIDEBAR_ITEMS: AdminSidebarItem[] = [
     href: "/dashboard/admin/manage-recruiters",
     icon: UserCheck2,
   },
-  {
-    label: "Users By Role",
-    href: "/dashboard/admin/manage-users-by-role",
-    icon: Users,
-  },
+
   {
     label: "Projects",
     href: "/dashboard/admin/manage-projects",
