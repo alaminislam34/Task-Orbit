@@ -31,6 +31,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { useRouter } from "next/navigation";
 
 type SettingsState = {
   requireEmailVerification: boolean;
@@ -103,6 +104,7 @@ function SettingsSwitch({
 export default function ClientSettingsPage() {
   const [settings, setSettings] = useState<SettingsState>(DEFAULT_SETTINGS);
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
 
   const hasChanges = useMemo(
     () => JSON.stringify(settings) !== JSON.stringify(DEFAULT_SETTINGS),
@@ -141,7 +143,7 @@ export default function ClientSettingsPage() {
           </p>
         </div>
         <Button
-          render={<Link href="/dashboard/admin/manage-clients" />}
+          onClick={() => router.push("/dashboard/admin/manage-clients")}
           variant="outline"
           size="sm"
         >

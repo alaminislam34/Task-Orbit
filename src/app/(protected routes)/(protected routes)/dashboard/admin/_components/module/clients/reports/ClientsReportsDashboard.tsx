@@ -23,6 +23,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ClientStats } from "@/app/(protected routes)/(protected routes)/dashboard/admin/_components/module/clients/ClientStats";
 import { ClientUser } from "@/types/data.types";
+import { useRouter } from "next/navigation";
 
 type GrowthPoint = {
   month: string;
@@ -53,6 +54,7 @@ function getLastMonths(length: number) {
 export default function ClientsReportsDashboard() {
   const [clients, setClients] = useState<ClientUser[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const load = async () => {
@@ -175,7 +177,7 @@ export default function ClientsReportsDashboard() {
           </p>
         </div>
         <Button
-          render={<Link href="/dashboard/admin/manage-clients" />}
+          onClick={() => router.push("/dashboard/admin/manage-clients")}
           variant="outline"
           size="sm"
         >

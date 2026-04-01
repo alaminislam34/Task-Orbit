@@ -32,6 +32,7 @@ import ImportClientsModal, {
 } from "@/app/(protected routes)/(protected routes)/dashboard/admin/_components/module/clients/ImportClientsModal";
 import BulkActionsBar from "@/app/(protected routes)/(protected routes)/dashboard/admin/_components/module/clients/BulkActionsBar";
 import { useBulkSelection } from "@/hooks/useBulkSelection";
+import { useRouter } from "next/navigation";
 
 const PAGE_SIZE = 8;
 
@@ -45,6 +46,7 @@ export default function ClientManagePage() {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [currentPage, setCurrentPage] = useState(1);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -421,7 +423,6 @@ export default function ClientManagePage() {
           >
             {isExporting ? "Exporting..." : "Export Data"}
           </Button>
-
           <ImportClientsModal
             onImport={handleImportClients}
             trigger={
@@ -430,7 +431,6 @@ export default function ClientManagePage() {
               </Button>
             }
           />
-
           <BulkActionsBar
             selectedCount={bulkSelection.selectedCount}
             totalCount={filteredIds.length}
@@ -440,9 +440,10 @@ export default function ClientManagePage() {
             onMarkVerified={handleBulkMarkVerified}
             onDelete={handleBulkDelete}
           />
-
           <Button
-            render={<Link href="/dashboard/admin/manage-clients/reports" />}
+            onClick={() =>
+              router.push("/dashboard/admin/manage-clients/reports")
+            }
             variant="outline"
             size="sm"
             className="ml-2"
@@ -450,7 +451,9 @@ export default function ClientManagePage() {
             View Reports
           </Button>
           <Button
-            render={<Link href="/dashboard/admin/manage-clients/settings" />}
+            onClick={() =>
+              router.push("/dashboard/admin/manage-clients/settings")
+            }
             variant="outline"
             size="sm"
             className="ml-2"
@@ -491,15 +494,16 @@ export default function ClientManagePage() {
                   <Tooltip>
                     <TooltipTrigger>
                       <Button
+                        onClick={() =>
+                          router.push(
+                            `/dashboard/admin/manage-clients/${row.id}`,
+                          )
+                        }
                         variant="ghost"
                         size="icon"
                         className="h-8 w-8 text-slate-500 hover:text-indigo-600"
                       >
-                        <Link
-                          href={`/dashboard/admin/manage-clients/${row.id}`}
-                        >
-                          <Eye size={16} />
-                        </Link>
+                        <Eye size={16} />
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>View Details</TooltipContent>
