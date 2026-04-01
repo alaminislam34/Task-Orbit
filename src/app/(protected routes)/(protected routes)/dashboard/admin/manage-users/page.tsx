@@ -1,9 +1,9 @@
-import UserManagePage from "../_components/module/manage-users/AdminManageUserPage";
+import GuestManagePage from "../_components/module/manage-users/UsersPage";
 
 const AdminManageUserPage = () => {
   return (
     <div>
-      <UserManagePage />
+      <GuestManagePage />
     </div>
   );
 };

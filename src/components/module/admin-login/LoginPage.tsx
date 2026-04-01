@@ -41,9 +41,9 @@ export default function AdminLogin() {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    // এখানে আপনার API কল হবে
-    console.log("Admin Login Attempt:", data);
-    await new Promise((resolve) => setTimeout(resolve, 2000)); // ডেমো ডিলে
+    setTimeout(() => {
+      router.push("/dashboard/admin");
+    }, 1000);
   };
 
   return (
