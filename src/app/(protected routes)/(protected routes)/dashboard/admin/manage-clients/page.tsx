@@ -1,7 +1,7 @@
-import UsersPage from "../_components/module/manage-users-by-role/UsersPage";
+import ClientManageTable from "../_components/module/clients/ClientsPage";
 
 const AdminManageClientPage = () => {
-  return <UsersPage initialRoleFilter="client" />;
+  return <ClientManageTable />;
 };
 
 export default AdminManageClientPage;
