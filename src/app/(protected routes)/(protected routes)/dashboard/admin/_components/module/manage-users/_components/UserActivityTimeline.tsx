@@ -97,7 +97,7 @@ export default function UserActivityTimeline() {
         </Badge>
       </CardHeader>
       <CardContent>
-        <div className="relative space-y-6 before:absolute before:inset-0 before:ml-3 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-slate-200 before:via-slate-200 before:to-transparent">
+        <div className="relative space-y-6 before:absolute before:inset-0 before:ml-3 before:-translate-x-px before:h-full before:w-0.5 before:bg-linear-to-b before:from-slate-200 before:via-slate-200 before:to-transparent">
           {activities.map((activity) => (
             <div
               key={activity.id}
