@@ -6,6 +6,7 @@ import TanstackProvider from "@/providers/TanstackProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { StateProvider } from "@/providers/StateProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { UserProvider } from "@/providers/UserProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -40,17 +41,19 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <TanstackProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <StateProvider>
-              {children}
-              <Toaster richColors position="top-right" />
-            </StateProvider>
-          </ThemeProvider>
+          <UserProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <StateProvider>
+                {children}
+                <Toaster richColors position="top-right" />
+              </StateProvider>
+            </ThemeProvider>
+          </UserProvider>
         </TanstackProvider>
       </body>
     </html>

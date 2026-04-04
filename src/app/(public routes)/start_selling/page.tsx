@@ -3,6 +3,7 @@ import FeaturesSection from "@/components/module/Pulic Seller page/FeaturesSecti
 import SellerHero from "@/components/module/Pulic Seller page/SellerHero";
 import TalentGrowth from "@/components/module/Pulic Seller page/TalentGrowth";
 import CategorySelection from "@/components/module/Pulic Seller page/WorkCategory";
+import OtpVerifyModal from "@/components/shared/Modals/OtpVerifyModal";
 import SellerAuthModal from "@/components/shared/Modals/SellerAuthModal";
 
 const SellerPage = () => {
@@ -12,7 +13,8 @@ const SellerPage = () => {
       <FeaturesSection />
       <CategorySelection />
       <TalentGrowth />
-      <SellerAuthModal/>
+      <SellerAuthModal />
+      <OtpVerifyModal />
     </div>
   );
 };

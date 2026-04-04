@@ -11,7 +11,8 @@ if (!API_BASE_URL) {
 const axiosInstance = () => {
   const instance = axios.create({
     baseURL: API_BASE_URL,
-    timeout: 5000, // 5 seconds timeout
+    timeout: 30000, // 30 seconds timeout
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
     },
@@ -51,8 +52,11 @@ const post = async <TData>(
       headers: options?.headers,
     });
     return response.data;
-  } catch (error) {
-    throw new Error(`POST request to ${endpoint} failed: ${error}`);
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      throw error.response.data;
+    }
+    throw error;
   }
 };
 

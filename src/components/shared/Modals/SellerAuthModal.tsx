@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,18 +28,9 @@ import {
 } from "lucide-react";
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
-
-const sellerSignUpSchema = z
-  .object({
-    fullName: z.string().min(2, "Full name is required"),
-    email: z.string().email("Please enter a valid email address"),
-    password: z.string().min(8, "Password must be at least 8 characters"),
-    confirmPassword: z.string().min(8, "Please confirm your password"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+import { sellerSignUpSchema } from "@/types/zod.validation";
+import { httpClient } from "@/lib/axios/httpClient";
+import ENDPOINT from "@/apiEndpoint/endpoint";
 
 type SellerSignUpForm = z.infer<typeof sellerSignUpSchema>;
 
@@ -51,23 +42,25 @@ const SellerAuthModal = () => {
     null,
   );
 
-  const { signUpModal, setSignUpModal, setSignInModal } = useStateContext();
+  const { signUpModal, setSignUpModal, setSignInModal, accountType, setOtpModalOpen, setUserEmail } = useStateContext();
 
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<SellerSignUpForm>({
     resolver: zodResolver(sellerSignUpSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
+      accountType: accountType,
     },
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const password = watch("password", "");
@@ -94,10 +87,46 @@ const SellerAuthModal = () => {
   };
 
   const onSubmit = async (_values: SellerSignUpForm) => {
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    toast.success("Seller account created successfully");
-    setSignUpModal(false);
-    reset();
+    try {
+      const payload = {
+        name: _values.name,
+        email: _values.email,
+        password: _values.password,
+        accountType: accountType,
+      }
+
+
+      const res = await httpClient.post(ENDPOINT.AUTH.REGISTER, payload);
+
+      if (res.success) {
+        toast.success(res.message);
+        setUserEmail(_values.email);
+        setSignUpModal(false);
+        setOtpModalOpen(true);
+        reset();
+      }
+    } catch (error: any) {
+      const errorData = error?.response?.data || error;
+      const errorSource = errorData?.errorSource;
+
+      if (Array.isArray(errorSource) && errorSource.length > 0) {
+        errorSource.forEach((err: { path: string; message: string }) => {
+          const fieldName = err.path as keyof SellerSignUpForm;
+
+          if (fieldName) {
+            setError(fieldName, {
+              type: "server",
+              message: err.message,
+            });
+          }
+
+          toast.error(err.message);
+        });
+      }
+      else {
+        toast.error(errorData?.message || "An unexpected error occurred");
+      }
+    }
   };
 
   const onSocialAuth = async (provider: "google" | "github") => {
@@ -208,30 +237,32 @@ const SellerAuthModal = () => {
                 <DialogTitle className="text-2xl font-bold text-slate-900">
                   Create Seller Account
                 </DialogTitle>
+
+                <p>{accountType}</p>
               </DialogHeader>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="fullName">Full Name</Label>
+                  <Label htmlFor="name">Full Name</Label>
                   <Input
-                    id="fullName"
-                    placeholder="John Doe"
-                    aria-invalid={!!errors.fullName}
-                    {...register("fullName")}
+                    id="name"
+                    placeholder="Enter your name"
+                    aria-invalid={!!errors.name}
+                    {...register("name")}
                     className={cn(
                       "h-11 rounded-lg border-slate-200 focus:ring-emerald-500",
-                      errors.fullName && "border-destructive",
+                      errors.name && "border-destructive",
                     )}
                   />
                   <AnimatePresence>
-                    {errors.fullName?.message && (
+                    {errors.name?.message && (
                       <motion.p
                         initial={{ opacity: 0, y: -4 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -4 }}
                         className="text-xs text-destructive"
                       >
-                        {errors.fullName.message}
+                        {errors.name.message}
                       </motion.p>
                     )}
                   </AnimatePresence>

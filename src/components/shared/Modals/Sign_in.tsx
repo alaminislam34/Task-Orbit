@@ -28,6 +28,8 @@ import {
 } from "lucide-react";
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
+import { httpClient } from "@/lib/axios/httpClient";
+import ENDPOINT from "@/apiEndpoint/endpoint";
 
 const signInSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -48,6 +50,7 @@ const SignInModal = () => {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormValues>({
     resolver: zodResolver(signInSchema),
@@ -76,14 +79,42 @@ const SignInModal = () => {
   };
 
   const onSubmit = async (values: SignInFormValues) => {
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    if (values.email.includes("fail")) {
-      toast.error("Sign in failed. Please check your credentials.");
-      return;
+    try {
+      const email = values.email;
+      const password = values.password;
+      const payload = {
+        email: email,
+        password: password,
+      }
+      const res = await httpClient.post(ENDPOINT.AUTH.LOGIN, payload)
+      if (res.success) {
+        toast.success(res.message);
+        setSignInModal(false);
+        reset();
+      }
+    } catch (error: any) {
+      const errorData = error?.response?.data || error;
+      const errorSource = errorData?.errorSource;
+
+      if (Array.isArray(errorSource) && errorSource.length > 0) {
+        errorSource.forEach((err: { path: string; message: string }) => {
+          const fieldName = err.path as keyof SignInFormValues;
+
+          if (fieldName) {
+            setError(fieldName, {
+              type: "server",
+              message: err.message,
+            });
+          }
+
+          toast.error(err.message);
+        });
+      }
+      else {
+        toast.error(errorData?.message || "An unexpected error occurred");
+      }
     }
-    toast.success("Signed in successfully");
-    setSignInModal(false);
-    reset();
+
   };
 
   const onSocialAuth = async (provider: "google" | "github") => {
