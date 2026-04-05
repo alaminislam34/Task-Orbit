@@ -74,32 +74,17 @@ const SignInModal = () => {
     try {
       const res = await loginMutate(values);
 
-      // Success check (based on your structure where user is at root)
-      if (res.data.user) {
+      if (res?.data?.user) {
         toast.success(res.message);
         handleOpenChange(false);
       }
     } catch (error: any) {
-      const errorData = error?.message;
-      const errorSources = errorData?.errorSource;
-      const requestId = errorData?.requestId;
+      const errorResponse = error?.message;
+      const requestId = errorResponse?.requestId;
 
-      // Debugging: Logging requestId for backend tracing
       console.error(`Login failed [RequestID: ${requestId}]:`, error.message);
 
-      if (Array.isArray(errorSources) && errorSources.length > 0) {
-        errorSources.forEach((err: { path: string; message: string }) => {
-          if (err.path) {
-            setError(err.path as keyof SignInFormValues, {
-              type: "server",
-              message: err.message,
-            });
-          }
-        });
-      } else {
-        setLoginError(errorData);
-        setRequestId(requestId);
-      }
+      toast.error(errorResponse);
     }
   };
 

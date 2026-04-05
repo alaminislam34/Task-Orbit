@@ -48,24 +48,6 @@ export interface LoginResponse {
   };
 }
 
-/*
-{
-    "success": false,
-    "statusCode": 401,
-    "message": "Invalid email or password.",
-    "requestId": "8c160ba6-5910-44b6-b1ef-0df83caa7f13",
-    "errorSource": [
-        {
-            "path": "",
-            "message": "Invalid email or password."
-        }
-    ],
-    "stack": "Error: Invalid email or password.\n    at mapBetterAuthError (C:\\Users\\alami\\MD Al Amin Islam\\task-orbit-backend\\src\\app\\module\\auth\\auth.service.ts:225:10)\n    at Object.loginUser (C:\\Users\\alami\\MD Al Amin Islam\\task-orbit-backend\\src\\app\\module\\auth\\auth.service.ts:311:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async <anonymous> (C:\\Users\\alami\\MD Al Amin Islam\\task-orbit-backend\\src\\app\\module\\auth\\auth.controller.ts:31:18)"
-}
-**/
-
-// this is my login error response 
-
 export interface LoginErrorResponse {
   success: boolean;
   statusCode: number;
