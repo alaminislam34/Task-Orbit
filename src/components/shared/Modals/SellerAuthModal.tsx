@@ -22,7 +22,7 @@ const SellerAuthModal = () => {
 
   return (
     <Dialog open={signUpModal} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-112.5 p-8 overflow-hidden border-none bg-white/95 backdrop-blur-xl shadow-2xl">
+      <DialogContent className="sm:max-w-[450px] w-[95vw] max-h-[90vh] overflow-y-auto p-6 sm:p-8 border-none bg-white/95 backdrop-blur-xl shadow-2xl">
         <AnimatePresence mode="wait">
           {view === "initial" ? (
             <InitialView key="initial" onEmailClick={() => setView("email")} />

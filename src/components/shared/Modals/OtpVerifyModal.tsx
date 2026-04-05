@@ -20,9 +20,11 @@ import { useStateContext } from "@/providers/StateProvider";
 import { useRouter } from "next/navigation";
 import { httpClient } from "@/lib/axios/httpClient";
 import ENDPOINT from "@/apiEndpoint/endpoint";
+import { useQueryClient } from "@tanstack/react-query";
 
 const OtpVerifyModal = () => {
     const { otpModalOpen, setOtpModalOpen, userEmail } = useStateContext();
+    const queryClient = useQueryClient();
     const [otp, setOtp] = useState("");
     const [isVerifying, setIsVerifying] = useState(false);
     const [isResending, setIsResending] = useState(false);
@@ -53,6 +55,9 @@ const OtpVerifyModal = () => {
             if (res.success) {
                 toast.success(res.message);
                 setOtpModalOpen(false);
+
+                // IMPORTANT: Tell React Query to refetch the user now that we are verified/logged in.
+                await queryClient.invalidateQueries({ queryKey: ["authUser"] });
 
                 setTimeout(() => {
                     router.push("/");
@@ -87,7 +92,7 @@ const OtpVerifyModal = () => {
 
     return (
         <Dialog open={otpModalOpen} onOpenChange={setOtpModalOpen}>
-            <DialogContent className="sm:max-w-112.5 p-8 overflow-hidden border-none bg-white/95 backdrop-blur-xl shadow-2xl">
+            <DialogContent className="sm:max-w-[450px] w-[95vw] p-6 sm:p-8 overflow-hidden border-none bg-white/95 backdrop-blur-xl shadow-2xl">
                 <DialogHeader className="space-y-3">
                     <DialogTitle className="text-2xl font-bold text-center">
                         Verify your email

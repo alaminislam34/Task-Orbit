@@ -3,11 +3,11 @@ import { create } from 'zustand';
 interface UserState {
     user: any | null;
     setUser: (user: any) => void;
-    logout: () => void;
+    logout: () => Promise<void>;
 }
 
 export const useUserStore = create<UserState>((set) => ({
     user: null,
     setUser: (user) => set({ user }),
-    logout: () => set({ user: null }),
+    logout: async () => set({ user: null }),
 }));
