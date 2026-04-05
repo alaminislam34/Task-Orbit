@@ -40,11 +40,20 @@ import { useStateContext } from "@/providers/StateProvider";
 import { useRouter } from "next/navigation";
 import { AccountType } from "@/types/state.types";
 import { useUserStore } from "@/store/useUserStore";
+import { useUser } from "@/hooks/useUser";
 
 const Navbar = () => {
   const { setSignUpModal, setSignInModal, setAccountType } = useStateContext();
   const router = useRouter();
   const { user, logout } = useUserStore();
+  const { data: userData, isLoading } = useUser();
+  const setUser = useUserStore((state) => state.setUser);
+
+  useEffect(() => {
+    if (userData) {
+      setUser(userData);
+    }
+  }, [userData, setUser]);
 
   const [mounted, setMounted] = useState(false);
 
