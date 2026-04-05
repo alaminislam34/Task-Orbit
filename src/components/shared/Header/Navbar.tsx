@@ -17,17 +17,10 @@ import { useLogout } from "@/hooks/useLogout";
 
 const Navbar = () => {
   const { user } = useUserStore();
-  const { data: userData, isLoading } = useUser();
+  const { isLoading } = useUser();
   const handleLogout = useLogout();
-  const setUser = useUserStore((state) => state.setUser);
 
   const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    if (userData !== undefined) {
-      setUser(userData);
-    }
-  }, [userData, setUser]);
 
   useEffect(() => {
     setMounted(true);
@@ -39,7 +32,7 @@ const Navbar = () => {
       case AccountType.SELLER: return "/dashboard/seller";
       case AccountType.JOB_SEEKER: return "/dashboard/job_seeker";
       case AccountType.CLIENT: return "/dashboard/client";
-      default: return "/dashboard";
+      default: return "/";
     }
   };
 
