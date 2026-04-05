@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 
-// ভ্যালিডেশন স্কিমা
 const loginSchema = z.object({
   email: z.string().email({ message: "Enter a valid admin email" }),
   password: z

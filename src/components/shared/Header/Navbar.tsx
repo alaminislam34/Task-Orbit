@@ -46,7 +46,6 @@ const Navbar = () => {
   const router = useRouter();
   const { user, logout } = useUserStore();
 
-  // ১. Hydration Fix: মাউন্ট হওয়া পর্যন্ত ওয়েট করার জন্য স্টেট
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -69,11 +68,8 @@ const Navbar = () => {
     }
   };
 
-  // ২. যদি মাউন্ট না হয়, তবে রাইট সাইড ফাঁকা থাকবে (বা শুধু থিম টগলার দেখাবে)
-  // এটি রিলোডের সময় বাটনের "ঝলকানি" বা ফ্লিকারিং বন্ধ করবে।
-
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="max-w-360 w-11/12 mx-auto flex h-16 items-center justify-between gap-4">
 
         {/* Left: Logo & Search */}
@@ -118,7 +114,6 @@ const Navbar = () => {
             )}
             <ModeToggle />
 
-            {/* ৩. মাউন্ট হওয়ার পর কন্ডিশনাল রেন্ডারিং */}
             {mounted ? (
               user ? (
                 <DropdownMenu>
@@ -171,7 +166,7 @@ const Navbar = () => {
                 </div>
               )
             ) : (
-              <div className="h-9 w-20" /> // মাউন্ট হওয়ার আগে জায়গা ধরে রাখার জন্য স্কেলিটন বা গ্যাপ
+              <div className="h-9 w-9 rounded-full bg-gray-200 animate-pulse" />
             )}
           </div>
         </nav>
