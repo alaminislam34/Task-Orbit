@@ -5,7 +5,12 @@ import { Inbox, Search, Users2 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 import ActionDropdown from "./_components/ActionDropdown";
@@ -15,7 +20,12 @@ import UserModal from "./_components/UserModal";
 import UsersStats from "./_components/UsersStats";
 import UsersTableSkeleton from "./_components/UsersTableSkeleton";
 import type { DataTableColumn, RawUser, User } from "./types";
-import { formatDate, getInitials, getUsersStats, normalizeUsers } from "./utils";
+import {
+  formatDate,
+  getInitials,
+  getUsersStats,
+  normalizeUsers,
+} from "./utils";
 
 type UsersState = {
   users: User[];
@@ -130,7 +140,10 @@ const UsersPage = () => {
 
   const stats = useMemo(() => getUsersStats(state.users), [state.users]);
 
-  const handleStatusChange = (userId: string, status: "active" | "inactive") => {
+  const handleStatusChange = (
+    userId: string,
+    status: "active" | "inactive",
+  ) => {
     dispatch({ type: "update_status", payload: { userId, status } });
 
     setSelectedUser((previous) => {
@@ -181,7 +194,9 @@ const UsersPage = () => {
         id: "createdAt",
         header: "Created Date",
         renderCell: (user) => (
-          <span className="text-sm text-muted-foreground">{formatDate(user.createdAt)}</span>
+          <span className="text-sm text-muted-foreground">
+            {formatDate(user.createdAt)}
+          </span>
         ),
       },
     ],
@@ -192,9 +207,12 @@ const UsersPage = () => {
     <section className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Manage Users</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Manage Users
+          </h1>
           <p className="text-sm text-muted-foreground">
-            Moderate normal registered users. Client, seller, and recruiter views are managed separately.
+            Moderate normal registered users. Client, seller, and recruiter
+            views are managed separately.
           </p>
         </div>
       </div>
@@ -205,7 +223,8 @@ const UsersPage = () => {
         <CardHeader className="space-y-4 border-b py-4">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <CardDescription>
-              Showing {filteredUsers.length} user{filteredUsers.length === 1 ? "" : "s"}
+              Showing {filteredUsers.length} user
+              {filteredUsers.length === 1 ? "" : "s"}
             </CardDescription>
             <div className="relative w-full sm:w-72">
               <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -235,7 +254,9 @@ const UsersPage = () => {
             <div className="flex min-h-48 flex-col items-center justify-center gap-2 p-6 text-center">
               <Users2 className="size-8 text-muted-foreground" />
               <p className="font-medium">No users found</p>
-              <p className="text-sm text-muted-foreground">Try a different search keyword.</p>
+              <p className="text-sm text-muted-foreground">
+                Try a different search keyword.
+              </p>
             </div>
           ) : null}
 
