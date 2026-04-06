@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Home, Search, Globe } from "lucide-react";
+import { Home, Search, Globe } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function NotFound() {
+  const router = useRouter();
   return (
     <div className="relative min-h-[90vh] w-full flex flex-col items-center justify-center overflow-hidden bg-background">
       {/* --- Abstract Background "Orbits" --- */}
@@ -60,23 +62,21 @@ export default function NotFound() {
             {/* Interactive Navigation */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <Button
+                onClick={() => router.push("/")}
                 size="lg"
-                className="h-12 px-8 rounded-full font-bold group"
+                className="h-12 px-8 flex flex-row items-center rounded-full font-bold group"
               >
-                <Link href="/" className="flex items-center gap-2">
-                  <Home className="mr-2 h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
-                  Return Home
-                </Link>
+                <Home className="mr-2 h-4 w-4 transition-transform group-hover:-translate-y-0.5" />
+                Return Home
               </Button>
               <Button
+                onClick={() => router.push("/career")}
                 variant="outline"
                 size="lg"
-                className="h-12 px-8 rounded-full font-semibold bg-background/50 backdrop-blur-sm border-border"
+                className="h-12 px-8 flex flex-row items-center rounded-full font-semibold bg-background/50 backdrop-blur-sm border-border"
               >
-                <Link href="/jobs" className="flex items-center gap-2">
-                  <Search className="mr-2 h-4 w-4" />
-                  Browse Jobs
-                </Link>
+                <Search className="mr-2 h-4 w-4" />
+                Browse Jobs
               </Button>
             </div>
 

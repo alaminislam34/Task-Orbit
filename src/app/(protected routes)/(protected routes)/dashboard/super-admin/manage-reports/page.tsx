@@ -47,18 +47,18 @@ const SuperAdminReportsPage = () => {
         </div>
         <div className="flex gap-2">
           <Select defaultValue="30d">
-            <SelectTrigger className="w-40 rounded-xl font-bold border-2">
+            <SelectTrigger className="w-40 rounded-lg font-bold border-2">
               <Calendar className="w-4 h-4 mr-2" />
               <SelectValue placeholder="Select Range" />
             </SelectTrigger>
-            <SelectContent className="rounded-xl">
+            <SelectContent className="rounded-lg">
               <SelectItem value="7d">Last 7 Days</SelectItem>
               <SelectItem value="30d">Last 30 Days</SelectItem>
               <SelectItem value="90d">Last 3 Months</SelectItem>
               <SelectItem value="1y">Last Year</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl px-6 gap-2">
+          <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg px-6 gap-2">
             <Download className="w-4 h-4" /> Export All
           </Button>
         </div>
@@ -67,7 +67,7 @@ const SuperAdminReportsPage = () => {
       {/* Main Stats Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Growth Chart Placeholder */}
-        <Card className="md:col-span-2 border-border/40 shadow-xl shadow-black/5 rounded-3xl overflow-hidden bg-card/50 backdrop-blur-md">
+        <Card className="md:col-span-2 border-border/40 shadow-xl shadow-black/5 rounded-lg overflow-hidden bg-card/50 backdrop-blur-md">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-lg font-black uppercase">
@@ -98,7 +98,7 @@ const SuperAdminReportsPage = () => {
         </Card>
 
         {/* Revenue Distribution */}
-        <Card className="border-border/40 shadow-xl shadow-black/5 rounded-3xl bg-card">
+        <Card className="border-border/40 shadow-xl shadow-black/5 rounded-lg bg-card">
           <CardHeader>
             <CardTitle className="text-lg font-black uppercase">
               Revenue Split
@@ -168,11 +168,11 @@ const SuperAdminReportsPage = () => {
         ].map((item, i) => (
           <Card
             key={i}
-            className="border-border/40 hover:border-emerald-500/50 transition-colors rounded-2xl"
+            className="border-border/40 hover:border-emerald-500/50 transition-colors rounded-lg"
           >
             <CardContent className="p-5">
               <div className="flex justify-between items-start mb-2">
-                <div className="p-2 bg-muted rounded-xl">
+                <div className="p-2 bg-muted rounded-lg">
                   <item.icon className="w-4 h-4 text-muted-foreground" />
                 </div>
                 <span

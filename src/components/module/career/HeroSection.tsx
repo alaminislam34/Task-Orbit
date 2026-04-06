@@ -20,7 +20,7 @@ export default function HeroSection({ onSearch }: HeroProps) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-3">
-            Find your next <span className="text-blue-600">career move</span>
+            Find your next <span className="text-green-600">career move</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-lg">
             Explore thousands of jobs from startups to Fortune 500 companies.
@@ -29,7 +29,7 @@ export default function HeroSection({ onSearch }: HeroProps) {
 
         {/* Professional Search Container */}
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white dark:bg-slate-800 p-2 rounded-xl shadow-xl border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-2">
+          <div className="bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700 flex flex-col md:flex-row items-center gap-2">
             {/* "What" Input */}
             <div className="relative flex-1 w-full">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -64,7 +64,7 @@ export default function HeroSection({ onSearch }: HeroProps) {
             {/* Search Button */}
             <button
               onClick={handleSearch}
-              className="w-full md:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all shadow-md active:scale-95"
+              className="w-full md:w-auto px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-all shadow-md active:scale-95"
             >
               Find Jobs
             </button>
@@ -75,11 +75,11 @@ export default function HeroSection({ onSearch }: HeroProps) {
             <label className="flex items-center gap-2 cursor-pointer group">
               <input
                 type="checkbox"
-                className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                className="w-4 h-4 rounded border-slate-300 text-green-600 focus:ring-green-500"
                 checked={isRemote}
                 onChange={(e) => setIsRemote(e.target.checked)}
               />
-              <span className="text-slate-600 dark:text-slate-400 group-hover:text-blue-600 transition-colors flex items-center gap-1">
+              <span className="text-slate-600 dark:text-slate-400 group-hover:text-green-600 transition-colors flex items-center gap-1">
                 <Globe size={14} /> Remote only
               </span>
             </label>
@@ -92,7 +92,7 @@ export default function HeroSection({ onSearch }: HeroProps) {
                 <button
                   key={tag}
                   onClick={() => setQuery(tag)}
-                  className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 underline decoration-slate-300 underline-offset-4"
+                  className="text-slate-600 dark:text-slate-300 hover:text-green-600 dark:hover:text-green-400 underline decoration-slate-300 underline-offset-4"
                 >
                   {tag}
                 </button>

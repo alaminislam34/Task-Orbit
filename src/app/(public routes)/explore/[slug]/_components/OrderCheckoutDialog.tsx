@@ -33,7 +33,7 @@ function BreakdownRows({ price }: { price: number }) {
   const total = Number((price + serviceFee).toFixed(2));
 
   return (
-    <div className="rounded-xl border border-border bg-muted/20 p-4">
+    <div className="rounded-lg border border-border bg-muted/20 p-4">
       <h4 className="mb-3 text-sm font-black uppercase tracking-wider text-foreground/80">
         Breakdown
       </h4>
@@ -61,7 +61,7 @@ function BreakdownRows({ price }: { price: number }) {
 function DialogBody({ service, currentPkg }: { service: any; currentPkg: any }) {
   return (
     <div className="space-y-5">
-      <div className="flex items-center gap-3 rounded-xl border border-border bg-muted/20 p-3">
+      <div className="flex items-center gap-3 rounded-lg border border-border bg-muted/20 p-3">
         <div className="relative h-16 w-20 overflow-hidden rounded-md bg-muted">
           <Image
             src={service.media.thumbnail}
@@ -84,7 +84,7 @@ function DialogBody({ service, currentPkg }: { service: any; currentPkg: any }) 
       <BreakdownRows price={Number(currentPkg.price)} />
 
       <div className="space-y-2 pt-1">
-        <Button className="h-12 w-full rounded-xl bg-emerald-500 text-base font-black text-white hover:bg-emerald-600">
+        <Button className="h-12 w-full rounded-lg bg-emerald-500 text-base font-black text-white hover:bg-emerald-600">
           Proceed to Payment
         </Button>
         <p className="flex items-center justify-center gap-1.5 text-xs font-medium text-muted-foreground">
@@ -132,7 +132,7 @@ export default function OrderCheckoutDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton
-        className="w-full max-w-125 rounded-2xl border-border bg-background/95 p-6 supports-backdrop-filter:backdrop-blur-xl"
+        className="w-full max-w-125 rounded-lg border-border bg-background/95 p-6 supports-backdrop-filter:backdrop-blur-xl"
       >
         <DialogHeader className="space-y-3">
           <div className="flex items-center justify-between gap-3">

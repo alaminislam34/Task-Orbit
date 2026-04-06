@@ -42,7 +42,7 @@ function SuccessState() {
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -12 }}
-      className="flex min-h-64 flex-col items-center justify-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 text-center"
+      className="flex min-h-64 flex-col items-center justify-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-4 text-center"
     >
       <motion.div
         initial={{ scale: 0.3, rotate: -30 }}
@@ -114,7 +114,7 @@ function Composer({ seller }: { seller: any }) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Write a message for your project requirements..."
-              className="min-h-44 resize-none rounded-xl border-border bg-muted/50 px-4 py-3 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/25"
+              className="min-h-44 resize-none rounded-lg border-border bg-muted/50 px-4 py-3 focus-visible:border-emerald-500 focus-visible:ring-emerald-500/25"
             />
 
             <div className="mt-3 flex flex-wrap gap-2">
@@ -136,7 +136,7 @@ function Composer({ seller }: { seller: any }) {
             <Button
               onClick={onSend}
               disabled={!message.trim() || isSending}
-              className="mt-4 h-11 w-full rounded-xl bg-emerald-500 font-black text-white hover:bg-emerald-600"
+              className="mt-4 h-11 w-full rounded-lg bg-emerald-500 font-black text-white hover:bg-emerald-600"
             >
               {isSending ? "Sending..." : "Send Message"}
               <SendHorizontal className="h-4 w-4" />
@@ -179,7 +179,7 @@ export default function ContactSellerDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton
-        className="w-full max-w-125 rounded-2xl border-border bg-background/95 p-5 supports-backdrop-filter:backdrop-blur-xl"
+        className="w-full max-w-125 rounded-lg border-border bg-background/95 p-5 supports-backdrop-filter:backdrop-blur-xl"
       >
         <DialogHeader>
           <DialogTitle className="text-2xl font-black">Contact Seller</DialogTitle>

@@ -73,7 +73,7 @@ const UsersPage = () => {
             Real-time CRM monitoring for TaskOrbit.
           </p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl px-6">
+        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg px-6">
           + Create User
         </Button>
       </div>
@@ -222,7 +222,7 @@ const UsersPage = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                           align="end"
-                          className="rounded-xl p-2 border-border shadow-2xl"
+                          className="rounded-lg p-2 border-border shadow-2xl"
                         >
                           <DropdownMenuItem className="font-bold flex gap-3 text-xs p-2.5 cursor-pointer">
                             <ArrowUpRight className="w-4 h-4 text-emerald-500" />{" "}

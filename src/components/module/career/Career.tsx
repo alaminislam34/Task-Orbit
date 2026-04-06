@@ -8,7 +8,10 @@ import {
   Briefcase,
   Globe,
   ExternalLink,
+  Heart,
+  Bookmark,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Job {
   id: string;
@@ -97,16 +100,16 @@ export default function JobsPage() {
                   <div
                     key={job.id}
                     onClick={() => setSelectedJob(job)}
-                    className={`cursor-pointer p-6 rounded-2xl border-2 transition-all duration-200 shadow-sm ${
+                    className={`cursor-pointer p-6 rounded-lg border-2 transition-all duration-200 shadow-sm ${
                       selectedJob?.id === job.id
-                        ? "border-blue-600 bg-white dark:bg-slate-900 shadow-blue-100 dark:shadow-none"
+                        ? "border-green-600 bg-white dark:bg-slate-900 shadow-green-100 dark:shadow-none"
                         : "border-white dark:border-slate-900 bg-white dark:bg-slate-900 hover:border-slate-200 dark:hover:border-slate-800"
                     }`}
                   >
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-green-600 transition-colors">
                       {job.title}
                     </h3>
-                    <p className="text-blue-600 font-semibold text-sm mt-1">
+                    <p className="text-green-600 font-semibold text-sm mt-1">
                       {job.company.name}
                     </p>
 
@@ -130,7 +133,7 @@ export default function JobsPage() {
                 ))}
 
                 {filteredJobs.length === 0 && (
-                  <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-2xl border border-dashed border-slate-300 dark:border-slate-800">
+                  <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-800">
                     <p className="text-slate-500">
                       No jobs match your search criteria.
                     </p>
@@ -146,11 +149,11 @@ export default function JobsPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="hidden lg:block flex-1 sticky top-20 h-[calc(100vh-150px)] overflow-y-auto bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl custom-scrollbar"
+                  className="hidden lg:block flex-1 sticky top-20 h-[calc(100vh-150px)] overflow-y-auto bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xl custom-scrollbar"
                 >
-                  <div className="p-10">
-                    <div className="mb-8 sticky top-0">
-                      <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-2 leading-tight">
+                  <div>
+                    <div className="p-6 bg-white border-b sticky top-0">
+                      <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2 leading-tight">
                         {selectedJob.title}
                       </h1>
                       <div className="flex items-center gap-3">
@@ -158,7 +161,7 @@ export default function JobsPage() {
                           href={selectedJob.company.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-blue-600 text-lg hover:underline font-bold flex items-center gap-1"
+                          className="text-green-600 text-lg hover:underline font-bold flex items-center gap-1"
                         >
                           {selectedJob.company.name} <ExternalLink size={16} />
                         </a>
@@ -170,21 +173,28 @@ export default function JobsPage() {
                       </div>
 
                       <div className="mt-8 flex gap-4">
-                        <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-2xl font-black transition-all shadow-lg shadow-blue-200 dark:shadow-none active:scale-95">
+                        <Button
+                          className="bg-green-600 hover:bg-green-700 text-sm"
+                          variant="default"
+                          size="lg"
+                        >
                           Apply Now
-                        </button>
-                        <button className="px-6 py-4 border border-slate-200 dark:border-slate-700 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300 font-bold">
-                          Save
-                        </button>
+                        </Button>
+                        <Button variant={"ghost"} size="lg">
+                          <Heart size={25} />
+                        </Button>
+                        <Button variant={"ghost"} size="lg">
+                          <Bookmark size={25} />
+                        </Button>
                       </div>
                     </div>
 
                     <hr className="my-10 border-slate-100 dark:border-slate-800" />
 
-                    <div className="space-y-10">
+                    <div className="space-y-10 p-6">
                       {/* Job Highlights Grid */}
                       <div className="grid grid-cols-2 gap-6">
-                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
                           <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">
                             Salary
                           </p>
@@ -194,12 +204,12 @@ export default function JobsPage() {
                             {selectedJob.salary.max.toLocaleString()}
                           </p>
                         </div>
-                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
                           <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">
                             Level
                           </p>
                           <p className="font-black text-slate-900 dark:text-white flex items-center gap-2 text-lg">
-                            <Briefcase size={20} className="text-blue-600" />
+                            <Briefcase size={20} className="text-green-600" />
                             {selectedJob.experienceLevel}
                           </p>
                         </div>
@@ -225,7 +235,7 @@ export default function JobsPage() {
                               key={idx}
                               className="flex gap-4 text-slate-600 dark:text-slate-400 text-[16px]"
                             >
-                              <span className="text-blue-600 font-black shrink-0">
+                              <span className="text-green-600 font-black shrink-0">
                                 •
                               </span>
                               <span>{item}</span>
@@ -242,7 +252,7 @@ export default function JobsPage() {
                           {selectedJob.skills.map((skill) => (
                             <span
                               key={skill}
-                              className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 shadow-sm"
+                              className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-lg text-sm font-bold text-slate-700 dark:text-slate-300 shadow-sm"
                             >
                               {skill}
                             </span>

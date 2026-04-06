@@ -136,7 +136,7 @@ const ClientRegisterModal = () => {
                 onClick={() => onSocialAuth("google")}
                 disabled={socialLoading !== null}
                 variant="outline"
-                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow-sm"
+                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-lg transition-all duration-200 hover:scale-[1.01] shadow-sm"
               >
                 {socialLoading === "google" ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -150,7 +150,7 @@ const ClientRegisterModal = () => {
                 onClick={() => onSocialAuth("github")}
                 disabled={socialLoading !== null}
                 variant="outline"
-                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.01] shadow-sm"
+                className="py-6 border-slate-200 hover:bg-slate-50 gap-2 rounded-lg transition-all duration-200 hover:scale-[1.01] shadow-sm"
               >
                 {socialLoading === "github" ? (
                   <Loader2 className="w-4 h-4 animate-spin" />
@@ -320,7 +320,7 @@ const ClientRegisterModal = () => {
               <Button
                 type="submit"
                 disabled={strengthCount < 4}
-                className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg shadow-emerald-100 transition-all gap-2 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-12 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-lg shadow-emerald-100 transition-all gap-2 mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

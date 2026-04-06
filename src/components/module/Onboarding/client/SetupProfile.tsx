@@ -97,7 +97,7 @@ const ClientProfileSetup = () => {
       </div>
 
       {/* Form Content */}
-      <div className="bg-card border border-border rounded-xl p-8 md:p-10 shadow-sm relative overflow-hidden">
+      <div className="bg-card border border-border rounded-lg p-8 md:p-10 shadow-sm relative overflow-hidden">
         <AnimatePresence mode="wait">
           {currentStep === 1 && (
             <motion.div

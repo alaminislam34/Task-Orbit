@@ -1,6 +1,6 @@
 "use client";
 
-import { StateContextType } from "@/types/state.types";
+import { AccountType, StateContextType } from "@/types/state.types";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 const StateContext = createContext<StateContextType | undefined>(undefined);
@@ -11,6 +11,9 @@ export const StateProvider: React.FC<{ children: ReactNode }> = ({
   const [signUpModal, setSignUpModal] = useState<boolean>(false);
   const [signInModal, setSignInModal] = useState<boolean>(false);
   const [clientModal, setClientModal] = useState<boolean>(false);
+  const [accountType, setAccountType] = useState<AccountType>(AccountType.JOB_SEEKER);
+  const [otpModalOpen, setOtpModalOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
   const states = {
     signUpModal,
     setSignUpModal,
@@ -18,6 +21,12 @@ export const StateProvider: React.FC<{ children: ReactNode }> = ({
     setSignInModal,
     clientModal,
     setClientModal,
+    accountType,
+    setAccountType,
+    otpModalOpen,
+    setOtpModalOpen,
+    userEmail,
+    setUserEmail,
   };
   return (
     <StateContext.Provider value={states}>{children}</StateContext.Provider>

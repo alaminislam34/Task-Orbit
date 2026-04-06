@@ -128,7 +128,7 @@ const SuperAdminReviewPage = () => {
         </div>
         <Button
           variant="outline"
-          className="rounded-xl font-black border-2 gap-2"
+          className="rounded-lg font-black border-2 gap-2"
         >
           Review Guidelines
         </Button>
@@ -147,7 +147,7 @@ const SuperAdminReviewPage = () => {
                   {stat.value}
                 </h3>
               </div>
-              <div className={cn(stat.bg, stat.color, "p-3 rounded-2xl")}>
+              <div className={cn(stat.bg, stat.color, "p-3 rounded-lg")}>
                 <stat.icon className="w-5 h-5 fill-current" />
               </div>
             </CardContent>
@@ -156,10 +156,10 @@ const SuperAdminReviewPage = () => {
       </div>
 
       {/* Reviews Table */}
-      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-3xl overflow-hidden bg-card">
+      <Card className="border-border/40 shadow-2xl shadow-black/5 rounded-lg overflow-hidden bg-card">
         <CardHeader className="bg-muted/10 border-b border-border/40 p-6">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div className="flex items-center gap-2 bg-background border rounded-xl px-3 py-1.5 w-full lg:w-80">
+            <div className="flex items-center gap-2 bg-background border rounded-lg px-3 py-1.5 w-full lg:w-80">
               <Search className="w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Search reviews or users..."
@@ -286,7 +286,7 @@ const SuperAdminReviewPage = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
                           align="end"
-                          className="rounded-xl w-44 p-2 border-border shadow-2xl"
+                          className="rounded-lg w-44 p-2 border-border shadow-2xl"
                         >
                           <DropdownMenuItem className="font-bold text-xs gap-3 p-2.5 cursor-pointer">
                             <CheckCircle2 className="w-4 h-4 text-emerald-500" />{" "}

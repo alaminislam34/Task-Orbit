@@ -11,12 +11,12 @@ type AdminShellProps = {
 
 export function AdminShell({ children }: AdminShellProps) {
   return (
-    <SidebarProvider defaultOpen>
+    <SidebarProvider defaultOpen className="max-w-full overflow-x-hidden">
       <AdminSidebarComponents />
-      <SidebarInset className="min-h-svh">
+      <SidebarInset className="min-h-svh min-w-0 max-w-full overflow-x-hidden">
         <AdminHeader />
-        <section className="flex-1 py-5 md:py-6 lg:py-8">
-          <div className="mx-4 md:mx-6">{children}</div>
+        <section className="flex-1 min-w-0 max-w-full overflow-x-hidden py-5 md:py-6 lg:py-8">
+          <div className="mx-4 min-w-0 max-w-full md:mx-6">{children}</div>
         </section>
       </SidebarInset>
     </SidebarProvider>

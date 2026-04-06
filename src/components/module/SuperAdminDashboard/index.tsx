@@ -169,7 +169,7 @@ export const SuperAdminDashboardContent = () => {
       {/* Main Content Grid */}
       <section className="grid gap-6 lg:grid-cols-3">
         {/* Activity Feed */}
-        <div className="lg:col-span-2 rounded-xl border border-border/60 bg-card p-5 md:p-6">
+        <div className="lg:col-span-2 rounded-lg border border-border/60 bg-card p-5 md:p-6">
           <ActivityFeed
             items={mockActivityItems}
             title="Recent Platform Activity"
@@ -180,12 +180,12 @@ export const SuperAdminDashboardContent = () => {
         {/* Right Sidebar */}
         <div className="space-y-6">
           {/* System Status */}
-          <div className="rounded-xl border border-border/60 bg-card p-5 md:p-6">
+          <div className="rounded-lg border border-border/60 bg-card p-5 md:p-6">
             <SystemStatus items={mockSystemStatus} />
           </div>
 
           {/* Quick Actions */}
-          <div className="rounded-xl border border-border/60 bg-card p-5 md:p-6">
+          <div className="rounded-lg border border-border/60 bg-card p-5 md:p-6">
             <QuickActions
               items={mockQuickActions}
               onAction={handleQuickAction}

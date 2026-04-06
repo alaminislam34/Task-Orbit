@@ -38,7 +38,7 @@ const HeroSection = () => {
             </p>
 
             {/* 3. The Theme-Adaptive Search Bar */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 p-2 bg-card border border-border shadow-md rounded-xl max-w-2xl group focus-within:border-primary/50 transition-all">
+            <div className="flex flex-col sm:flex-row items-center gap-3 p-2 bg-card border border-border shadow-md rounded-lg max-w-2xl group focus-within:border-primary/50 transition-all">
               <div className="relative w-full flex items-center">
                 <Search className="absolute left-4 h-5 w-5 text-muted-foreground" />
                 <Input
@@ -49,7 +49,7 @@ const HeroSection = () => {
               </div>
               <Button
                 size="lg"
-                className="w-full sm:w-auto h-14 px-8 rounded-xl font-bold text-base shadow-lg transition-transform active:scale-95"
+                className="w-full sm:w-auto h-14 px-8 rounded-lg font-bold text-base shadow-lg transition-transform active:scale-95"
               >
                 Explore
               </Button>
@@ -96,7 +96,7 @@ const HeroSection = () => {
               </div>
 
               {/* Floating Glass UI Piece */}
-              <div className="absolute top-10 left-0 bg-background/60 backdrop-blur-xl p-4 rounded-xl border border-border shadow-xl animate-bounce-slow">
+              <div className="absolute top-10 left-0 bg-background/60 backdrop-blur-xl p-4 rounded-lg border border-border shadow-xl animate-bounce-slow">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
                   <span className="text-sm font-bold">

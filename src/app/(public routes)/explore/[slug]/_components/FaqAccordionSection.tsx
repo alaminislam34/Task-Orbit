@@ -18,7 +18,7 @@ export default function FaqAccordionSection({ faqs }: FaqAccordionSectionProps) 
         Frequently Asked Questions
       </h2>
 
-      <div className="rounded-xl border border-border bg-card p-4 md:p-6">
+      <div className="rounded-lg border border-border bg-card p-4 md:p-6">
         <Accordion type="single" collapsible defaultValue={faqs[0]?.question}>
           {faqs.map((faq) => (
             <AccordionItem

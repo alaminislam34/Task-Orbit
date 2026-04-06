@@ -59,7 +59,7 @@ const MARKETPLACE_METRICS = [
 
 const AdminDashboardHome = () => {
   return (
-    <div className="flex flex-col gap-8 p-6 md:p-10 max-w-400 mx-auto">
+    <div className="flex flex-col gap-8 w-full">
       {/* Header with Quick Actions */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
@@ -132,7 +132,7 @@ const AdminDashboardHome = () => {
               {[1, 2, 3].map((_, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between p-4 rounded-xl border bg-card/50 hover:bg-accent/10 transition-colors"
+                  className="flex items-center justify-between p-4 rounded-lg border bg-card/50 hover:bg-accent/10 transition-colors"
                 >
                   <div className="flex gap-4">
                     <div className="size-10 rounded-lg bg-red-100 dark:bg-red-950 flex items-center justify-center">
