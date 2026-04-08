@@ -5,47 +5,43 @@ import ExploreHero from "./ExploreHero";
 import ExploreToolbar from "./Toolbar";
 import ExploreCard from "./ExploreCard";
 import ExplorePagination from "./ExplorePagination";
+import { useServices } from "@/hooks/useServices";
 import { motion, AnimatePresence } from "motion/react";
 
 const Explore = () => {
   const [activeTab, setActiveTab] = useState<"services" | "jobs">("services");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<any[]>([]);
-
   const pageSize = 12;
   const [category, setCategory] = useState("All Categories");
+  const { data: servicesResponse, isLoading: isLoadingServices } = useServices();
+  const services = servicesResponse || [];
+  
+  // Filtering logic based on category if needed can be added here
+  const filteredData = category === "All Categories" 
+    ? services 
+    : services.filter(s => s.category === category);
 
-  // Fetching data from public/data/services.json
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch("/data/services.json");
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.error("Error loading services:", error);
-      } finally {
-        // Slight delay for smooth transition
-        setTimeout(() => setIsLoading(false), 600);
-      }
-    };
-    fetchData();
-  }, [activeTab]);
-
-  const totalResults = data.length;
+  const totalResults = filteredData.length;
   const totalPages = Math.ceil(totalResults / pageSize);
 
+  // Simple client side pagination
+  const startIndex = (currentPage - 1) * pageSize;
+  const data = filteredData.slice(startIndex, startIndex + pageSize);
+
+  useEffect(() => {
+    // Reset to page 1 when category changes
+    setCurrentPage(1);
+  }, [category]);
+
   const handlePageChange = (page: number) => {
-    setIsLoading(true);
     setCurrentPage(page);
     setTimeout(() => {
-      setIsLoading(false);
       window.scrollTo({ top: 400, behavior: "smooth" });
-    }, 600);
+    }, 100);
   };
+
+  const isLoading = isLoadingServices;
 
   return (
     <div className="min-h-screen bg-background transition-colors duration-500 pb-20">

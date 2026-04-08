@@ -16,6 +16,9 @@ const ENDPOINT = {
     },
     USER: {
         ME: "/user/me",
+    },
+    SELLER: {
+        SERVICES: "/seller/services",
     }
 }
 
