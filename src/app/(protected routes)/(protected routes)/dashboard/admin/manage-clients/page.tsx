@@ -1,7 +1,7 @@
-import ClientManageTable from "../_components/module/clients/ClientsPage";
+import UsersPage from "../_components/module/manage-users/UsersPage";
 
 const AdminManageClientPage = () => {
-  return <ClientManageTable />;
+  return <UsersPage/>;
 };
 
 export default AdminManageClientPage;

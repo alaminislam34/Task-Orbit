@@ -56,7 +56,7 @@ export default function ResetPasswordPage() {
     formState: { errors, isSubmitting },
   } = useForm<ResetValues>({
     resolver: zodResolver(resetSchema),
-    mode: "onChange", // রিয়েল-টাইম ভ্যালিডেশনের জন্য
+    mode: "onChange",
   });
 
   const passwordValue = watch("password", "");

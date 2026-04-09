@@ -1,7 +1,7 @@
-import UsersPage from "../_components/module/manage-users-by-role/UsersPage";
+import UsersPage from "../_components/module/manage-users/UsersPage";
 
 const AdminManageRecruiterPage = () => {
-  return <UsersPage initialRoleFilter="recruiter" />;
+  return <UsersPage />;
 };
 
 export default AdminManageRecruiterPage;
