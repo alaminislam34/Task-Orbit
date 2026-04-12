@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useUserStore } from "@/store/useUserStore";
-import { useUser } from "@/hooks/useUser";
+import { useUser, useLogout } from "@/hooks/api";
 import { AccountType } from "@/types/state.types";
 import { ModeToggle } from "../theme/ThemeToggler";
 
@@ -13,12 +13,14 @@ import { UserMenu } from "./UserMenu";
 import { AuthButtons } from "./AuthButtons";
 import { MobileNav } from "./MobileNav";
 import { NavbarSkeleton } from "./NavbarSkeleton";
-import { useLogout } from "@/hooks/useLogout";
 
 const Navbar = () => {
   const { user } = useUserStore();
   const { isLoading } = useUser();
-  const handleLogout = useLogout();
+  const { mutateAsync: performLogout } = useLogout();
+  const handleLogout = async () => {
+    await performLogout();
+  };
 
   const [mounted, setMounted] = useState(false);
 

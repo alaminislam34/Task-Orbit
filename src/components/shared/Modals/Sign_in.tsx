@@ -30,12 +30,12 @@ import {
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
 import { SignInSchema } from "@/types/zod.validation";
-import { useLogin } from "@/hooks/useLogin";
+import { useLogin } from "@/hooks/api";
 
 type SignInFormValues = z.infer<typeof SignInSchema>;
 
 const SignInModal = () => {
-  const { signInModal, setSignInModal, setSignUpModal, setClientModal } = useStateContext();
+  const { signInModal, setSignInModal, setSignUpModal, setClientModal, setForgotPasswordModal, forgotPasswordModal } = useStateContext();
   const [showPassword, setShowPassword] = React.useState(false);
   const [loginError, setLoginError] = useState("");
   const [requestId, setRequestId] = useState("");
@@ -138,7 +138,8 @@ const SignInModal = () => {
           <div className="space-y-2">
             <div className="flex justify-between items-center">
               <Label htmlFor="password">Password</Label>
-              <button type="button" className="text-xs text-emerald-600 hover:text-emerald-700 font-semibold">
+
+              <button onClick={() => { setForgotPasswordModal(true) }} type="button" className="text-xs text-emerald-600 hover:text-emerald-700 font-semibold cursor-pointer">
                 Forgot password?
               </button>
             </div>

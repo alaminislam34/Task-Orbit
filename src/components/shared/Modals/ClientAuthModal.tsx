@@ -27,6 +27,8 @@ import {
 } from "lucide-react";
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
+import { useRegister } from "@/hooks/api";
+import { useQueryClient } from "@tanstack/react-query";
 
 const clientSignUpSchema = z
   .object({
@@ -43,7 +45,9 @@ const clientSignUpSchema = z
 type ClientSignUpForm = z.infer<typeof clientSignUpSchema>;
 
 const ClientRegisterModal = () => {
-  const { clientModal, setClientModal, setSignInModal } = useStateContext();
+  const { clientModal, setClientModal, setSignInModal, setOtpModalOpen, setOtpOrigin, setUserEmail } = useStateContext();
+  const queryClient = useQueryClient();
+  const { mutateAsync: registerMutate } = useRegister();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [socialLoading, setSocialLoading] = useState<"google" | "github" | null>(
@@ -92,11 +96,30 @@ const ClientRegisterModal = () => {
     setTimeout(() => setSignInModal(true), 300);
   };
 
-  const onSubmit = async (_values: ClientSignUpForm) => {
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    toast.success("Account created successfully");
-    setClientModal(false);
-    reset();
+  const onSubmit = async (values: ClientSignUpForm) => {
+    try {
+      const payload = {
+        name: values.fullName,
+        email: values.email,
+        password: values.password,
+        accountType: "CLIENT",
+      };
+      
+      const res = await registerMutate(payload);
+      if (res?.success || res?.message || res) {
+        await queryClient.invalidateQueries({ queryKey: ["authUser"] });
+        
+        toast.success("Account created successfully. Please verify your email.");
+        setUserEmail(values.email);
+        setOtpOrigin("register");
+        
+        setClientModal(false);
+        setTimeout(() => setOtpModalOpen(true), 300);
+        reset();
+      }
+    } catch (error: any) {
+      toast.error(error?.message || "Something went wrong during sign up.");
+    }
   };
 
   const onSocialAuth = async (provider: "google" | "github") => {

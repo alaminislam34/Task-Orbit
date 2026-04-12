@@ -23,6 +23,8 @@ import ContactSellerDialog from "./_components/ContactSellerDialog";
 import FaqAccordionSection from "./_components/FaqAccordionSection";
 import ReviewsSection from "./_components/ReviewsSection";
 import RelatedServicesCarousel from "./_components/RelatedServicesCarousel";
+import { useUser } from "@/hooks/api";
+import { useStateContext } from "@/providers/StateProvider";
 
 const ServiceByIdPage = () => {
   const { slug } = useParams();
@@ -32,6 +34,10 @@ const ServiceByIdPage = () => {
   const [loading, setLoading] = useState(true);
   const [isOrderDialogOpen, setIsOrderDialogOpen] = useState(false);
   const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
+
+  const { data: userResponse, isLoading: isUserLoading } = useUser();
+  const user = userResponse?.data;
+  const { setSignInModal } = useStateContext();
 
   useEffect(() => {
     const fetchService = async () => {
@@ -212,41 +218,57 @@ const ServiceByIdPage = () => {
             </div>
           </section>
 
-          {/* Detailed Description */}
-          <section className="space-y-6">
-            <h2 className="text-2xl font-black border-l-4 border-emerald-500 pl-4">
-              About this service
-            </h2>
-            <div className="prose prose-emerald dark:prose-invert max-w-none">
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                {service.description}
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-              {currentPkg.features.map((feature: any, idx: number) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-3 p-5 rounded-lg bg-muted/30 border border-border/50 hover:border-emerald-500/30 transition-all"
-                >
-                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                  </div>
-                  <span className="text-sm font-bold text-foreground/80">
-                    {feature.label}
-                  </span>
+          <div className={cn("relative mt-12", !user && "max-h-[400px] overflow-hidden")}>
+            <div className={cn("space-y-10 transition-all duration-300", !user && "blur-md pointer-events-none select-none opacity-40")}>
+              {/* Detailed Description */}
+              <section className="space-y-6">
+                <h2 className="text-2xl font-black border-l-4 border-emerald-500 pl-4">
+                  About this service
+                </h2>
+                <div className="prose prose-emerald dark:prose-invert max-w-none">
+                  <p className="text-muted-foreground text-lg leading-relaxed">
+                    {service.description}
+                  </p>
                 </div>
-              ))}
-            </div>
-          </section>
 
-          <FaqAccordionSection faqs={faqData} />
-          <ReviewsSection reviews={reviewsData} />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                  {currentPkg.features.map((feature: any, idx: number) => (
+                    <div
+                      key={idx}
+                      className="flex items-center gap-3 p-5 rounded-lg bg-muted/30 border border-border/50 hover:border-emerald-500/30 transition-all"
+                    >
+                      <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                      </div>
+                      <span className="text-sm font-bold text-foreground/80">
+                        {feature.label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <FaqAccordionSection faqs={faqData} />
+              <ReviewsSection reviews={reviewsData} />
+            </div>
+
+            {!user && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-end pb-10 bg-linear-to-t from-background via-background/80 to-transparent">
+                <div className="text-center p-8 bg-card border border-border rounded-xl shadow-2xl max-w-sm mx-auto">
+                   <h3 className="text-xl font-black mb-3">Locked Content</h3>
+                   <p className="text-sm text-muted-foreground mb-6">You must be signed in to view the full details and purchase options for this premium service.</p>
+                   <Button onClick={() => setSignInModal(true)} size="lg" className="w-full text-white bg-emerald-600 hover:bg-emerald-700 font-bold shadow-xl shadow-emerald-500/20">
+                     Login to View Details
+                   </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Right Column: Sticky Sidebar (4 Columns) */}
         <div className="lg:col-span-4">
-          <div className="sticky top-8 space-y-6">
+          <div className={cn("sticky top-8 space-y-6", !user && "blur-sm pointer-events-none select-none opacity-50")}>
             {/* Pricing Card */}
             <div className="bg-card border border-border rounded-lg overflow-hidden shadow-2xl shadow-emerald-500/5">
               {/* Package Selector Tabs */}

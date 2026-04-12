@@ -13,6 +13,11 @@ export const StateProvider: React.FC<{ children: ReactNode }> = ({
   const [clientModal, setClientModal] = useState<boolean>(false);
   const [accountType, setAccountType] = useState<AccountType>(AccountType.JOB_SEEKER);
   const [otpModalOpen, setOtpModalOpen] = useState(false);
+  const [forgotPasswordModal, setForgotPasswordModal] = useState(false);
+  const [resetPasswordModal, setResetPasswordModal] = useState(false);
+  const [otpOrigin, setOtpOrigin] = useState<"register" | "forgot_password" | null>(null);
+  const [resetOtp, setResetOtp] = useState("");
+  const [pendingJobId, setPendingJobId] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState("");
   const states = {
     signUpModal,
@@ -25,6 +30,16 @@ export const StateProvider: React.FC<{ children: ReactNode }> = ({
     setAccountType,
     otpModalOpen,
     setOtpModalOpen,
+    forgotPasswordModal,
+    setForgotPasswordModal,
+    resetPasswordModal,
+    setResetPasswordModal,
+    otpOrigin,
+    setOtpOrigin,
+    resetOtp,
+    setResetOtp,
+    pendingJobId,
+    setPendingJobId,
     userEmail,
     setUserEmail,
   };

@@ -1,0 +1,610 @@
+{
+  "info": {
+    "name": "TaskOrbit Full API Collection",
+    "description": "Complete Postman collection for all currently mounted TaskOrbit APIs (Auth, User, Admin, Recruiter, Seller, Service, Job, Orders, Extensions, Reviews).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "cf4aaec2-f476-4efd-abf0-7a2c8e3f7d8b"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api/v1" },
+    { "key": "authCookies", "value": "better-auth.session_token=YOUR_SESSION_TOKEN; accessToken=YOUR_ACCESS_TOKEN" },
+    { "key": "userId", "value": "" },
+    { "key": "clientId", "value": "" },
+    { "key": "sellerUserId", "value": "" },
+    { "key": "serviceId", "value": "" },
+    { "key": "extensionId", "value": "" },
+    { "key": "orderId", "value": "" },
+    { "key": "phaseId", "value": "" },
+    { "key": "deliverableId", "value": "" },
+    { "key": "messageId", "value": "" },
+    { "key": "jobId", "value": "" },
+    { "key": "adminCategoryId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01 Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TaskOrbit User\",\n  \"email\": \"user@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"accountType\": \"CLIENT\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/register", "host": ["{{baseUrl}}"], "path": ["auth", "register"] }
+          }
+        },
+        {
+          "name": "Resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"user@example.com\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/resend-otp", "host": ["{{baseUrl}}"], "path": ["auth", "resend-otp"] }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"StrongPass123!\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/refresh-token", "host": ["{{baseUrl}}"], "path": ["auth", "refresh-token"] }
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"StrongPass123!\",\n  \"newPassword\": \"NewStrongPass123!\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/change-password", "host": ["{{baseUrl}}"], "path": ["auth", "change-password"] }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+          }
+        },
+        {
+          "name": "Logout All Devices",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/logout-all-devices", "host": ["{{baseUrl}}"], "path": ["auth", "logout-all-devices"] }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"user@example.com\",\n  \"otp\": \"123456\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/verify-email", "host": ["{{baseUrl}}"], "path": ["auth", "verify-email"] }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"user@example.com\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/forgot-password", "host": ["{{baseUrl}}"], "path": ["auth", "forgot-password"] }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"user@example.com\",\n  \"otp\": \"123456\",\n  \"newPassword\": \"NewStrongPass123!\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/reset-password", "host": ["{{baseUrl}}"], "path": ["auth", "reset-password"] }
+          }
+        },
+        {
+          "name": "Google Login",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/auth/login/google", "host": ["{{baseUrl}}"], "path": ["auth", "login", "google"] }
+          }
+        },
+        {
+          "name": "Google Success",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/auth/google/success", "host": ["{{baseUrl}}"], "path": ["auth", "google", "success"] }
+          }
+        },
+        {
+          "name": "OAuth Error Handler",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/auth/oauth/auth", "host": ["{{baseUrl}}"], "path": ["auth", "oauth", "auth"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 User",
+      "item": [
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/user/me", "host": ["{{baseUrl}}"], "path": ["user", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Admin",
+      "item": [
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Admin One\",\n  \"email\": \"admin@example.com\",\n  \"password\": \"AdminPass123!\"\n}" },
+            "url": { "raw": "{{baseUrl}}/admin/register", "host": ["{{baseUrl}}"], "path": ["admin", "register"] }
+          }
+        },
+        {
+          "name": "Get Users (Job Seeker)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/admin/users", "host": ["{{baseUrl}}"], "path": ["admin", "users"] }
+          }
+        },
+        {
+          "name": "Get Users (Client)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users/client", "host": ["{{baseUrl}}"], "path": ["admin", "users", "client"] }
+          }
+        },
+        {
+          "name": "Get Users (Recruiter)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users/recruiter", "host": ["{{baseUrl}}"], "path": ["admin", "users", "recruiter"] }
+          }
+        },
+        {
+          "name": "Get Users (Seller)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users/seller", "host": ["{{baseUrl}}"], "path": ["admin", "users", "seller"] }
+          }
+        },
+        {
+          "name": "Get Users (Admin)",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/admin/users/admin", "host": ["{{baseUrl}}"], "path": ["admin", "users", "admin"] }
+          }
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/users/{{userId}}", "host": ["{{baseUrl}}"], "path": ["admin", "users", "{{userId}}"] }
+          }
+        },
+        {
+          "name": "Get Client Stats By ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/clients/{{clientId}}/stats", "host": ["{{baseUrl}}"], "path": ["admin", "clients", "{{clientId}}", "stats"] }
+          }
+        },
+        {
+          "name": "Get Seller Stats By ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/sellers/{{userId}}/stats", "host": ["{{baseUrl}}"], "path": ["admin", "sellers", "{{userId}}", "stats"] }
+          }
+        },
+        {
+          "name": "Create Service Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"AI Services\",\n  \"description\": \"AI and automation services\",\n  \"image\": \"https://cdn.taskorbit.com/categories/ai.png\"\n}" },
+            "url": { "raw": "{{baseUrl}}/admin/service-categories", "host": ["{{baseUrl}}"], "path": ["admin", "service-categories"] }
+          }
+        },
+        {
+          "name": "Update Service Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"AI & Automation\"\n}" },
+            "url": { "raw": "{{baseUrl}}/admin/service-categories/{{adminCategoryId}}", "host": ["{{baseUrl}}"], "path": ["admin", "service-categories", "{{adminCategoryId}}"] }
+          }
+        },
+        {
+          "name": "Get Service Categories",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/service-categories", "host": ["{{baseUrl}}"], "path": ["admin", "service-categories"] }
+          }
+        },
+        {
+          "name": "Get System Stats",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/system/stats", "host": ["{{baseUrl}}"], "path": ["admin", "system", "stats"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Recruiter",
+      "item": [
+        {
+          "name": "Create Job",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Senior Backend Engineer\",\n  \"description\": \"Node.js, Prisma, PostgreSQL\",\n  \"employmentType\": \"FULL_TIME\",\n  \"category\": \"WEB_DEVELOPMENT\",\n  \"level\": \"SENIOR_LEVEL\",\n  \"salaryMin\": 1200,\n  \"salaryMax\": 2500,\n  \"salaryCurrency\": \"USD\",\n  \"country\": \"Bangladesh\",\n  \"city\": \"Dhaka\",\n  \"deadline\": \"2026-05-10T00:00:00.000Z\"\n}" },
+            "url": { "raw": "{{baseUrl}}/recruiter/create-job", "host": ["{{baseUrl}}"], "path": ["recruiter", "create-job"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Seller",
+      "item": [
+        {
+          "name": "Create Gigs",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Build a Next.js SaaS app\",\n  \"description\": \"End-to-end SaaS app with dashboard\",\n  \"category\": \"PROGRAMMING\",\n  \"basePrice\": 400,\n  \"currency\": \"USD\",\n  \"deliveryDays\": 5,\n  \"revisions\": 2,\n  \"features\": [\"API\", \"Auth\"],\n  \"tags\": [\"nextjs\", \"typescript\"],\n  \"imageUrls\": [],\n  \"packages\": [\n    {\n      \"tier\": \"BASIC\",\n      \"name\": \"Basic\",\n      \"price\": 400,\n      \"currency\": \"USD\"\n    }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/seller/create-gigs", "host": ["{{baseUrl}}"], "path": ["seller", "create-gigs"] }
+          }
+        },
+        {
+          "name": "Get Seller Services",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/seller/services", "host": ["{{baseUrl}}"], "path": ["seller", "services"] }
+          }
+        },
+        {
+          "name": "Update Gigs",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Build scalable Next.js SaaS app\"\n}" },
+            "url": { "raw": "{{baseUrl}}/seller/update-gigs/{{serviceId}}", "host": ["{{baseUrl}}"], "path": ["seller", "update-gigs", "{{serviceId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Service",
+      "item": [
+        {
+          "name": "Get All Services",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/services", "host": ["{{baseUrl}}"], "path": ["services"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Job",
+      "item": [
+        {
+          "name": "Get All Jobs",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/jobs", "host": ["{{baseUrl}}"], "path": ["jobs"] }
+          }
+        },
+        {
+          "name": "Get Job By ID",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{baseUrl}}/jobs/{{jobId}}", "host": ["{{baseUrl}}"], "path": ["jobs", "{{jobId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Extensions",
+      "item": [
+        {
+          "name": "Create Extension (SELLER)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"serviceId\": \"{{serviceId}}\",\n  \"name\": \"Fast Delivery\",\n  \"description\": \"Delivered in 24h\",\n  \"price\": 50,\n  \"currency\": \"USD\"\n}" },
+            "url": { "raw": "{{baseUrl}}/extensions", "host": ["{{baseUrl}}"], "path": ["extensions"] }
+          }
+        },
+        {
+          "name": "Get Active Extensions By Service",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/services/extensions?serviceId={{serviceId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["services", "extensions"],
+              "query": [{ "key": "serviceId", "value": "{{serviceId}}" }]
+            }
+          }
+        },
+        {
+          "name": "Update Extension (SELLER)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Fast Delivery Pro\",\n  \"price\": 80,\n  \"isActive\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/extensions/{{extensionId}}", "host": ["{{baseUrl}}"], "path": ["extensions", "{{extensionId}}"] }
+          }
+        },
+        {
+          "name": "Deactivate Extension (SELLER)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/extensions/{{extensionId}}", "host": ["{{baseUrl}}"], "path": ["extensions", "{{extensionId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Orders",
+      "item": [
+        {
+          "name": "Create Offer (SELLER)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientId\": \"{{clientId}}\",\n  \"serviceId\": \"{{serviceId}}\",\n  \"title\": \"Marketplace Backend Delivery\",\n  \"description\": \"Complete backend implementation\",\n  \"amount\": 1200,\n  \"currency\": \"USD\",\n  \"deliveryDate\": \"2026-04-20T12:00:00.000Z\",\n  \"requirements\": \"Repo access and docs\",\n  \"notes\": \"Priority\",\n  \"attachmentUrls\": [],\n  \"phases\": [\n    { \"title\": \"Phase 1\", \"percentage\": 50, \"deliveryDays\": 3 },\n    { \"title\": \"Phase 2\", \"percentage\": 50, \"deliveryDays\": 4 }\n  ]\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/orders/create-offer", "host": ["{{baseUrl}}"], "path": ["orders", "create-offer"] }
+          }
+        },
+        {
+          "name": "Accept Offer (CLIENT) + Extensions",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"extensionIds\": [\"{{extensionId}}\"],\n  \"extensions\": [{ \"extensionId\": \"{{extensionId}}\", \"quantity\": 2 }]\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/accept", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "accept"] }
+          }
+        },
+        {
+          "name": "Reject Offer (CLIENT)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/reject", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "reject"] }
+          }
+        },
+        {
+          "name": "Get Orders",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/orders?page=1&limit=10&status=ACTIVE&minPrice=100&maxPrice=3000&sortBy=createdAt&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "status", "value": "ACTIVE" },
+                { "key": "minPrice", "value": "100" },
+                { "key": "maxPrice", "value": "3000" },
+                { "key": "sortBy", "value": "createdAt" },
+                { "key": "sortOrder", "value": "desc" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Order (Limited)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"notes\": \"Please prioritize API security.\",\n  \"requirements\": \"JWT + RBAC\",\n  \"attachmentUrls\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}"] }
+          }
+        },
+        {
+          "name": "Start Phase (SELLER)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"phaseId\": \"{{phaseId}}\"\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/phases/start", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "phases", "start"] }
+          }
+        },
+        {
+          "name": "Complete Phase (SELLER)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"phaseId\": \"{{phaseId}}\"\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/phases/complete", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "phases", "complete"] }
+          }
+        },
+        {
+          "name": "Submit Deliverable (SELLER)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"phaseId\": \"{{phaseId}}\",\n  \"title\": \"Deliverable Package\",\n  \"description\": \"All requested files included\",\n  \"fileUrl\": \"https://cdn.taskorbit.com/deliverables/final.zip\"\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/deliverables", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "deliverables"] }
+          }
+        },
+        {
+          "name": "Review Deliverable (CLIENT)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"APPROVED\"\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/deliverables/{{deliverableId}}/review", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "deliverables", "{{deliverableId}}", "review"] }
+          }
+        },
+        {
+          "name": "Send Message",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"message\": \"Please review latest update\",\n  \"attachmentUrls\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/communications", "host": ["{{baseUrl}}"], "path": ["orders", "communications"] }
+          }
+        },
+        {
+          "name": "Mark Message Read",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/orders/communications/{{messageId}}/read", "host": ["{{baseUrl}}"], "path": ["orders", "communications", "{{messageId}}", "read"] }
+          }
+        },
+        {
+          "name": "Get Messages By Order",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}/communications?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}", "communications"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin Update Order Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"DISPUTED\"\n}" },
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/admin/status", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "admin", "status"] }
+          }
+        },
+        {
+          "name": "Admin Soft Delete Order",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Cookie", "value": "{{authCookies}}" }],
+            "url": { "raw": "{{baseUrl}}/orders/{{orderId}}/admin/delete", "host": ["{{baseUrl}}"], "path": ["orders", "{{orderId}}", "admin", "delete"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10 Reviews",
+      "item": [
+        {
+          "name": "Create Review (CLIENT)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Cookie", "value": "{{authCookies}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"rating\": 5,\n  \"comment\": \"Excellent work and communication.\",\n  \"qualityRating\": 5,\n  \"communicationRating\": 5,\n  \"timelinessRating\": 5,\n  \"professionalismRating\": 5,\n  \"valueRating\": 5,\n  \"isAnonymous\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["reviews"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

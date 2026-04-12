@@ -6,7 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-const ExploreHero = () => {
+interface ExploreHeroProps {
+  search: string;
+  setSearch: (val: string) => void;
+}
+
+const ExploreHero = ({ search, setSearch }: ExploreHeroProps) => {
   return (
     <section className="relative overflow-hidden bg-background py-16 md:py-24 px-6 border-b border-border transition-colors duration-300">
       {/* Decorative Glows - Adjusted for both modes */}
@@ -27,6 +32,8 @@ const ExploreHero = () => {
           <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 group-focus-within:text-emerald-600 dark:group-focus-within:text-emerald-500 transition-colors" />
 
           <Input
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="h-16 pl-14 pr-36 bg-card dark:bg-slate-900/50 border-border text-foreground placeholder:text-muted-foreground text-lg focus-visible:ring-1 focus-visible:ring-emerald-500/30"
             placeholder="Try 'Next.js Developer' or 'UI/UX Designer'..."
           />
@@ -45,6 +52,7 @@ const ExploreHero = () => {
             (tag) => (
               <Badge
                 key={tag}
+                onClick={() => setSearch(tag)}
                 variant="outline"
                 className="bg-accent/30 hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-400 border-border text-muted-foreground cursor-pointer transition-all px-4 py-1.5 rounded-full font-medium"
               >

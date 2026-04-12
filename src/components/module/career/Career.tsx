@@ -12,74 +12,87 @@ import {
   Bookmark,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface Job {
-  id: string;
-  title: string;
-  company: {
-    name: string;
-    logoUrl: string;
-    website: string;
-  };
-  location: {
-    city: string;
-    country: string;
-    remote: boolean;
-  };
-  employmentType: string;
-  experienceLevel: string;
-  salary: {
-    min: number;
-    max: number;
-    currency: string;
-  };
-  category: string;
-  skills: string[];
-  description: string;
-  responsibilities: string[];
-  requirements: string[];
-}
+import { useJobs } from "@/hooks/api/jobs/useJobs";
+import { useUser } from "@/hooks/api";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Job } from "@/types/jobs.types";
+import { useStateContext } from "@/providers/StateProvider";
+// Using imported Job interface now
 
 export default function JobsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const urlPage = Number(searchParams.get("page")) || 1;
+  const urlSearch = searchParams.get("search") || "";
+  const urlCategory = searchParams.get("category") || "All";
+
+  const { data: userResponse } = useUser();
+  const user = userResponse?.data;
+  const { setSignInModal, setPendingJobId, pendingJobId } = useStateContext();
+
+  const [search, setSearch] = useState(urlSearch);
+  const debouncedSearch = useDebounce(search, 400);
+
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [filters, setFilters] = useState({
-    category: "All",
-    level: "All",
-    type: "All",
+
+  // When debounce triggers, push to URL
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (debouncedSearch) {
+      params.set("search", debouncedSearch);
+    } else {
+      params.delete("search");
+    }
+    // Only push if the search param actually differs to prevent loop
+    if (searchParams.get("search") !== (debouncedSearch || null)) {
+       params.set("page", "1");
+       router.push(pathname + "?" + params.toString(), { scroll: false });
+    }
+  }, [debouncedSearch, pathname, router, searchParams]);
+
+  // Hook into our actual API
+  const { data: jobsResponse, isLoading } = useJobs({
+    page: urlPage,
+    limit: 15,
+    search: urlSearch,
   });
-  const [jobs, setJobs] = useState<Job[]>([]);
+
+  const jobs = jobsResponse?.data || [];
+  
+  // Auto select first job when jobs load
+  useEffect(() => {
+    if (jobs.length > 0 && !selectedJob) {
+      setSelectedJob(jobs[0]);
+    }
+  }, [jobs, selectedJob]);
+
+  const handleApply = (jobId: string) => {
+    if (!user) {
+      setPendingJobId(jobId);
+      setSignInModal(true);
+      return;
+    }
+    // Proceed to apply form / process
+    console.log("Applying to job:", jobId);
+  };
 
   useEffect(() => {
-    const loadJobs = async () => {
-      try {
-        const response = await fetch("/data/jobs.json");
-        const data = await response.json();
-        setJobs(data);
-        if (data.length > 0) setSelectedJob(data[0]);
-      } catch (error) {
-        console.error("Failed to fetch jobs:", error);
-      }
-    };
-    loadJobs();
-  }, []);
-
-  const filteredJobs = jobs.filter((job) => {
-    const matchesSearch =
-      job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      job.company.name.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCategory =
-      filters.category === "All" || job.category === filters.category;
-
-    return matchesSearch && matchesCategory;
-  });
+    // If we just logged in and have a pendingJobId, trigger the modal automatically
+    if (user && pendingJobId) {
+       console.log("Auto-opening apply flow for job:", pendingJobId);
+       setPendingJobId(null);
+       // Here you trigger the Apply Application Modal UI
+    }
+  }, [user, pendingJobId, setPendingJobId]);
 
   return (
     <main className="min-h-screen bg-[#f3f2f1] dark:bg-slate-950 pb-10">
       {/* Search Section */}
       <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
-        <HeroSection onSearch={setSearchQuery} />
+        <HeroSection onSearch={setSearch} />
       </div>
 
       <div className="max-w-360 w-11/12 mx-auto py-6">
@@ -91,53 +104,62 @@ export default function JobsPage() {
             >
               <div className="flex justify-between items-center px-1">
                 <h2 className="text-sm font-bold text-slate-500 uppercase tracking-wider">
-                  {filteredJobs.length} Jobs Found
+                  {jobs.length} Jobs Found
                 </h2>
               </div>
 
               <div className="space-y-3">
-                {filteredJobs.map((job) => (
-                  <div
-                    key={job.id}
-                    onClick={() => setSelectedJob(job)}
-                    className={`cursor-pointer p-6 rounded-lg border-2 transition-all duration-200 shadow-sm ${
-                      selectedJob?.id === job.id
-                        ? "border-green-600 bg-white dark:bg-slate-900 shadow-green-100 dark:shadow-none"
-                        : "border-white dark:border-slate-900 bg-white dark:bg-slate-900 hover:border-slate-200 dark:hover:border-slate-800"
-                    }`}
-                  >
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-green-600 transition-colors">
-                      {job.title}
-                    </h3>
-                    <p className="text-green-600 font-semibold text-sm mt-1">
-                      {job.company.name}
-                    </p>
+                {isLoading ? (
+                  <div className="text-center py-20 text-slate-500">
+                    <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    Loading Jobs...
+                  </div>
+                ) : (
+                  <>
+                    {jobs.map((job) => (
+                      <div
+                        key={job.id}
+                        onClick={() => setSelectedJob(job)}
+                        className={`cursor-pointer p-6 rounded-lg border-2 transition-all duration-200 shadow-sm ${
+                          selectedJob?.id === job.id
+                            ? "border-green-600 bg-white dark:bg-slate-900 shadow-green-100 dark:shadow-none"
+                            : "border-white dark:border-slate-900 bg-white dark:bg-slate-900 hover:border-slate-200 dark:hover:border-slate-800"
+                        }`}
+                      >
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-green-600 transition-colors">
+                          {job.title}
+                        </h3>
+                        <p className="text-green-600 font-semibold text-sm mt-1">
+                          TaskOrbit Recruiting
+                        </p>
 
-                    <div className="flex items-center gap-3 text-slate-500 text-sm mt-3">
-                      <div className="flex items-center gap-1">
-                        <MapPin size={14} /> {job.location.city}
-                      </div>
-                      {job.location.remote && (
-                        <div className="flex items-center gap-1 text-green-600 font-medium">
-                          <Globe size={14} /> Remote
+                        <div className="flex items-center gap-3 text-slate-500 text-sm mt-3">
+                          <div className="flex items-center gap-1">
+                            <MapPin size={14} /> {job.city}, {job.country}
+                          </div>
+                          {job.employmentType && (
+                            <div className="flex items-center gap-1 text-green-600 font-medium">
+                              <Globe size={14} /> {job.employmentType.replace("_", " ")}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
 
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tight">
-                        {job.employmentType.replace("_", " ")}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tight">
+                            {job.employmentType?.replace("_", " ") || "Full Time"}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
 
-                {filteredJobs.length === 0 && (
-                  <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-800">
-                    <p className="text-slate-500">
-                      No jobs match your search criteria.
-                    </p>
-                  </div>
+                    {jobs.length === 0 && (
+                      <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-800">
+                        <p className="text-slate-500">
+                          No jobs match your search criteria.
+                        </p>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
@@ -157,23 +179,18 @@ export default function JobsPage() {
                         {selectedJob.title}
                       </h1>
                       <div className="flex items-center gap-3">
-                        <a
-                          href={selectedJob.company.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-green-600 text-lg hover:underline font-bold flex items-center gap-1"
-                        >
-                          {selectedJob.company.name} <ExternalLink size={16} />
-                        </a>
+                        <span className="text-green-600 text-lg font-bold flex items-center gap-1">
+                          TaskOrbit Recruiting
+                        </span>
                         <span className="text-slate-300">|</span>
                         <span className="text-slate-600 dark:text-slate-400 font-medium">
-                          {selectedJob.location.city},{" "}
-                          {selectedJob.location.country}
+                          {selectedJob.city}, {selectedJob.country}
                         </span>
                       </div>
 
                       <div className="mt-8 flex gap-4">
                         <Button
+                          onClick={() => handleApply(selectedJob.id)}
                           className="bg-green-600 hover:bg-green-700 text-sm"
                           variant="default"
                           size="lg"
@@ -200,8 +217,7 @@ export default function JobsPage() {
                           </p>
                           <p className="font-black text-slate-900 dark:text-white flex items-center gap-2 text-lg">
                             <DollarSign size={20} className="text-green-600" />
-                            {selectedJob.salary.min.toLocaleString()} -{" "}
-                            {selectedJob.salary.max.toLocaleString()}
+                            {selectedJob.salaryCurrency} {selectedJob.salaryMin} - {selectedJob.salaryMax}
                           </p>
                         </div>
                         <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
@@ -210,7 +226,7 @@ export default function JobsPage() {
                           </p>
                           <p className="font-black text-slate-900 dark:text-white flex items-center gap-2 text-lg">
                             <Briefcase size={20} className="text-green-600" />
-                            {selectedJob.experienceLevel}
+                            {selectedJob.level || "Entry Level"}
                           </p>
                         </div>
                       </div>
@@ -220,43 +236,22 @@ export default function JobsPage() {
                         <h4 className="text-xl font-bold text-slate-900 dark:text-white">
                           Job Overview
                         </h4>
-                        <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-[17px]">
-                          {selectedJob.description}
-                        </p>
-                      </div>
-
-                      <div className="space-y-4">
-                        <h4 className="text-xl font-bold text-slate-900 dark:text-white">
-                          Responsibilities
-                        </h4>
-                        <ul className="space-y-3">
-                          {selectedJob.responsibilities.map((item, idx) => (
-                            <li
-                              key={idx}
-                              className="flex gap-4 text-slate-600 dark:text-slate-400 text-[16px]"
-                            >
-                              <span className="text-green-600 font-black shrink-0">
-                                •
-                              </span>
-                              <span>{item}</span>
-                            </li>
-                          ))}
-                        </ul>
+                        <div className="text-slate-600 dark:text-slate-400 leading-relaxed text-[17px] prose prose-slate max-w-none" dangerouslySetInnerHTML={{ __html: selectedJob.description }} />
                       </div>
 
                       <div className="pt-6 border-t border-slate-100 dark:border-slate-800">
                         <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-5">
-                          Technical Skills
+                          Technical Skills Required
                         </h4>
                         <div className="flex flex-wrap gap-2">
-                          {selectedJob.skills.map((skill) => (
-                            <span
-                              key={skill}
-                              className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-lg text-sm font-bold text-slate-700 dark:text-slate-300 shadow-sm"
-                            >
-                              {skill}
-                            </span>
-                          ))}
+                           {(["Communication", "Development"]).map((skill) => (
+                             <span
+                               key={skill}
+                               className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-lg text-sm font-bold text-slate-700 dark:text-slate-300 shadow-sm"
+                             >
+                               {skill}
+                             </span>
+                           ))}
                         </div>
                       </div>
                     </div>

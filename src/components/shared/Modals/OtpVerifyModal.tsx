@@ -16,15 +16,23 @@ import {
 } from "@/components/ui/input-otp";
 import { toast } from "sonner";
 import { Loader2, RotateCw } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { useVerifyEmail, useResendOtp } from "@/hooks/api";
 import { useStateContext } from "@/providers/StateProvider";
 import { useRouter } from "next/navigation";
-import { httpClient } from "@/lib/axios/httpClient";
-import ENDPOINT from "@/apiEndpoint/endpoint";
-import { useQueryClient } from "@tanstack/react-query";
 
 const OtpVerifyModal = () => {
-    const { otpModalOpen, setOtpModalOpen, userEmail } = useStateContext();
+    const { 
+        otpModalOpen, 
+        setOtpModalOpen, 
+        userEmail, 
+        otpOrigin, 
+        setResetPasswordModal, 
+        setResetOtp 
+    } = useStateContext();
     const queryClient = useQueryClient();
+    const { mutateAsync: verifyEmailMutate } = useVerifyEmail();
+    const { mutateAsync: resendOtpMutate } = useResendOtp();
     const [otp, setOtp] = useState("");
     const [isVerifying, setIsVerifying] = useState(false);
     const [isResending, setIsResending] = useState(false);
@@ -46,17 +54,25 @@ const OtpVerifyModal = () => {
         if (otp.length !== 6) return toast.error("Please enter a 6-digit code");
 
         setIsVerifying(true);
+        if (otpOrigin === "forgot_password") {
+            // Forward to reset modal skipping account confirmation
+            setResetOtp(otp);
+            setOtpModalOpen(false);
+            setTimeout(() => setResetPasswordModal(true), 300);
+            setIsVerifying(false);
+            return;
+        }
+
         try {
-            const res = await httpClient.post(ENDPOINT.AUTH.VERIFY_EMAIL, {
+            const res = await verifyEmailMutate({
                 email: userEmail,
                 otp: otp,
             });
 
-            if (res.success) {
-                toast.success(res.message);
+            if (res?.success || res?.message || res) {
+                toast.success(res?.message || "Email verified successfully");
                 setOtpModalOpen(false);
 
-                // IMPORTANT: Tell React Query to refetch the user now that we are verified/logged in.
                 await queryClient.invalidateQueries({ queryKey: ["authUser"] });
 
                 setTimeout(() => {
@@ -76,11 +92,9 @@ const OtpVerifyModal = () => {
 
         setIsResending(true);
         try {
-            const res = await httpClient.post(ENDPOINT.AUTH.RESEND_OTP, {
-                email: userEmail,
-            });
-            if (res.success) {
-                toast.success(res.message);
+            const res = await resendOtpMutate({ email: userEmail });
+            if (res?.success || res?.message || res) {
+                toast.success(res?.message || "OTP resent successfully");
                 setTimer(60);
             }
         } catch (error: any) {

@@ -5,8 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { sellerSignUpSchema } from "@/types/zod.validation";
 import { usePasswordStrength } from "@/hooks/use-password-strength";
-import { httpClient } from "@/lib/axios/httpClient";
-import ENDPOINT from "@/apiEndpoint/endpoint";
+import { useRegister } from "@/hooks/api";
 import { useStateContext } from "@/providers/StateProvider";
 import { motion } from "motion/react";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -18,7 +17,8 @@ import { toast } from "sonner";
 
 export const EmailSignUpForm = ({ onBack }: { onBack: () => void }) => {
     const queryClient = useQueryClient();
-    const { setSignUpModal, setOtpModalOpen, setUserEmail, accountType } = useStateContext();
+    const { setSignUpModal, setOtpModalOpen, setUserEmail, accountType, setOtpOrigin } = useStateContext();
+    const { mutateAsync: registerMutate } = useRegister();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -54,12 +54,12 @@ export const EmailSignUpForm = ({ onBack }: { onBack: () => void }) => {
 
     const onSubmit = async (data: any) => {
         try {
-            const res = await httpClient.post(ENDPOINT.AUTH.REGISTER, data);
-            if (res.success) {
-                // Industry Practice: Sync Auth State
+            const res = await registerMutate(data);
+            if (res?.success || res?.message || res) {
                 await queryClient.invalidateQueries({ queryKey: ["authUser"] });
 
                 setUserEmail(data.email);
+                setOtpOrigin("register");
                 setSignUpModal(false);
                 setOtpModalOpen(true);
             }

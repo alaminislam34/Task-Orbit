@@ -5,54 +5,86 @@ import ExploreHero from "./ExploreHero";
 import ExploreToolbar from "./Toolbar";
 import ExploreCard from "./ExploreCard";
 import ExplorePagination from "./ExplorePagination";
-import { useServices } from "@/hooks/useServices";
+import { useAllServices } from "@/hooks/api";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 
 const Explore = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   const [activeTab, setActiveTab] = useState<"services" | "jobs">("services");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 12;
-  const [category, setCategory] = useState("All Categories");
-  const { data: servicesResponse, isLoading: isLoadingServices } = useServices();
-  const services = servicesResponse || [];
-  
-  // Filtering logic based on category if needed can be added here
-  const filteredData = category === "All Categories" 
-    ? services 
-    : services.filter(s => s.category === category);
 
-  const totalResults = filteredData.length;
-  const totalPages = Math.ceil(totalResults / pageSize);
+  const urlPage = Number(searchParams.get("page")) || 1;
+  const urlCategory = searchParams.get("category") || "All Categories";
+  const urlSearch = searchParams.get("search") || "";
 
-  // Simple client side pagination
-  const startIndex = (currentPage - 1) * pageSize;
-  const data = filteredData.slice(startIndex, startIndex + pageSize);
+  // Local state for instant input UI, synced with debounce
+  const [search, setSearch] = useState(urlSearch);
+  const debouncedSearch = useDebounce(search, 400);
 
+  // When debounce triggers, push to URL
   useEffect(() => {
-    // Reset to page 1 when category changes
-    setCurrentPage(1);
-  }, [category]);
+    const params = new URLSearchParams(searchParams.toString());
+    if (debouncedSearch) {
+      params.set("search", debouncedSearch);
+    } else {
+      params.delete("search");
+    }
+    // Only push if the search param actually differs to prevent loop
+    if (searchParams.get("search") !== (debouncedSearch || null)) {
+       params.set("page", "1");
+       router.push(pathname + "?" + params.toString(), { scroll: false });
+    }
+  }, [debouncedSearch, pathname, router, searchParams]);
+
+  // Hook into our actual API
+  const { data: servicesResponse, isLoading: isLoadingServices } = useAllServices({
+    page: urlPage,
+    limit: pageSize,
+    search: urlSearch,
+    categoryId: urlCategory !== "All Categories" ? urlCategory : undefined,
+  });
+
+  const services = servicesResponse?.data || [];
+  const meta = servicesResponse?.meta;
+  const totalResults = meta?.total || services.length;
+  const totalPages = meta?.totalPages || Math.ceil(totalResults / pageSize);
 
   const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    setTimeout(() => {
-      window.scrollTo({ top: 400, behavior: "smooth" });
-    }, 100);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(pathname + "?" + params.toString());
+    setTimeout(() => window.scrollTo({ top: 400, behavior: "smooth" }), 100);
   };
 
+  const handleCategoryChange = (newCat: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (newCat === "All Categories") {
+      params.delete("category");
+    } else {
+      params.set("category", newCat);
+    }
+    params.set("page", "1");
+    router.push(pathname + "?" + params.toString(), { scroll: false });
+  };
+  
   const isLoading = isLoadingServices;
 
   return (
     <div className="min-h-screen bg-background transition-colors duration-500 pb-20">
-      <ExploreHero />
+      <ExploreHero search={search} setSearch={setSearch} />
 
       <ExploreToolbar
         activeTab={activeTab}
         viewMode={viewMode}
         setViewMode={setViewMode}
-        category={category}
-        setCategory={setCategory}
+        category={urlCategory}
+        setCategory={handleCategoryChange}
       />
 
       <main className="container mx-auto px-4 md:px-6 py-8">
@@ -103,7 +135,7 @@ const Explore = () => {
                   : "flex flex-col gap-6"
               }
             >
-              {data.map((item) => (
+              {services.map((item) => (
                 <ExploreCard
                   key={item.id}
                   data={item}
@@ -117,12 +149,12 @@ const Explore = () => {
 
         <div className="mt-16 pt-10 border-t border-border/50">
           <ExplorePagination
-            currentPage={currentPage}
+            currentPage={urlPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
             pageSize={pageSize}
             onPageSizeChange={(newSize) => {
-              setCurrentPage(1);
+              handlePageChange(1);
             }}
           />
         </div>

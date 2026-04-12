@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 export function useBulkSelection() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());

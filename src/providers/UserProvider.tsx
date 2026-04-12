@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useUser } from "@/hooks/useUser";
 import { useUserStore } from "@/store/useUserStore";
+import { useUser } from "@/hooks/api";
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const { data } = useUser();
