@@ -5,6 +5,7 @@ import { Chrome, Github, Mail, Loader2 } from "lucide-react";
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useGoogleLogin } from "@/hooks/api";
 
 interface InitialViewProps {
     onEmailClick: () => void;
@@ -12,13 +13,18 @@ interface InitialViewProps {
 
 export const InitialView = ({ onEmailClick }: InitialViewProps) => {
     const [socialLoading, setSocialLoading] = useState<"google" | "github" | null>(null);
+    const googleLogin = useGoogleLogin();
 
     const onSocialAuth = async (provider: "google" | "github") => {
         try {
             setSocialLoading(provider);
-            // Replace this with your actual Social Auth Logic/Redirect
-            await new Promise((resolve) => setTimeout(resolve, 800));
-            toast.success(`Redirecting to ${provider}...`);
+
+            if (provider === "google") {
+                googleLogin();
+                return;
+            }
+
+            toast.info("GitHub login is not implemented yet");
         } catch (error) {
             toast.error(`${provider} authentication failed`);
         } finally {

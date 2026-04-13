@@ -11,13 +11,12 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User, LogOut, LayoutDashboard, Settings, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/store/useUserStore";
 
 // Define a proper interface instead of 'any'
 interface UserData {
   name?: string;
   email?: string;
-  image?: string;
+  image?: string | null;
 }
 
 interface UserMenuProps {
@@ -28,7 +27,6 @@ interface UserMenuProps {
 
 export const UserMenu = ({ user, logout, getDashboardLink }: UserMenuProps) => {
   const router = useRouter();
-  const { sessionToken } = useUserStore();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleNavigation = (path: string) => {

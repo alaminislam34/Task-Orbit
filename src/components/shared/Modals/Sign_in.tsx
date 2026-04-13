@@ -30,7 +30,7 @@ import {
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
 import { SignInSchema } from "@/types/zod.validation";
-import { useLogin } from "@/hooks/api";
+import { useGoogleLogin, useLogin } from "@/hooks/api";
 
 type SignInFormValues = z.infer<typeof SignInSchema>;
 
@@ -41,6 +41,7 @@ const SignInModal = () => {
   const [requestId, setRequestId] = useState("");
 
   const { mutateAsync: loginMutate, isPending } = useLogin();
+  const googleLogin = useGoogleLogin();
 
   const {
     register,
@@ -102,7 +103,13 @@ const SignInModal = () => {
 
         {/* Social Logins */}
         <div className="flex justify-center gap-3 items-center">
-          <Button variant="outline" className="p-2 border-slate-200 hover:bg-slate-50 gap-2 rounded-full transition-all duration-200 hover:scale-[1.01]">
+          <Button
+            type="button"
+            onClick={() => googleLogin()}
+            disabled={isPending}
+            variant="outline"
+            className="p-2 border-slate-200 hover:bg-slate-50 gap-2 rounded-full transition-all duration-200 hover:scale-[1.01]"
+          >
             <FcGoogle />
           </Button>
           <Button variant="outline" className="p-2 border-slate-200 hover:bg-slate-50 gap-2 rounded-full transition-all duration-200 hover:scale-[1.01]">

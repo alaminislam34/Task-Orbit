@@ -1,24 +1,41 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
-import HeroSection from "./HeroSection";
 import {
   MapPin,
   DollarSign,
   Briefcase,
-  Globe,
-  ExternalLink,
   Heart,
-  Bookmark,
+  Building2,
+  ChevronRight,
 } from "lucide-react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
-import { useJobs } from "@/hooks/api/jobs/useJobs";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+
+import HeroSection from "./HeroSection";
+import { useApplyJob, useJobs } from "@/hooks/api/jobs/useJobs";
 import { useUser } from "@/hooks/api";
 import { useDebounce } from "@/hooks/useDebounce";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Job } from "@/types/jobs.types";
 import { useStateContext } from "@/providers/StateProvider";
-// Using imported Job interface now
+import { Job } from "@/types/jobs.types";
+import { ApplyJobModal } from "./ApplyJobModal";
+import { getApiErrorMessage } from "@/lib/api-error";
+
+type ErrorWithRequestId = {
+  requestId?: string;
+};
 
 export default function JobsPage() {
   const router = useRouter();
@@ -27,33 +44,30 @@ export default function JobsPage() {
 
   const urlPage = Number(searchParams.get("page")) || 1;
   const urlSearch = searchParams.get("search") || "";
-  const urlCategory = searchParams.get("category") || "All";
 
   const { data: userResponse } = useUser();
   const user = userResponse?.data;
-  const { setSignInModal, setPendingJobId, pendingJobId } = useStateContext();
+  const { setSignInModal, setPendingJobId } = useStateContext();
+  const { mutateAsync: applyJobMutate, isPending: isApplying } = useApplyJob();
+  const [selectedJobForApply, setSelectedJobForApply] = useState<Job | null>(
+    null,
+  );
 
   const [search, setSearch] = useState(urlSearch);
   const debouncedSearch = useDebounce(search, 400);
 
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-
-  // When debounce triggers, push to URL
+  // Sync search to URL
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-    if (debouncedSearch) {
-      params.set("search", debouncedSearch);
-    } else {
-      params.delete("search");
-    }
-    // Only push if the search param actually differs to prevent loop
+    if (debouncedSearch) params.set("search", debouncedSearch);
+    else params.delete("search");
+
     if (searchParams.get("search") !== (debouncedSearch || null)) {
-       params.set("page", "1");
-       router.push(pathname + "?" + params.toString(), { scroll: false });
+      params.set("page", "1");
+      router.push(`${pathname}?${params.toString()}`, { scroll: false });
     }
   }, [debouncedSearch, pathname, router, searchParams]);
 
-  // Hook into our actual API
   const { data: jobsResponse, isLoading } = useJobs({
     page: urlPage,
     limit: 15,
@@ -61,207 +75,234 @@ export default function JobsPage() {
   });
 
   const jobs = jobsResponse?.data || [];
-  
-  // Auto select first job when jobs load
-  useEffect(() => {
-    if (jobs.length > 0 && !selectedJob) {
-      setSelectedJob(jobs[0]);
-    }
-  }, [jobs, selectedJob]);
 
-  const handleApply = (jobId: string) => {
+  const handleApply = (job: Job, e: React.MouseEvent) => {
+    e.stopPropagation();
     if (!user) {
-      setPendingJobId(jobId);
+      setPendingJobId(job.id);
       setSignInModal(true);
       return;
     }
-    // Proceed to apply form / process
-    console.log("Applying to job:", jobId);
+
+    setSelectedJobForApply(job);
   };
 
-  useEffect(() => {
-    // If we just logged in and have a pendingJobId, trigger the modal automatically
-    if (user && pendingJobId) {
-       console.log("Auto-opening apply flow for job:", pendingJobId);
-       setPendingJobId(null);
-       // Here you trigger the Apply Application Modal UI
+  const handleApplySubmit = async (payload: {
+    coverLetter: string;
+    resumeFile: File;
+  }) => {
+    if (!selectedJobForApply) {
+      return;
     }
-  }, [user, pendingJobId, setPendingJobId]);
+
+    try {
+      const response = await applyJobMutate({
+        jobId: selectedJobForApply.id,
+        cover_letter: payload.coverLetter,
+        resume: payload.resumeFile,
+      });
+
+      toast.success(response.message || "Application submitted successfully.");
+      setSelectedJobForApply(null);
+    } catch (error) {
+      const message = getApiErrorMessage(error);
+      const requestId = (error as ErrorWithRequestId)?.requestId;
+
+      if (requestId) {
+        toast.error(`${message} (Request ID: ${requestId})`);
+        return;
+      }
+
+      toast.error(message);
+    }
+  };
 
   return (
-    <main className="min-h-screen bg-[#f3f2f1] dark:bg-slate-950 pb-10">
-      {/* Search Section */}
-      <div className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20">
+      <div className="bg-white dark:bg-slate-900 border-b">
         <HeroSection onSearch={setSearch} />
       </div>
 
-      <div className="max-w-360 w-11/12 mx-auto py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
-          <section className="flex-1 flex gap-6">
-            {/* Master List: Job Cards */}
-            <div
-              className={`w-full ${selectedJob ? "lg:w-5/12" : "w-full"} space-y-4`}
-            >
-              <div className="flex justify-between items-center px-1">
-                <h2 className="text-sm font-bold text-slate-500 uppercase tracking-wider">
-                  {jobs.length} Jobs Found
-                </h2>
-              </div>
+      <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
+              Explore Opportunities
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">
+              {isLoading
+                ? "Finding the best matches..."
+                : `${jobsResponse?.meta?.total || jobs.length} jobs available for you`}
+            </p>
+          </div>
+        </div>
 
-              <div className="space-y-3">
-                {isLoading ? (
-                  <div className="text-center py-20 text-slate-500">
-                    <div className="w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-                    Loading Jobs...
-                  </div>
-                ) : (
-                  <>
-                    {jobs.map((job) => (
-                      <div
-                        key={job.id}
-                        onClick={() => setSelectedJob(job)}
-                        className={`cursor-pointer p-6 rounded-lg border-2 transition-all duration-200 shadow-sm ${
-                          selectedJob?.id === job.id
-                            ? "border-green-600 bg-white dark:bg-slate-900 shadow-green-100 dark:shadow-none"
-                            : "border-white dark:border-slate-900 bg-white dark:bg-slate-900 hover:border-slate-200 dark:hover:border-slate-800"
-                        }`}
-                      >
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-green-600 transition-colors">
-                          {job.title}
-                        </h3>
-                        <p className="text-green-600 font-semibold text-sm mt-1">
-                          TaskOrbit Recruiting
-                        </p>
+        {/* Updated Grid: 1 col on mobile, 2 on md, 4 on lg */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {isLoading ? (
+            <JobSkeleton />
+          ) : (
+            <>
+              {jobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  job={job}
+                  onApply={(e) => handleApply(job, e)}
+                />
+              ))}
 
-                        <div className="flex items-center gap-3 text-slate-500 text-sm mt-3">
-                          <div className="flex items-center gap-1">
-                            <MapPin size={14} /> {job.city}, {job.country}
-                          </div>
-                          {job.employmentType && (
-                            <div className="flex items-center gap-1 text-green-600 font-medium">
-                              <Globe size={14} /> {job.employmentType.replace("_", " ")}
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          <span className="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-tight">
-                            {job.employmentType?.replace("_", " ") || "Full Time"}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-
-                    {jobs.length === 0 && (
-                      <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-300 dark:border-slate-800">
-                        <p className="text-slate-500">
-                          No jobs match your search criteria.
-                        </p>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
-
-            <AnimatePresence mode="wait">
-              {selectedJob && (
-                <motion.div
-                  key={selectedJob.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="hidden lg:block flex-1 sticky top-20 h-[calc(100vh-150px)] overflow-y-auto bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 shadow-xl custom-scrollbar"
-                >
-                  <div>
-                    <div className="p-6 bg-white border-b sticky top-0">
-                      <h1 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2 leading-tight">
-                        {selectedJob.title}
-                      </h1>
-                      <div className="flex items-center gap-3">
-                        <span className="text-green-600 text-lg font-bold flex items-center gap-1">
-                          TaskOrbit Recruiting
-                        </span>
-                        <span className="text-slate-300">|</span>
-                        <span className="text-slate-600 dark:text-slate-400 font-medium">
-                          {selectedJob.city}, {selectedJob.country}
-                        </span>
-                      </div>
-
-                      <div className="mt-8 flex gap-4">
-                        <Button
-                          onClick={() => handleApply(selectedJob.id)}
-                          className="bg-green-600 hover:bg-green-700 text-sm"
-                          variant="default"
-                          size="lg"
-                        >
-                          Apply Now
-                        </Button>
-                        <Button variant={"ghost"} size="lg">
-                          <Heart size={25} />
-                        </Button>
-                        <Button variant={"ghost"} size="lg">
-                          <Bookmark size={25} />
-                        </Button>
-                      </div>
-                    </div>
-
-                    <hr className="my-10 border-slate-100 dark:border-slate-800" />
-
-                    <div className="space-y-10 p-6">
-                      {/* Job Highlights Grid */}
-                      <div className="grid grid-cols-2 gap-6">
-                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
-                          <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">
-                            Salary
-                          </p>
-                          <p className="font-black text-slate-900 dark:text-white flex items-center gap-2 text-lg">
-                            <DollarSign size={20} className="text-green-600" />
-                            {selectedJob.salaryCurrency} {selectedJob.salaryMin} - {selectedJob.salaryMax}
-                          </p>
-                        </div>
-                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
-                          <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mb-2">
-                            Level
-                          </p>
-                          <p className="font-black text-slate-900 dark:text-white flex items-center gap-2 text-lg">
-                            <Briefcase size={20} className="text-green-600" />
-                            {selectedJob.level || "Entry Level"}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Content Sections */}
-                      <div className="space-y-6">
-                        <h4 className="text-xl font-bold text-slate-900 dark:text-white">
-                          Job Overview
-                        </h4>
-                        <div className="text-slate-600 dark:text-slate-400 leading-relaxed text-[17px] prose prose-slate max-w-none" dangerouslySetInnerHTML={{ __html: selectedJob.description }} />
-                      </div>
-
-                      <div className="pt-6 border-t border-slate-100 dark:border-slate-800">
-                        <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-5">
-                          Technical Skills Required
-                        </h4>
-                        <div className="flex flex-wrap gap-2">
-                           {(["Communication", "Development"]).map((skill) => (
-                             <span
-                               key={skill}
-                               className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-5 py-2 rounded-lg text-sm font-bold text-slate-700 dark:text-slate-300 shadow-sm"
-                             >
-                               {skill}
-                             </span>
-                           ))}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
+              {jobs.length === 0 && (
+                <div className="col-span-full flex flex-col items-center justify-center py-20 bg-white dark:bg-slate-900 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-800">
+                  <Briefcase className="h-12 w-12 text-slate-300 mb-4" />
+                  <p className="text-slate-500 font-medium">
+                    No jobs match your search criteria.
+                  </p>
+                  <Button
+                    variant="link"
+                    onClick={() => setSearch("")}
+                    className="text-green-600"
+                  >
+                    Clear all filters
+                  </Button>
+                </div>
               )}
-            </AnimatePresence>
-          </section>
+            </>
+          )}
         </div>
       </div>
+
+      <ApplyJobModal
+        open={Boolean(selectedJobForApply)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedJobForApply(null);
+          }
+        }}
+        job={selectedJobForApply}
+        isSubmitting={isApplying}
+        onSubmit={handleApplySubmit}
+      />
     </main>
   );
+}
+
+function JobCard({
+  job,
+  onApply,
+}: {
+  job: Job;
+  onApply: (e: React.MouseEvent) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 5 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.2 }}
+      className="h-full"
+    >
+      <Card className="group flex flex-col h-full cursor-pointer hover:shadow-lg transition-all border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+        <CardHeader className="p-5 pb-2">
+          <div className="flex justify-between items-start gap-2">
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Building2 className="h-3.5 w-3.5 text-green-600" />
+                <span className="text-[12px] font-bold text-green-600 uppercase tracking-tight">
+                  TaskOrbit
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-green-600 transition-colors line-clamp-1">
+                {job.title}
+              </h3>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-8 w-8 text-slate-400 hover:text-red-500 shrink-0"
+            >
+              <Heart className="h-4 w-4" />
+            </Button>
+          </div>
+        </CardHeader>
+
+        <CardContent className="p-5 pt-2 grow">
+          <div className="space-y-2.5 mb-4">
+            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+              <MapPin className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">
+                {job.city}, {job.country}
+              </span>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 dark:text-slate-300">
+              <DollarSign className="h-3.5 w-3.5 text-green-600 shrink-0" />
+              {job.salaryCurrency} {job.salaryMin.toLocaleString()} -{" "}
+              {job.salaryMax.toLocaleString()}
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-1.5">
+            <Badge
+              variant="secondary"
+              className="text-[10px] px-2 py-0 bg-slate-100 dark:bg-slate-800 border-none"
+            >
+              {job.employmentType?.replace("_", " ") || "Full Time"}
+            </Badge>
+            <Badge
+              variant="secondary"
+              className="text-[10px] px-2 py-0 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-none"
+            >
+              {job.level || "Entry"}
+            </Badge>
+          </div>
+        </CardContent>
+
+        <Separator className="bg-slate-100 dark:bg-slate-800" />
+
+        <CardFooter className="p-4 bg-slate-50/50 dark:bg-slate-900/50 flex justify-end items-center">
+          <div className="flex gap-2 w-full">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1 text-xs h-8 border-slate-200"
+            >
+              Details
+            </Button>
+            <Button
+              onClick={onApply}
+              size="sm"
+              className="flex-1 text-xs h-8 bg-green-600 hover:bg-green-700 text-white"
+            >
+              Apply
+              <ChevronRight className="h-3 w-3 ml-1" />
+            </Button>
+          </div>
+        </CardFooter>
+      </Card>
+    </motion.div>
+  );
+}
+
+function JobSkeleton() {
+  return Array(8)
+    .fill(0)
+    .map((_, i) => (
+      <Card
+        key={i}
+        className="w-full h-70 border-slate-200 dark:border-slate-800"
+      >
+        <CardHeader className="p-5">
+          <Skeleton className="h-3 w-20 mb-2" />
+          <Skeleton className="h-5 w-full" />
+        </CardHeader>
+        <CardContent className="p-5 pt-0 space-y-4">
+          <Skeleton className="h-3 w-3/4" />
+          <Skeleton className="h-3 w-1/2" />
+          <div className="flex gap-2">
+            <Skeleton className="h-5 w-14" />
+            <Skeleton className="h-5 w-14" />
+          </div>
+        </CardContent>
+      </Card>
+    ));
 }

@@ -38,5 +38,15 @@ export const queryKeys = {
     all: ["reviews"] as const,
     lists: () => [...queryKeys.reviews.all, "list"] as const,
   },
+  chat: {
+    all: ["chat"] as const,
+    users: () => [...queryKeys.chat.all, "users"] as const,
+    conversations: () => [...queryKeys.chat.all, "conversations"] as const,
+    conversationList: (filters: Record<string, unknown>) =>
+      [...queryKeys.chat.conversations(), { filters }] as const,
+    messages: () => [...queryKeys.chat.all, "messages"] as const,
+    messageList: (conversationId: string, filters: Record<string, unknown>) =>
+      [...queryKeys.chat.messages(), conversationId, { filters }] as const,
+  },
 };
 

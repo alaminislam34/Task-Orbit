@@ -23,15 +23,15 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-export type AdminSidebarItem = {
+export type SidebarItem = {
   label: string;
   href: string;
   icon: LucideIcon;
   badge?: string;
 };
 
-type AdminSidebarProps = {
-  items: AdminSidebarItem[];
+type SidebarProps = {
+  items: SidebarItem[];
   brandTitle: string;
   brandHref: string;
   brandIcon: ReactNode;
@@ -65,14 +65,14 @@ function AnimatedLabel({
   );
 }
 
-export function AdminSidebar({
+export function CommonSidebar({
   items,
   brandTitle,
   brandHref,
   brandIcon,
   sectionTitle = "Navigation",
   footerText,
-}: AdminSidebarProps) {
+}: SidebarProps) {
   const pathname = usePathname();
   const { state, isMobile } = useSidebar();
 

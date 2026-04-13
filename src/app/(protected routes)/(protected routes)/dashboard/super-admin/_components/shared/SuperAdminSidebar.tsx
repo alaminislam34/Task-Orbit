@@ -16,11 +16,11 @@ import {
 } from "lucide-react";
 
 import {
-  AdminSidebar,
-  type AdminSidebarItem,
+  CommonSidebar,
+  type SidebarItem,
 } from "@/components/shared/Sidebar/Sidebar";
 
-const SIDEBAR_ITEMS: AdminSidebarItem[] = [
+const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard/super-admin", icon: Gauge },
   {
     label: "Manage Clients",
@@ -86,7 +86,7 @@ const SIDEBAR_ITEMS: AdminSidebarItem[] = [
 
 export function SuperAdminSidebar() {
   return (
-    <AdminSidebar
+    <CommonSidebar
       items={SIDEBAR_ITEMS}
       brandTitle="TaskOrbit Admin"
       brandHref="/dashboard/super-admin"

@@ -40,6 +40,12 @@ export interface UpdateJobPayload extends Partial<CreateJobPayload> {
   status?: string;
 }
 
+export interface ApplyJobPayload {
+  jobId: string;
+  cover_letter: string;
+  resume: File;
+}
+
 export interface JobsQueryParams extends BaseQueryParams {
   category?: JobCategory;
   level?: JobLevel;

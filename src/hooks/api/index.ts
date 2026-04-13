@@ -21,3 +21,6 @@ export * from "./orders/useOrders";
 // Reviews
 export * from "./reviews/useReviews";
 
+// Chat
+export * from "./chat/useChat";
+

@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { useStateContext } from "@/providers/StateProvider";
 import { cn } from "@/lib/utils";
-import { useRegister } from "@/hooks/api";
+import { useGoogleLogin, useRegister } from "@/hooks/api";
 import { useQueryClient } from "@tanstack/react-query";
 
 const clientSignUpSchema = z
@@ -48,6 +48,7 @@ const ClientRegisterModal = () => {
   const { clientModal, setClientModal, setSignInModal, setOtpModalOpen, setOtpOrigin, setUserEmail } = useStateContext();
   const queryClient = useQueryClient();
   const { mutateAsync: registerMutate } = useRegister();
+  const googleLogin = useGoogleLogin();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [socialLoading, setSocialLoading] = useState<"google" | "github" | null>(
@@ -125,8 +126,13 @@ const ClientRegisterModal = () => {
   const onSocialAuth = async (provider: "google" | "github") => {
     try {
       setSocialLoading(provider);
-      await new Promise((resolve) => setTimeout(resolve, 700));
-      toast.success(`Continuing with ${provider === "google" ? "Google" : "GitHub"}`);
+
+      if (provider === "google") {
+        googleLogin();
+        return;
+      }
+
+      toast.info("GitHub login is not implemented yet");
     } catch {
       toast.error("Social authentication failed");
     } finally {

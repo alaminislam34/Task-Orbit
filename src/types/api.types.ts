@@ -1,4 +1,5 @@
 export interface ApiResponse<TData> {
+  statusCode: number;
   success: boolean;
   message: string;
   data: TData;
@@ -37,8 +38,8 @@ export interface LoginResponse {
       createdAt: string;
       updatedAt: string;
       needPasswordChange: boolean;
-      role: string;
-      accountType: string;
+      role: USER_ROLE;
+      accountType: USER_ACCOUNT_TYPE;
       isDeleted: boolean;
       status: string;
       deletedAt: string | null;

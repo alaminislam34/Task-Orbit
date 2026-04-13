@@ -1,5 +1,7 @@
+import { ChatWorkspace } from "@/components/module/chat/ChatWorkspace";
+
 const ClientConversationPage = () => {
-  return <div>ClientConversationPage</div>;
+  return <ChatWorkspace title="Client Inbox" />;
 };
 
 export default ClientConversationPage;

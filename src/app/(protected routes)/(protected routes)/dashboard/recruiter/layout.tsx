@@ -1,11 +1,15 @@
-export default function RecruiterLayout({
+import { RecruiterLayout } from "./_components/shared/SeekerLayout";
+
+export default function Recruiter_Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <>
-      <section>{children}</section>
+      <section>
+        <RecruiterLayout> {children} </RecruiterLayout>
+      </section>
     </>
   );
 }
