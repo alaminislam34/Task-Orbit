@@ -16,10 +16,12 @@ export interface ChatMessage {
   conversationId: string;
   senderId: string;
   receiverId: string;
+  content: string;
   text: string;
   createdAt: string;
   updatedAt?: string;
   seen?: boolean;
+  clientMessageId?: string;
 }
 
 export interface ChatConversation {
@@ -58,6 +60,7 @@ export interface SendMessagePayload {
   conversationId: string;
   receiverId: string;
   text: string;
+  clientMessageId?: string;
 }
 
 export interface MarkSeenPayload {
@@ -82,6 +85,7 @@ export interface MessagesSeenPayload {
   conversationId: string;
   seenBy: string;
   updatedCount: number;
+  messageIds?: string[];
 }
 
 export interface UserStatusPayload {

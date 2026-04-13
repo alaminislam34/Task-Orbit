@@ -7,10 +7,14 @@ const MessageInput = ({
   value,
   onChange,
   onSend,
+  onFocus,
+  onBlur,
 }: {
   value: string;
   onChange: (value: string) => void;
   onSend: () => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }) => (
   <div className="bg-background px-4 py-3 md:px-6">
     <form
@@ -26,6 +30,8 @@ const MessageInput = ({
       <Input
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocus}
+        onBlur={onBlur}
         placeholder="Type your message"
         className="h-10 flex-1 rounded-full border-border/80 bg-muted/40 px-4"
       />

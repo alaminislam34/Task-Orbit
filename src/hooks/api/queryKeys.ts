@@ -48,5 +48,13 @@ export const queryKeys = {
     messageList: (conversationId: string, filters: Record<string, unknown>) =>
       [...queryKeys.chat.messages(), conversationId, { filters }] as const,
   },
-};
+  notifications: {
+    all: ["notifications"] as const,
+    lists: () => [...queryKeys.notifications.all, "list"] as const,
+    list: (filters: Record<string, any>) => [...queryKeys.notifications.lists(), { filters }] as const,
+    detail: (id: string) => [...queryKeys.notifications.all, "detail", id] as const,
+    unreadCount: ["notifications", "unread-count"] as const,
+    preferences: ["notifications", "preferences"] as const,
+  },
+} as const;
 

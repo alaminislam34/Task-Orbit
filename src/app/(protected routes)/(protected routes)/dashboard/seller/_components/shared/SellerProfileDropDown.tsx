@@ -15,7 +15,6 @@ import {
 
 export function SellerProfileDropDown() {
   const user = useStoredUser();
-  console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger

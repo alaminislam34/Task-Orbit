@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ENDPOINT from "@/apiEndpoint/endpoint";
 import { httpClient } from "@/lib/axios/httpClient";
+import { normalizeApiResponse } from "@/lib/api/normalizeApiResponse";
 import { queryKeys } from "../queryKeys";
 import {
   ChatConversation,
@@ -24,6 +25,147 @@ import { chatSocketManager } from "@/lib/chat/socketManager";
 
 const DEFAULT_LIMIT = 20;
 const CHAT_USERS_ENDPOINT_CANDIDATES = [ENDPOINT.USER.LIST, "/user"];
+
+const normalizeChatMessage = (payload: unknown): ChatMessage => {
+  const message = (payload ?? {}) as Partial<ChatMessage> & {
+    isSeen?: boolean;
+    content?: string;
+    clientMessageId?: string;
+  };
+
+  const textValue = message.text ?? message.content ?? "";
+
+  return {
+    id: message.id ?? "",
+    conversationId: message.conversationId ?? "",
+    senderId: message.senderId ?? "",
+    receiverId: message.receiverId ?? "",
+    content: textValue,
+    text: textValue,
+    createdAt: message.createdAt ?? new Date().toISOString(),
+    updatedAt: message.updatedAt,
+    seen: message.seen ?? message.isSeen ?? false,
+    clientMessageId: message.clientMessageId,
+  };
+};
+
+const ensureMessageDefaults = (
+  message: ChatMessage,
+  fallbackConversationId?: string,
+): ChatMessage => {
+  const conversationId = message.conversationId || fallbackConversationId || "";
+
+  return {
+    ...message,
+    conversationId,
+    receiverId: message.receiverId || "",
+  };
+};
+
+const normalizeConversationsPayload = (
+  payload: unknown,
+): ChatConversationListResponse => {
+  const mapConversation = (conversation: unknown): ChatConversation => {
+    const item = conversation as ChatConversation & {
+      lastMessage?: unknown;
+    };
+
+    return {
+      ...item,
+      lastMessage: item.lastMessage
+        ? ensureMessageDefaults(normalizeChatMessage(item.lastMessage), item.id)
+        : null,
+    };
+  };
+
+  if (!payload) {
+    return { conversations: [] };
+  }
+
+  if (Array.isArray(payload)) {
+    return {
+      conversations: payload.map(mapConversation),
+    };
+  }
+
+  if (typeof payload === "object") {
+    const objectPayload = payload as {
+      conversations?: unknown;
+      data?: unknown;
+      meta?: unknown;
+    };
+
+    if (Array.isArray(objectPayload.conversations)) {
+      return {
+        conversations: objectPayload.conversations.map(mapConversation),
+        meta: objectPayload.meta as ChatConversationListResponse["meta"],
+      };
+    }
+
+    if (Array.isArray(objectPayload.data)) {
+      return {
+        conversations: objectPayload.data.map(mapConversation),
+        meta: objectPayload.meta as ChatConversationListResponse["meta"],
+      };
+    }
+  }
+
+  return { conversations: [] };
+};
+
+const normalizeMessagesPayload = (payload: unknown): ChatMessageListResponse => {
+  if (!payload) {
+    return { messages: [] };
+  }
+
+  if (Array.isArray(payload)) {
+    return {
+      messages: payload.map((message) => normalizeChatMessage(message)),
+    };
+  }
+
+  if (typeof payload === "object") {
+    const objectPayload = payload as {
+      messages?: unknown;
+      data?: unknown;
+      meta?: unknown;
+    };
+
+    if (Array.isArray(objectPayload.messages)) {
+      return {
+        messages: objectPayload.messages.map((message) =>
+          normalizeChatMessage(message),
+        ),
+        meta: objectPayload.meta as ChatMessageListResponse["meta"],
+      };
+    }
+
+    if (Array.isArray(objectPayload.data)) {
+      return {
+        messages: objectPayload.data.map((message) => normalizeChatMessage(message)),
+        meta: objectPayload.meta as ChatMessageListResponse["meta"],
+      };
+    }
+
+    if (objectPayload.data && typeof objectPayload.data === "object") {
+      const nested = objectPayload.data as {
+        messages?: unknown;
+        meta?: unknown;
+      };
+
+      if (Array.isArray(nested.messages)) {
+        return {
+          messages: nested.messages.map((message) => normalizeChatMessage(message)),
+          meta:
+            (nested.meta as ChatMessageListResponse["meta"]) ||
+            (objectPayload.meta as ChatMessageListResponse["meta"]),
+        };
+      }
+    }
+  }
+
+  return { messages: [] };
+};
 
 const normalizeChatUsers = (payload: unknown): ChatUserSummary[] => {
   if (!payload) {
@@ -61,11 +203,12 @@ export const useChatUsers = () => {
       for (const endpoint of CHAT_USERS_ENDPOINT_CANDIDATES) {
         try {
           const response = await httpClient.get<unknown>(endpoint, {
-            params: { page: 1, limit: 500 },
+            params: { page: 1, limit: 10 },
             headers: {},
           });
 
-          const users = normalizeChatUsers(response.data);
+          const normalized = normalizeApiResponse<unknown>(response.data, []);
+          const users = normalizeChatUsers(normalized.data);
 
           return {
             ...response,
@@ -88,14 +231,20 @@ export const useConversations = (page = 1, limit = DEFAULT_LIMIT) => {
   return useQuery({
     queryKey: queryKeys.chat.conversationList({ page, limit }),
     queryFn: async () => {
-      const response = await httpClient.get<ChatConversationListResponse>(
-        ENDPOINT.CHAT.CONVERSATIONS,
-        {
-          params: { page, limit },
-          headers: {},
-        },
-      );
-      return response;
+      const response = await httpClient.get<unknown>(ENDPOINT.CHAT.CONVERSATIONS, {
+        params: { page, limit },
+        headers: {},
+      });
+
+      const normalized = normalizeApiResponse<unknown>(response.data, []);
+
+      return {
+        ...response,
+        data: normalizeConversationsPayload({
+          data: normalized.data,
+          meta: normalized.meta,
+        }),
+      } as typeof response & { data: ChatConversationListResponse };
     },
     staleTime: 1000 * 60,
   });
@@ -109,14 +258,30 @@ export const useConversationMessages = (
   return useQuery({
     queryKey: queryKeys.chat.messageList(conversationId || "", { page, limit }),
     queryFn: async () => {
-      const response = await httpClient.get<ChatMessageListResponse>(
+      const response = await httpClient.get<unknown>(
         ENDPOINT.CHAT.MESSAGES_BY_CONVERSATION(conversationId as string),
         {
           params: { page, limit },
           headers: {},
         },
       );
-      return response;
+
+      const normalized = normalizeApiResponse<unknown>(response.data, []);
+
+      const normalizedMessages = normalizeMessagesPayload({
+        data: normalized.data,
+        meta: normalized.meta,
+      });
+
+      return {
+        ...response,
+        data: {
+          ...normalizedMessages,
+          messages: normalizedMessages.messages.map((message) =>
+            ensureMessageDefaults(message, conversationId),
+          ),
+        },
+      } as typeof response & { data: ChatMessageListResponse };
     },
     enabled: Boolean(conversationId),
     staleTime: 1000 * 15,
@@ -147,11 +312,33 @@ export const useSendMessage = () => {
 
   return useMutation({
     mutationFn: async (payload: SendMessagePayload) => {
-      const response = await httpClient.post<ChatMessage>(
+      const requestPayload = {
+        conversationId: payload.conversationId,
+        receiverId: payload.receiverId,
+        text: payload.text,
+      };
+
+      const response = await httpClient.post<unknown>(
         ENDPOINT.CHAT.MESSAGES,
-        payload as unknown as Record<string, unknown>,
+        requestPayload as unknown as Record<string, unknown>,
       );
-      return response;
+
+      const body = response.data as
+        | ChatMessage
+        | {
+            data?: unknown;
+          };
+
+      const normalizedBody = normalizeApiResponse<unknown>(body, body as unknown);
+      const normalizedMessage = ensureMessageDefaults(
+        normalizeChatMessage(normalizedBody.data),
+        payload.conversationId,
+      );
+
+      return {
+        ...response,
+        data: normalizedMessage,
+      } as typeof response & { data: ChatMessage };
     },
     onSuccess: (response, payload) => {
       queryClient.invalidateQueries({
@@ -212,28 +399,29 @@ export const useMarkMessagesSeen = () => {
 };
 
 export const useChatSocket = () => {
-  const { accessToken } = useAuthTokens();
+  const { accessToken, sessionToken } = useAuthTokens();
+  const socketToken = accessToken || sessionToken;
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!socketToken) {
       chatSocketManager.disconnect();
       return;
     }
 
-    chatSocketManager.connect(accessToken);
+    chatSocketManager.connect(socketToken);
 
     return () => {
       chatSocketManager.disconnect();
     };
-  }, [accessToken]);
+  }, [socketToken]);
 
   useEffect(() => {
-    if (!accessToken) {
+    if (!socketToken) {
       return;
     }
 
-    chatSocketManager.updateToken(accessToken);
-  }, [accessToken]);
+    chatSocketManager.updateToken(socketToken);
+  }, [socketToken]);
 
   const emitJoinConversation = useCallback(
     (payload: JoinConversationPayload) => {
@@ -267,6 +455,7 @@ export const useChatSocket = () => {
         conversationId: string;
         seenBy: string;
         updatedCount: number;
+        messageIds?: string[];
       }) => void;
       onUserStatus?: (payload: {
         userId: string;

@@ -15,7 +15,6 @@ import {
 
 export function SeekerProfileDropDown() {
   const user = useStoredUser();
-  console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -26,14 +25,14 @@ export function SeekerProfileDropDown() {
             aria-label="Open profile menu"
           >
             <Avatar className="size-7 border border-border/80 shadow-sm transition-transform group-hover:scale-105">
-              <AvatarImage src="/path-to-your-avatar.png" alt="Seeker User" />
+              <AvatarImage src="/path-to-your-avatar.png" alt="Seek User" />
               <AvatarFallback className="bg-primary/5 text-[10px] font-bold text-primary">
                 J
               </AvatarFallback>
             </Avatar>
             <div className="hidden lg:flex flex-col items-start leading-none gap-1">
               <span className="text-[13px] font-semibold text-foreground">
-                Seeker
+                Seek
               </span>
             </div>
             <ChevronDown className="size-3.5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -50,9 +49,9 @@ export function SeekerProfileDropDown() {
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col space-y-0.5">
-              <p className="text-sm font-semibold leading-none">Seeker User</p>
+              <p className="text-sm font-semibold leading-none">Seek User</p>
               <p className="text-xs text-muted-foreground truncate w-32.5">
-                {user?.email || "jobseeker@gmail.com"}
+                {user?.email || "jobSeek@gmail.com"}
               </p>
             </div>
           </div>

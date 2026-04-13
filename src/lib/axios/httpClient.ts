@@ -105,8 +105,8 @@ axiosInstance.interceptors.response.use(
 );
 
 interface ApiResponseOptions {
-  params: Record<string, unknown>;
-  headers: Record<string, string>;
+  params?: Record<string, unknown>;
+  headers?: Record<string, string>;
 }
 
 const get = async <TData>(
@@ -126,11 +126,11 @@ const get = async <TData>(
 
 const post = async <TData>(
   endpoint: string,
-  data: Record<string, unknown> | FormData,
+  data?: Record<string, unknown> | FormData,
   options?: ApiResponseOptions,
 ): Promise<ApiResponse<TData>> => {
   try {
-    const response = await axiosInstance.post(endpoint, data, {
+    const response = await axiosInstance.post(endpoint, data ?? {}, {
       params: options?.params,
       headers: options?.headers,
     });
@@ -158,11 +158,11 @@ const put = async <TData>(
 
 const patch = async <TData>(
   endpoint: string,
-  data: Record<string, unknown>,
+  data?: Record<string, unknown>,
   options?: ApiResponseOptions,
 ): Promise<ApiResponse<TData>> => {
   try {
-    const response = await axiosInstance.patch(endpoint, data, {
+    const response = await axiosInstance.patch(endpoint, data ?? {}, {
       params: options?.params,
       headers: options?.headers,
     });
@@ -193,4 +193,5 @@ export const httpClient = {
   put,
   patch,
   del,
+  delete: del,
 };

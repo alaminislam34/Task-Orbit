@@ -1,43 +1,76 @@
+import { AlertCircle, Check, CheckCheck, Clock3 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 
 const MessageBubble = ({
   text,
   time,
   isOwn,
+  sending = false,
+  sent = false,
+  seen = false,
   failed = false,
   onRetry,
 }: {
   text: string;
   time: string;
   isOwn: boolean;
+  sending?: boolean;
+  sent?: boolean;
+  seen?: boolean;
   failed?: boolean;
   onRetry?: () => void;
 }) => (
-  <div className={cn("mb-4 flex", isOwn ? "justify-end" : "justify-start")}>
-    <div
-      className={cn(
-        "max-w-[82%] rounded-2xl px-3 py-2.5 shadow-xs md:max-w-[70%]",
-        isOwn
-          ? "rounded-br-md bg-primary text-primary-foreground"
-          : "rounded-bl-md border border-border/70 bg-card text-card-foreground",
-      )}
-    >
-      <p className="text-sm leading-relaxed">{text}</p>
-      <span className={cn("mt-1 block text-[11px]", isOwn ? "text-primary-foreground/75" : "text-muted-foreground")}>
-        {time}
-      </span>
-      {failed ? (
-        <button
-          type="button"
-          onClick={onRetry}
+  <div className={cn("mb-2 flex", isOwn ? "justify-end" : "justify-start")}>
+    <div className={cn("max-w-[82%] md:max-w-[70%]")}>
+      <div
+        className={cn(
+          "flex",
+          isOwn ? "justify-end" : "justify-start flex-row-reverse",
+        )}
+      >
+        <div
           className={cn(
-            "mt-1 text-[11px] font-medium underline underline-offset-2",
-            isOwn ? "text-primary-foreground" : "text-primary",
+            "flex items-center gap-2 text-[9px]",
+            isOwn ? "justify-end" : "text-muted-foreground",
           )}
         >
-          Failed. Retry
-        </button>
-      ) : null}
+          <span>{time}</span>
+          {isOwn ? (
+            failed ? (
+              <AlertCircle className="size-3.5" />
+            ) : sending ? (
+              <Clock3 className="size-3.5" />
+            ) : seen ? (
+              <CheckCheck className="size-3.5" />
+            ) : sent ? (
+              <Check className="size-3.5" />
+            ) : null
+          ) : null}
+        </div>
+        {failed ? (
+          <button
+            type="button"
+            onClick={onRetry}
+            className={cn(
+              "mt-1 text-[9px] font-medium underline underline-offset-2",
+              isOwn ? "text-primary-foreground" : "text-primary",
+            )}
+          >
+            Failed. Retry
+          </button>
+        ) : null}
+        <p
+          className={cn(
+            "text-sm leading-relaxed rounded-lg px-2.5 py-2 shadow-xs ",
+            isOwn
+              ? "rounded-br-md bg-primary text-primary-foreground ml-2"
+              : "rounded-bl-md border border-border/70 bg-card text-card-foreground mr-2",
+          )}
+        >
+          {text}
+        </p>
+      </div>
     </div>
   </div>
 );

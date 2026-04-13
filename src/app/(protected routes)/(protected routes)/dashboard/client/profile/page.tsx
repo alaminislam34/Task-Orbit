@@ -1,5 +1,11 @@
+import ClientProfile from "../_components/ProfileComponents/ClientProfileComponent";
+
 const ClientProfilePage = () => {
-  return <div>ClientProfilePage</div>;
+  return (
+    <div>
+      <ClientProfile />
+    </div>
+  );
 };
 
 export default ClientProfilePage;

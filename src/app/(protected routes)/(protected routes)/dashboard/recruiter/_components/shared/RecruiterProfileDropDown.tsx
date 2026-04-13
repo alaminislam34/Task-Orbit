@@ -15,7 +15,6 @@ import {
 
 export function RecruiterProfileDropDown() {
   const user = useStoredUser();
-  console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -26,10 +25,7 @@ export function RecruiterProfileDropDown() {
             aria-label="Open profile menu"
           >
             <Avatar className="size-7 border border-border/80 shadow-sm transition-transform group-hover:scale-105">
-              <AvatarImage
-                src="/path-to-your-avatar.png"
-                alt="Recruiter User"
-              />
+              <AvatarImage src="/path-to-your-avatar.png" alt="Recruiter User" />
               <AvatarFallback className="bg-primary/5 text-[10px] font-bold text-primary">
                 J
               </AvatarFallback>
@@ -53,11 +49,9 @@ export function RecruiterProfileDropDown() {
               </AvatarFallback>
             </Avatar>
             <div className="flex flex-col space-y-0.5">
-              <p className="text-sm font-semibold leading-none">
-                Recruiter User
-              </p>
+              <p className="text-sm font-semibold leading-none">Recruiter User</p>
               <p className="text-xs text-muted-foreground truncate w-32.5">
-                {user?.email}
+                {user?.email || "jobRecruiter@gmail.com"}
               </p>
             </div>
           </div>

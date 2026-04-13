@@ -1,4 +1,4 @@
-import { RecruiterLayout } from "./_components/shared/SeekerLayout";
+import { RecruiterLayout } from "./_components/shared/RecruiterLayout";
 
 export default function Recruiter_Layout({
   children,

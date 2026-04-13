@@ -14,8 +14,8 @@ export function SuperAdminShell({ children }: SuperAdminShellProps) {
       <SuperAdminSidebar />
       <SidebarInset className="min-h-svh">
         <SuperAdminHeader />
-        <section className="flex-1 py-5 md:py-6 lg:py-8">
-          <div className="mx-4 md:mx-6">{children}</div>
+        <section className="flex-1 min-w-0 max-w-full overflow-x-hidden h-full">
+          <div className="p-4 h-full">{children}</div>
         </section>
       </SidebarInset>
     </SidebarProvider>

@@ -1,4 +1,4 @@
-import SeekerProfile from "../_components/ProfileComponents/SeekerProfileComponent";
+import SeekerProfile from "../../recruiter/_components/ProfileComponents/RecruiterProfileComponent";
 
 const JobSeekerProfilePage = () => {
   return (

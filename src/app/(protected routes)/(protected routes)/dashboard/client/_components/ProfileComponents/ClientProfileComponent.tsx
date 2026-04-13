@@ -20,7 +20,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuthStatus, useUser as useStoredUser } from "@/store/useUserStore";
 import { useUser as useFetchUser, useLogout } from "@/hooks/api";
 
-const SeekerProfile = () => {
+const ClientProfile = () => {
   const user = useStoredUser();
   const { isLoading } = useAuthStatus();
   useFetchUser();
@@ -196,4 +196,4 @@ const ProfileSkeleton = () => (
   </div>
 );
 
-export default SeekerProfile;
+export default ClientProfile;

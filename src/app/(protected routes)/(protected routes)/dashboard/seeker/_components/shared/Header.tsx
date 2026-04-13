@@ -4,8 +4,8 @@ import { Search } from "lucide-react";
 import { ModeToggle } from "@/components/shared/theme/ThemeToggler";
 import { Input } from "@/components/ui/input";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { SeekerProfileDropDown } from "./SeekerProfileDropDown";
 import { Notifications } from "@/components/shared/notification/NotificationDropdown";
+import { SeekerProfileDropDown } from "./SeekerProfileDropDown";
 
 export function SeekerHeader() {
   return (

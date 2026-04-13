@@ -143,7 +143,6 @@ const mockQuickActions: QuickActionItem[] = [
 
 export const SuperAdminDashboardContent = () => {
   const handleQuickAction = (id: string) => {
-    console.log("Quick action triggered:", id);
     // TODO: Implement actual action handlers
   };
 

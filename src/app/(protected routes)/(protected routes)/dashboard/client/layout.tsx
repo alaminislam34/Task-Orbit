@@ -1,3 +1,5 @@
+import { ClientLayoutComponent } from "./_components/shared/ClientLayout";
+
 export default function ClientLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,9 @@ export default function ClientLayout({
 }>) {
   return (
     <>
-      <section>{children}</section>
+      <section>
+        <ClientLayoutComponent>{children}</ClientLayoutComponent>
+      </section>
     </>
   );
 }

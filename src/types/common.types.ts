@@ -1,4 +1,13 @@
-export type USER_STATUS = "ACTIVE" | "INACTIVE" | "SUSPENDED" | "BANNED";
+export type USER_STATUS = "ACTIVE" | "INACTIVE" | "SUSPENDED" | "BANNED" | "BLOCKED" | "DELETED";
+
+export type USER_PRESENCE_STATUS = "ONLINE" | "OFFLINE" | "AWAY" | "BUSY";
+
+export interface UserRestrictionInfo {
+  isRestricted: boolean;
+  status: USER_STATUS | null;
+  reason?: string | null;
+  restrictedUntil?: string | null;
+}
 
 export interface PaginationParams {
   page?: number;

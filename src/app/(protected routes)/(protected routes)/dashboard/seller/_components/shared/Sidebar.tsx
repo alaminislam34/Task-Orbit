@@ -4,6 +4,7 @@ import {
   FileText,
   FileTextIcon,
   Gauge,
+  MessageCircleMore,
   Settings2,
   UserCheck2,
 } from "lucide-react";
@@ -20,6 +21,11 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     label: "My Applications",
     href: "/dashboard/seller/applications",
     icon: FileTextIcon,
+  },
+  {
+    label: "Conversations",
+    href: "/dashboard/seller/conversations",
+    icon: MessageCircleMore,
   },
   { label: "Settings", href: "/dashboard/seller/settings", icon: Settings2 },
 ];

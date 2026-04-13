@@ -28,6 +28,23 @@ const getGoogleLoginUrl = (redirectPath?: string) => {
 
 const OAUTH_PENDING_KEY = "taskorbit_oauth_pending";
 
+const isUnauthorizedError = (error: unknown): boolean => {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const maybeError = error as { statusCode?: number; message?: string };
+  if (maybeError.statusCode === 401) {
+    return true;
+  }
+
+  if (typeof maybeError.message === "string") {
+    return maybeError.message.toLowerCase().includes("unauthorized");
+  }
+
+  return false;
+};
+
 const hasOAuthSuccessSignal = () => {
   if (typeof window === "undefined") {
     return false;
@@ -41,8 +58,9 @@ const hasOAuthSuccessSignal = () => {
 };
 
 export const useUser = () => {
+  const queryClient = useQueryClient();
   const sessionToken = useSessionToken();
-  const { setUser, setLoading, setError } = useUserActions();
+  const { setUser, setLoading, setError, logout } = useUserActions();
   const shouldFetchUser = Boolean(sessionToken) || hasOAuthSuccessSignal();
 
   const query = useQuery({
@@ -80,11 +98,17 @@ export const useUser = () => {
   useEffect(() => {
     if (query.isError) {
       setError(getApiErrorMessage(query.error));
+
+      if (isUnauthorizedError(query.error)) {
+        logout();
+        queryClient.removeQueries({ queryKey: queryKeys.auth.user });
+      }
+
       return;
     }
 
     setError(null);
-  }, [query.isError, query.error, setError]);
+  }, [query.isError, query.error, setError, logout, queryClient]);
 
   return query;
 };
@@ -171,6 +195,15 @@ export const useLogout = () => {
   const queryClient = useQueryClient();
   const { logout, setLoading, setError } = useUserActions();
 
+  const completeLocalLogout = () => {
+    logout();
+    queryClient.clear();
+
+    if (typeof window !== "undefined") {
+      window.sessionStorage.removeItem(OAUTH_PENDING_KEY);
+    }
+  };
+
   return useMutation({
     mutationFn: async () => {
       const response = await httpClient.post(ENDPOINT.AUTH.LOGOUT, {});
@@ -181,11 +214,11 @@ export const useLogout = () => {
       setError(null);
     },
     onSuccess: () => {
-      logout();
-      queryClient.clear(); // Clear all cached queries on logout
+      completeLocalLogout();
     },
     onError: (error) => {
       setError(getApiErrorMessage(error));
+      completeLocalLogout();
     },
     onSettled: () => {
       setLoading(false);

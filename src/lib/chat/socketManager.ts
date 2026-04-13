@@ -7,6 +7,7 @@ import {
   TypingPayload,
   UserStatusPayload,
 } from "@/types/chat.types";
+import { INotification, UnreadCountPayload } from "@/types/notification.types";
 
 type ChatSocketHandlers = {
   onMessage?: (message: ChatMessage) => void;
@@ -16,6 +17,15 @@ type ChatSocketHandlers = {
   onUserStatus?: (payload: UserStatusPayload) => void;
   onOnlineUsers?: (payload: OnlineUsersPayload) => void;
   onChatError?: (payload: ChatErrorPayload) => void;
+};
+
+type NotificationSocketHandlers = {
+  onNotificationNew?: (notification: INotification) => void;
+  onNotificationRead?: (payload: {
+    notificationId: string;
+    updatedCount: number;
+  }) => void;
+  onUnreadCountUpdate?: (payload: UnreadCountPayload) => void;
 };
 
 const resolveSocketBaseUrl = () => {
@@ -31,18 +41,126 @@ const resolveSocketBaseUrl = () => {
 class ChatSocketManager {
   private socket: Socket | null = null;
   private accessToken: string | null = null;
+  private nextBindingId = 1;
+  private chatBindings = new Map<number, ChatSocketHandlers>();
+  private notificationBindings = new Map<number, NotificationSocketHandlers>();
 
-  connect(accessToken: string) {
-    this.accessToken = accessToken;
+  private registerSocketLifecycle(socket: Socket) {
+    socket.off("connect");
+    socket.off("disconnect");
 
-    if (this.socket?.connected) {
-      return this.socket;
+    socket.on("connect", () => {
+      this.rebindAllHandlers();
+    });
+
+    socket.on("disconnect", () => {
+      // Listener re-attachment is handled by the connect event after auto-reconnect.
+    });
+  }
+
+  private attachChatHandlers(socket: Socket, handlers: ChatSocketHandlers) {
+    if (handlers.onMessage) {
+      socket.off("receive_message", handlers.onMessage);
+      socket.on("receive_message", handlers.onMessage);
+    }
+    if (handlers.onTyping) {
+      socket.off("typing", handlers.onTyping);
+      socket.on("typing", handlers.onTyping);
+    }
+    if (handlers.onStopTyping) {
+      socket.off("stop_typing", handlers.onStopTyping);
+      socket.on("stop_typing", handlers.onStopTyping);
+    }
+    if (handlers.onMessagesSeen) {
+      socket.off("message_seen", handlers.onMessagesSeen);
+      socket.on("message_seen", handlers.onMessagesSeen);
+    }
+    if (handlers.onUserStatus) {
+      socket.off("user_status", handlers.onUserStatus);
+      socket.on("user_status", handlers.onUserStatus);
+    }
+    if (handlers.onOnlineUsers) {
+      socket.off("online_users", handlers.onOnlineUsers);
+      socket.on("online_users", handlers.onOnlineUsers);
+    }
+    if (handlers.onChatError) {
+      socket.off("chat_error", handlers.onChatError);
+      socket.on("chat_error", handlers.onChatError);
+    }
+  }
+
+  private detachChatHandlers(socket: Socket, handlers: ChatSocketHandlers) {
+    if (handlers.onMessage) {
+      socket.off("receive_message", handlers.onMessage);
+    }
+    if (handlers.onTyping) {
+      socket.off("typing", handlers.onTyping);
+    }
+    if (handlers.onStopTyping) {
+      socket.off("stop_typing", handlers.onStopTyping);
+    }
+    if (handlers.onMessagesSeen) {
+      socket.off("message_seen", handlers.onMessagesSeen);
+    }
+    if (handlers.onUserStatus) {
+      socket.off("user_status", handlers.onUserStatus);
+    }
+    if (handlers.onOnlineUsers) {
+      socket.off("online_users", handlers.onOnlineUsers);
+    }
+    if (handlers.onChatError) {
+      socket.off("chat_error", handlers.onChatError);
+    }
+  }
+
+  private attachNotificationHandlers(
+    socket: Socket,
+    handlers: NotificationSocketHandlers,
+  ) {
+    if (handlers.onNotificationNew) {
+      socket.off("notification:new", handlers.onNotificationNew);
+      socket.on("notification:new", handlers.onNotificationNew);
+    }
+    if (handlers.onNotificationRead) {
+      socket.off("notification:read", handlers.onNotificationRead);
+      socket.on("notification:read", handlers.onNotificationRead);
+    }
+    if (handlers.onUnreadCountUpdate) {
+      socket.off("notification:unread-count", handlers.onUnreadCountUpdate);
+      socket.on("notification:unread-count", handlers.onUnreadCountUpdate);
+    }
+  }
+
+  private detachNotificationHandlers(
+    socket: Socket,
+    handlers: NotificationSocketHandlers,
+  ) {
+    if (handlers.onNotificationNew) {
+      socket.off("notification:new", handlers.onNotificationNew);
+    }
+    if (handlers.onNotificationRead) {
+      socket.off("notification:read", handlers.onNotificationRead);
+    }
+    if (handlers.onUnreadCountUpdate) {
+      socket.off("notification:unread-count", handlers.onUnreadCountUpdate);
+    }
+  }
+
+  private rebindAllHandlers() {
+    if (!this.socket) {
+      return;
     }
 
-    if (this.socket) {
-      this.socket.disconnect();
-    }
+    this.chatBindings.forEach((handlers) => {
+      this.attachChatHandlers(this.socket as Socket, handlers);
+    });
 
+    this.notificationBindings.forEach((handlers) => {
+      this.attachNotificationHandlers(this.socket as Socket, handlers);
+    });
+  }
+
+  private createSocket(accessToken: string) {
     this.socket = io(resolveSocketBaseUrl(), {
       transports: ["websocket"],
       withCredentials: true,
@@ -55,22 +173,41 @@ class ChatSocketManager {
       reconnectionDelayMax: 4000,
     });
 
-    return this.socket;
+    this.registerSocketLifecycle(this.socket);
+    this.rebindAllHandlers();
   }
 
-  updateToken(accessToken: string) {
-    this.accessToken = accessToken;
-
+  private destroySocket() {
     if (!this.socket) {
       return;
     }
 
-    this.socket.auth = { token: accessToken };
+    this.socket.removeAllListeners();
+    this.socket.disconnect();
+    this.socket = null;
+  }
 
-    if (this.socket.connected) {
-      this.socket.disconnect();
+  connect(accessToken: string) {
+    const shouldRecreateSocket =
+      !this.socket || this.accessToken !== accessToken;
+
+    this.accessToken = accessToken;
+
+    if (shouldRecreateSocket) {
+      this.destroySocket();
+      this.createSocket(accessToken);
+      return this.socket;
+    }
+
+    if (this.socket && !this.socket.connected) {
       this.socket.connect();
     }
+
+    return this.socket;
+  }
+
+  updateToken(accessToken: string) {
+    this.connect(accessToken);
   }
 
   getSocket() {
@@ -78,66 +215,43 @@ class ChatSocketManager {
   }
 
   disconnect() {
-    if (!this.socket) {
-      return;
-    }
-
-    this.socket.disconnect();
-    this.socket = null;
+    this.destroySocket();
   }
 
   bindHandlers(handlers: ChatSocketHandlers) {
-    if (!this.socket) {
-      return () => undefined;
-    }
+    const bindingId = this.nextBindingId++;
+    this.chatBindings.set(bindingId, handlers);
 
-    if (handlers.onMessage) {
-      this.socket.on("receive_message", handlers.onMessage);
-    }
-    if (handlers.onTyping) {
-      this.socket.on("typing", handlers.onTyping);
-    }
-    if (handlers.onStopTyping) {
-      this.socket.on("stop_typing", handlers.onStopTyping);
-    }
-    if (handlers.onMessagesSeen) {
-      this.socket.on("messages_seen", handlers.onMessagesSeen);
-    }
-    if (handlers.onUserStatus) {
-      this.socket.on("user_status", handlers.onUserStatus);
-    }
-    if (handlers.onOnlineUsers) {
-      this.socket.on("online_users", handlers.onOnlineUsers);
-    }
-    if (handlers.onChatError) {
-      this.socket.on("chat_error", handlers.onChatError);
+    if (this.socket) {
+      this.attachChatHandlers(this.socket, handlers);
     }
 
     return () => {
-      if (!this.socket) {
-        return;
-      }
+      this.chatBindings.delete(bindingId);
 
-      if (handlers.onMessage) {
-        this.socket.off("receive_message", handlers.onMessage);
+      if (this.socket) {
+        this.detachChatHandlers(this.socket, handlers);
       }
-      if (handlers.onTyping) {
-        this.socket.off("typing", handlers.onTyping);
-      }
-      if (handlers.onStopTyping) {
-        this.socket.off("stop_typing", handlers.onStopTyping);
-      }
-      if (handlers.onMessagesSeen) {
-        this.socket.off("messages_seen", handlers.onMessagesSeen);
-      }
-      if (handlers.onUserStatus) {
-        this.socket.off("user_status", handlers.onUserStatus);
-      }
-      if (handlers.onOnlineUsers) {
-        this.socket.off("online_users", handlers.onOnlineUsers);
-      }
-      if (handlers.onChatError) {
-        this.socket.off("chat_error", handlers.onChatError);
+    };
+  }
+
+  /**
+   * Bind notification event handlers
+   * Separate method to keep chat and notification concerns isolated
+   */
+  bindNotificationHandlers(handlers: NotificationSocketHandlers) {
+    const bindingId = this.nextBindingId++;
+    this.notificationBindings.set(bindingId, handlers);
+
+    if (this.socket) {
+      this.attachNotificationHandlers(this.socket, handlers);
+    }
+
+    return () => {
+      this.notificationBindings.delete(bindingId);
+
+      if (this.socket) {
+        this.detachNotificationHandlers(this.socket, handlers);
       }
     };
   }

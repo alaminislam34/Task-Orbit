@@ -39,7 +39,6 @@ export default function ForgotPasswordPage() {
   });
 
   const onSubmit = async (data: ForgotPasswordValues) => {
-    console.log("Reset link requested for:", data.email);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsSubmitted(true);
   };

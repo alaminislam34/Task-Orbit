@@ -14,8 +14,8 @@ export function RecruiterLayout({ children }: RecruiterLayoutProps) {
       <RecruiterSidebarComponents />
       <SidebarInset className="min-h-svh min-w-0 max-w-full overflow-x-hidden">
         <RecruiterHeader />
-        <section className="flex-1 min-w-0 max-w-full overflow-x-hidden">
-          <div className="p-4 h-full">{children}</div>
+        <section className="flex-1 min-w-0 max-w-full overflow-x-hidden h-full">
+          <div className="h-full min-w-0 max-w-full p-4">{children}</div>
         </section>
       </SidebarInset>
     </SidebarProvider>

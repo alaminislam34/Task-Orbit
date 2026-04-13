@@ -75,12 +75,23 @@ const ENDPOINT = {
     REJECT_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/reject`,
     GET_OFFERS: "/orders/offers",
     UPDATE_OFFER_LIMITED: (OFFER_ID: string) => `/orders/${OFFER_ID}`,
-    PHASE_START_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/phases/start`, // SELLER SEND PHASE OFFER TO CLIENT
-    PHASE_COMPLETE: (OFFER_ID: string) => `/orders/${OFFER_ID}/phases/complete`, // SELLER MARK PHASE AS COMPLETE
+    PHASE_START_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/phases/start`,
+    PHASE_COMPLETE: (OFFER_ID: string) => `/orders/${OFFER_ID}/phases/complete`,
     DELIVERABLES_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/deliverables`,
     DELIVERABLE_FEEDBACK: (OFFER_ID: string, DELIVERABLE_ID: string) =>
       `/orders/${OFFER_ID}/deliverables/${DELIVERABLE_ID}/review`,
-    
+  },
+
+  NOTIFICATION: {
+    GET_NOTIFICATIONS: "/notifications",
+    GET_NOTIFICATION: (NOTIFICATION_ID: string) => `/notifications/${NOTIFICATION_ID}`,
+    MARK_AS_READ: (NOTIFICATION_ID: string) => `/notifications/${NOTIFICATION_ID}/read`,
+    MARK_ALL_AS_READ: "/notifications/read-all",
+    BULK_MARK_READ: "/notifications/bulk-read",
+    DELETE_NOTIFICATION: (NOTIFICATION_ID: string) => `/notifications/${NOTIFICATION_ID}`,
+    GET_UNREAD_COUNT: "/notifications/unread-count",
+    GET_PREFERENCES: "/notifications/preferences",
+    UPDATE_PREFERENCES: "/notifications/preferences",
   },
 };
 

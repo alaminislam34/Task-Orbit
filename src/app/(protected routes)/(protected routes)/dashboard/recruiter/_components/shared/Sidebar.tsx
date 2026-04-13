@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  FileText,
   FileTextIcon,
   Gauge,
+  MessageCircleMore,
   Settings2,
   UserCheck2,
 } from "lucide-react";
@@ -21,9 +21,14 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: UserCheck2,
   },
   {
-    label: "My Applications",
-    href: "/dashboard/recruiter/applications",
+    label: "Job Applications",
+    href: "/dashboard/recruiter/job-applications",
     icon: FileTextIcon,
+  },
+  {
+    label: "Conversations",
+    href: "/dashboard/recruiter/conversations",
+    icon: MessageCircleMore,
   },
   { label: "Settings", href: "/dashboard/recruiter/settings", icon: Settings2 },
 ];
@@ -32,10 +37,10 @@ export function RecruiterSidebarComponents() {
   return (
     <CommonSidebar
       items={SIDEBAR_ITEMS}
-      brandTitle="Recruiter"
+      brandTitle="Job Recruiter"
       brandHref="/dashboard/recruiter"
       brandIcon={<UserCheck2 className="size-4" />}
-      footerText="Manage your recruiter activities from one place."
+      footerText="Manage your Recruiter activities from one place."
     />
   );
 }

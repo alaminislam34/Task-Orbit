@@ -38,6 +38,8 @@ const Navbar = () => {
         return "/dashboard/seeker";
       case AccountType.CLIENT:
         return "/dashboard/client";
+      case AccountType.RECRUITER:
+        return "/dashboard/recruiter";
       default:
         return "/";
     }

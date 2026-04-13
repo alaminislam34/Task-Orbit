@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  FileText,
   FileTextIcon,
   Gauge,
+  MessageCircleMore,
   Settings2,
   UserCheck2,
 } from "lucide-react";
@@ -15,11 +15,20 @@ import {
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard/seeker", icon: Gauge },
-  { label: "My Profile", href: "/dashboard/seeker/profile", icon: UserCheck2 },
+  {
+    label: "My Profile",
+    href: "/dashboard/seeker/profile",
+    icon: UserCheck2,
+  },
   {
     label: "My Applications",
     href: "/dashboard/seeker/applications",
     icon: FileTextIcon,
+  },
+  {
+    label: "Conversations",
+    href: "/dashboard/seeker/conversations",
+    icon: MessageCircleMore,
   },
   { label: "Settings", href: "/dashboard/seeker/settings", icon: Settings2 },
 ];
