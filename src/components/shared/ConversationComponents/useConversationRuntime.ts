@@ -1062,6 +1062,28 @@ export const useConversationRuntime = () => {
       );
   }, [pendingMessages, selectedConversationId]);
 
+  const latestPendingByConversation = useMemo(() => {
+    const map = new Map<string, PendingMessage>();
+
+    pendingMessages.forEach((item) => {
+      const existing = map.get(item.payload.conversationId);
+
+      if (!existing) {
+        map.set(item.payload.conversationId, item);
+        return;
+      }
+
+      if (
+        new Date(item.createdAt).getTime() >
+        new Date(existing.createdAt).getTime()
+      ) {
+        map.set(item.payload.conversationId, item);
+      }
+    });
+
+    return map;
+  }, [pendingMessages]);
+
   const uiMessages = useMemo<UiMessage[]>(() => {
     const delivered = deliveredMessages.map((message) => ({
       id: message.id,
@@ -1107,17 +1129,32 @@ export const useConversationRuntime = () => {
     const sortedUsers = [...filteredUsers].sort((a, b) => {
       const conversationA = conversationByUserId.get(a.id);
       const conversationB = conversationByUserId.get(b.id);
+      const pendingA = conversationA
+        ? latestPendingByConversation.get(conversationA.id)
+        : undefined;
+      const pendingB = conversationB
+        ? latestPendingByConversation.get(conversationB.id)
+        : undefined;
 
       const timestampA =
-        conversationA?.updatedAt || conversationA?.lastMessage?.createdAt || "";
+        pendingA?.createdAt ||
+        conversationA?.updatedAt ||
+        conversationA?.lastMessage?.createdAt ||
+        "";
       const timestampB =
-        conversationB?.updatedAt || conversationB?.lastMessage?.createdAt || "";
+        pendingB?.createdAt ||
+        conversationB?.updatedAt ||
+        conversationB?.lastMessage?.createdAt ||
+        "";
 
       return new Date(timestampB).getTime() - new Date(timestampA).getTime();
     });
 
     return sortedUsers.map((user) => {
       const conversation = conversationByUserId.get(user.id);
+      const pendingPreview = conversation
+        ? latestPendingByConversation.get(conversation.id)
+        : undefined;
       const unreadCount = Math.max(0, conversation?.unreadCount ?? 0);
 
       const isActive = user.id === selectedUserId;
@@ -1131,8 +1168,14 @@ export const useConversationRuntime = () => {
         name: user.name || "Unknown user",
         avatarUrl: user.image || undefined,
         online,
-        lastMsg: conversation?.lastMessage?.text ?? "No messages yet",
-        time: formatTime(conversation?.lastMessage?.createdAt) || "",
+        lastMsg:
+          pendingPreview?.payload.text ||
+          conversation?.lastMessage?.text ||
+          "No messages yet",
+        time:
+          formatTime(pendingPreview?.createdAt) ||
+          formatTime(conversation?.lastMessage?.createdAt) ||
+          "",
         unreadCount,
         active: isActive,
         status: online ? "Active now" : "Offline",
@@ -1141,6 +1184,7 @@ export const useConversationRuntime = () => {
   }, [
     filteredUsers,
     conversationByUserId,
+    latestPendingByConversation,
     selectedUserId,
     onlineUserIds,
   ]);
