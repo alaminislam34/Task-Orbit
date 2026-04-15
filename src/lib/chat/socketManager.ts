@@ -2,6 +2,7 @@ import { io, Socket } from "socket.io-client";
 import {
   ChatErrorPayload,
   ChatMessage,
+  ConversationSummaryUpdatedPayload,
   MessagesSeenPayload,
   OnlineUsersPayload,
   TypingPayload,
@@ -9,17 +10,27 @@ import {
 } from "@/types/chat.types";
 import { INotification, UnreadCountPayload } from "@/types/notification.types";
 
-type ChatSocketHandlers = {
+type SocketLifecycleHandlers = {
+  onConnect?: () => void;
+  onDisconnect?: (reason: string) => void;
+  onReconnect?: (attemptNumber: number) => void;
+  onConnectError?: (error: Error) => void;
+};
+
+type ChatSocketHandlers = SocketLifecycleHandlers & {
   onMessage?: (message: ChatMessage) => void;
   onTyping?: (payload: TypingPayload & { senderId: string }) => void;
   onStopTyping?: (payload: TypingPayload & { senderId: string }) => void;
   onMessagesSeen?: (payload: MessagesSeenPayload) => void;
+  onConversationSummaryUpdated?: (
+    payload: ConversationSummaryUpdatedPayload,
+  ) => void;
   onUserStatus?: (payload: UserStatusPayload) => void;
   onOnlineUsers?: (payload: OnlineUsersPayload) => void;
   onChatError?: (payload: ChatErrorPayload) => void;
 };
 
-type NotificationSocketHandlers = {
+type NotificationSocketHandlers = SocketLifecycleHandlers & {
   onNotificationNew?: (notification: INotification) => void;
   onNotificationRead?: (payload: {
     notificationId: string;
@@ -44,23 +55,88 @@ class ChatSocketManager {
   private nextBindingId = 1;
   private chatBindings = new Map<number, ChatSocketHandlers>();
   private notificationBindings = new Map<number, NotificationSocketHandlers>();
+  private activeConversationIds = new Set<string>();
+
+  private handleSocketConnect = () => {
+    this.restoreConversationRooms();
+    this.rebindAllHandlers();
+  };
+
+  private handleSocketReconnect = () => {
+    this.restoreConversationRooms();
+    this.rebindAllHandlers();
+  };
+
+  private handleSocketDisconnect = () => {
+    // Room state is retained so reconnect can restore the selected thread.
+  };
+
+  private handleSocketConnectError = () => {
+    // Individual hooks handle fallback behavior when the socket is unavailable.
+  };
+
+  private attachLifecycleHandlers(socket: Socket, handlers: SocketLifecycleHandlers) {
+    if (handlers.onConnect) {
+      socket.off("connect", handlers.onConnect);
+      socket.on("connect", handlers.onConnect);
+    }
+
+    if (handlers.onDisconnect) {
+      socket.off("disconnect", handlers.onDisconnect);
+      socket.on("disconnect", handlers.onDisconnect);
+    }
+
+    if (handlers.onReconnect) {
+      socket.off("reconnect", handlers.onReconnect);
+      socket.on("reconnect", handlers.onReconnect);
+    }
+
+    if (handlers.onConnectError) {
+      socket.off("connect_error", handlers.onConnectError);
+      socket.on("connect_error", handlers.onConnectError);
+    }
+  }
+
+  private detachLifecycleHandlers(
+    socket: Socket,
+    handlers: SocketLifecycleHandlers,
+  ) {
+    if (handlers.onConnect) {
+      socket.off("connect", handlers.onConnect);
+    }
+
+    if (handlers.onDisconnect) {
+      socket.off("disconnect", handlers.onDisconnect);
+    }
+
+    if (handlers.onReconnect) {
+      socket.off("reconnect", handlers.onReconnect);
+    }
+
+    if (handlers.onConnectError) {
+      socket.off("connect_error", handlers.onConnectError);
+    }
+  }
 
   private registerSocketLifecycle(socket: Socket) {
-    socket.off("connect");
-    socket.off("disconnect");
+    socket.off("connect", this.handleSocketConnect);
+    socket.off("reconnect", this.handleSocketReconnect);
+    socket.off("disconnect", this.handleSocketDisconnect);
+    socket.off("connect_error", this.handleSocketConnectError);
 
-    socket.on("connect", () => {
-      this.rebindAllHandlers();
-    });
-
-    socket.on("disconnect", () => {
-      // Listener re-attachment is handled by the connect event after auto-reconnect.
-    });
+    socket.on("connect", this.handleSocketConnect);
+    socket.on("reconnect", this.handleSocketReconnect);
+    socket.on("disconnect", this.handleSocketDisconnect);
+    socket.on("connect_error", this.handleSocketConnectError);
   }
 
   private attachChatHandlers(socket: Socket, handlers: ChatSocketHandlers) {
+    this.attachLifecycleHandlers(socket, handlers);
+
     if (handlers.onMessage) {
+      socket.off("message_received", handlers.onMessage);
       socket.off("receive_message", handlers.onMessage);
+      socket.on("message_received", handlers.onMessage);
       socket.on("receive_message", handlers.onMessage);
     }
     if (handlers.onTyping) {
@@ -74,6 +150,16 @@ class ChatSocketManager {
     if (handlers.onMessagesSeen) {
       socket.off("message_seen", handlers.onMessagesSeen);
       socket.on("message_seen", handlers.onMessagesSeen);
+    }
+    if (handlers.onConversationSummaryUpdated) {
+      socket.off(
+        "conversation_summary_updated",
+        handlers.onConversationSummaryUpdated,
+      );
+      socket.on(
+        "conversation_summary_updated",
+        handlers.onConversationSummaryUpdated,
+      );
     }
     if (handlers.onUserStatus) {
       socket.off("user_status", handlers.onUserStatus);
@@ -90,7 +176,10 @@ class ChatSocketManager {
   }
 
   private detachChatHandlers(socket: Socket, handlers: ChatSocketHandlers) {
+    this.detachLifecycleHandlers(socket, handlers);
+
     if (handlers.onMessage) {
+      socket.off("message_received", handlers.onMessage);
       socket.off("receive_message", handlers.onMessage);
     }
     if (handlers.onTyping) {
@@ -101,6 +190,12 @@ class ChatSocketManager {
     }
     if (handlers.onMessagesSeen) {
       socket.off("message_seen", handlers.onMessagesSeen);
+    }
+    if (handlers.onConversationSummaryUpdated) {
+      socket.off(
+        "conversation_summary_updated",
+        handlers.onConversationSummaryUpdated,
+      );
     }
     if (handlers.onUserStatus) {
       socket.off("user_status", handlers.onUserStatus);
@@ -117,6 +212,8 @@ class ChatSocketManager {
     socket: Socket,
     handlers: NotificationSocketHandlers,
   ) {
+    this.attachLifecycleHandlers(socket, handlers);
+
     if (handlers.onNotificationNew) {
       socket.off("notification:new", handlers.onNotificationNew);
       socket.on("notification:new", handlers.onNotificationNew);
@@ -135,6 +232,8 @@ class ChatSocketManager {
     socket: Socket,
     handlers: NotificationSocketHandlers,
   ) {
+    this.detachLifecycleHandlers(socket, handlers);
+
     if (handlers.onNotificationNew) {
       socket.off("notification:new", handlers.onNotificationNew);
     }
@@ -187,6 +286,16 @@ class ChatSocketManager {
     this.socket = null;
   }
 
+  private restoreConversationRooms() {
+    if (!this.socket?.connected || !this.activeConversationIds.size) {
+      return;
+    }
+
+    this.activeConversationIds.forEach((conversationId) => {
+      this.socket?.emit("join_conversation", { conversationId });
+    });
+  }
+
   connect(accessToken: string) {
     const shouldRecreateSocket =
       !this.socket || this.accessToken !== accessToken;
@@ -216,6 +325,35 @@ class ChatSocketManager {
 
   disconnect() {
     this.destroySocket();
+    this.clearConversationRooms();
+  }
+
+  joinConversation(conversationId: string) {
+    if (!conversationId) {
+      return;
+    }
+
+    this.activeConversationIds.add(conversationId);
+
+    if (this.socket?.connected) {
+      this.socket.emit("join_conversation", { conversationId });
+    }
+  }
+
+  leaveConversation(conversationId: string) {
+    if (!conversationId) {
+      return;
+    }
+
+    this.activeConversationIds.delete(conversationId);
+
+    if (this.socket?.connected) {
+      this.socket.emit("leave_conversation", { conversationId });
+    }
+  }
+
+  clearConversationRooms() {
+    this.activeConversationIds.clear();
   }
 
   bindHandlers(handlers: ChatSocketHandlers) {

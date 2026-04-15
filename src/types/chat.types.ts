@@ -37,6 +37,14 @@ export interface ChatConversation {
   createdAt?: string;
 }
 
+export interface ConversationSummaryUpdatedPayload {
+  conversationId: string;
+  conversation?: Partial<ChatConversation>;
+  lastMessage?: ChatMessage | null;
+  unreadCount?: number;
+  updatedAt?: string;
+}
+
 export interface ChatConversationListResponse {
   conversations: ChatConversation[];
   meta?: PaginatedMeta;

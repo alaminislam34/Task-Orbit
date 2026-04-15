@@ -38,6 +38,7 @@ const ENDPOINT = {
   REVIEW: {},
   JOBS: {
     GET_JOBS: "/jobs",
+    GET_RECRUITER_JOBS: "/recruiter/jobs",
     GET_JOB: (JOB_ID: string) => `/jobs/${JOB_ID}`,
     APPLY_JOB: (JOB_ID: string) => `/applications/${JOB_ID}/apply`,
     CREATE_JOB: "/recruiter/jobs",
@@ -48,12 +49,14 @@ const ENDPOINT = {
   APPLICATION: {
     GET_APPLICATIONS: "/applications/my-applications",
     GET_SAVED_JOBS: "/applications/saved-jobs",
+    TOGGLE_SAVED_JOB: (JOB_ID: string) => `/applications/saved-jobs/${JOB_ID}/toggle`,
+    APPLY_TO_JOB: (JOB_ID: string) => `/applications/${JOB_ID}/apply`,
     DOWNLOAD_RESUME: (APPLICATION_ID: string) =>
-      `/applications/${APPLICATION_ID}/resume/`,
-    GET_APPLICANTS: (JOB_ID: string) => `/recruiter/jobs/${JOB_ID}/applicants`,
+      `/applications/${APPLICATION_ID}/resume`,
+    GET_APPLICANTS: (JOB_ID: string) => `/applications/recruiter/jobs/${JOB_ID}/applicants`,
     UPDATE_APPLICATION_STATUS: (APPLICATION_ID: string) =>
-      `/recruiter/applications/${APPLICATION_ID}/status`,
-    BULK_ACTION: "/recruiter/applications/bulk-status",
+      `/applications/recruiter/applications/${APPLICATION_ID}/status`,
+    BULK_ACTION: "/applications/recruiter/applications/bulk-status",
   },
   CHAT: {
     CONVERSATIONS: "/conversations",

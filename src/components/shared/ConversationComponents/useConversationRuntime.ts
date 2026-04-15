@@ -22,6 +22,11 @@ import {
   useMarkMessagesSeen,
   useSendMessage,
 } from "@/hooks/api";
+import {
+  dedupeRealtimeCollection,
+  mergeRealtimeCollection,
+  sortMessagesByCreatedAt,
+} from "@/lib/chat/realtime-utils";
 
 type PendingMessage = {
   tempId: string;
@@ -65,6 +70,37 @@ const normalizeMessageContent = (message: ChatMessage): ChatMessage => {
   };
 };
 
+const normalizeConversationSummary = (
+  conversationId: string,
+  payload: Partial<ChatConversation> & {
+    lastMessage?: ChatMessage | null;
+    unreadCount?: number;
+    updatedAt?: string;
+  },
+): ChatConversation => {
+  const {
+    id: _ignoredId,
+    lastMessage,
+    unreadCount,
+    updatedAt,
+    ...conversation
+  } = payload;
+  const incomingLastMessage = payload.lastMessage
+    ? normalizeMessageContent({
+        ...payload.lastMessage,
+        conversationId,
+      })
+    : null;
+
+  return {
+    id: conversationId,
+    ...conversation,
+    lastMessage: incomingLastMessage,
+    unreadCount,
+    updatedAt: updatedAt || incomingLastMessage?.createdAt,
+  };
+};
+
 const hasRequiredLastMessageFields = (message?: ChatMessage | null) => {
   if (!message) {
     return false;
@@ -72,10 +108,10 @@ const hasRequiredLastMessageFields = (message?: ChatMessage | null) => {
 
   return Boolean(
     message.id &&
-      message.conversationId &&
-      message.senderId &&
-      message.createdAt &&
-      (message.content || message.text),
+    message.conversationId &&
+    message.senderId &&
+    message.createdAt &&
+    (message.content || message.text),
   );
 };
 
@@ -204,19 +240,11 @@ const getConversationPeer = (
 };
 
 const sortMessagesAsc = (messages: ChatMessage[]) => {
-  return [...messages].sort(
-    (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
-  );
+  return sortMessagesByCreatedAt(messages);
 };
 
 const toUniqueMessages = (messages: ChatMessage[]) => {
-  const map = new Map<string, ChatMessage>();
-
-  messages.forEach((message) => {
-    map.set(message.id, message);
-  });
-
-  return sortMessagesAsc(Array.from(map.values()));
+  return sortMessagesAsc(dedupeRealtimeCollection(messages));
 };
 
 const isForbiddenError = (error: unknown) => {
@@ -255,17 +283,16 @@ export const useConversationRuntime = () => {
   const [seenByConversationId, setSeenByConversationId] = useState<
     Record<string, boolean>
   >({});
-  const processedMessageIdsRef = useRef<Set<string>>(new Set());
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
 
   const typingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const seenTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingTimeoutsRef = useRef<
     Record<string, ReturnType<typeof setTimeout>>
   >({});
-  const lastSeenRequestRef = useRef<{
-    conversationId: string;
-    timestamp: number;
-  } | null>(null);
-  const seenMessageIdsRef = useRef<Set<string>>(new Set());
+  const latestUserIdRef = useRef(currentUser?.id ?? "");
+  const latestSelectedConversationIdRef = useRef("");
+  const lastSeenMessageKeyRef = useRef<Record<string, string>>({});
 
   const usersQuery = useChatUsers();
   const conversationsQuery = useConversations(1, 100);
@@ -277,6 +304,7 @@ export const useConversationRuntime = () => {
   const {
     socket,
     emitJoinConversation,
+    emitLeaveConversation,
     emitMarkSeen,
     emitSendMessage,
     emitTyping,
@@ -294,6 +322,14 @@ export const useConversationRuntime = () => {
     });
   }, [conversationsById]);
 
+  useEffect(() => {
+    latestUserIdRef.current = currentUser?.id ?? "";
+  }, [currentUser?.id]);
+
+  useEffect(() => {
+    latestSelectedConversationIdRef.current = selectedConversationId;
+  }, [selectedConversationId]);
+
   const conversationByUserId = useMemo(() => {
     const map = new Map<string, ChatConversation>();
 
@@ -309,7 +345,8 @@ export const useConversationRuntime = () => {
   }, [conversationsById, currentUser?.id]);
 
   useEffect(() => {
-    const fetchedConversations = conversationsQuery.data?.data.conversations ?? [];
+    const fetchedConversations =
+      conversationsQuery.data?.data.conversations ?? [];
 
     if (!fetchedConversations.length) {
       return;
@@ -334,7 +371,7 @@ export const useConversationRuntime = () => {
   }, [conversationsQuery.data?.data.conversations]);
 
   useEffect(() => {
-    if (!socket?.connected) {
+    if (!isSocketConnected) {
       return;
     }
 
@@ -344,19 +381,63 @@ export const useConversationRuntime = () => {
       void messagesQuery.refetch();
     }
   }, [
-    socket?.connected,
     selectedConversationId,
     conversationsQuery,
     messagesQuery,
+    isSocketConnected,
   ]);
 
   useEffect(() => {
-    if (!socket?.connected || !selectedConversationId) {
+    if (!socket?.connected) {
+      return;
+    }
+
+    setIsSocketConnected(true);
+    void conversationsQuery.refetch();
+
+    if (selectedConversationId) {
+      void messagesQuery.refetch();
+    }
+  }, [
+    socket?.connected,
+    selectedConversationId,
+    conversationsQuery.refetch,
+    messagesQuery.refetch,
+  ]);
+
+  useEffect(() => {
+    if (!selectedConversationId) {
       return;
     }
 
     emitJoinConversation({ conversationId: selectedConversationId });
-  }, [socket?.connected, selectedConversationId, emitJoinConversation]);
+
+    return () => {
+      emitLeaveConversation({ conversationId: selectedConversationId });
+    };
+  }, [selectedConversationId, emitJoinConversation, emitLeaveConversation]);
+
+  useEffect(() => {
+    const handleWindowFocus = () => {
+      if (typeof document !== "undefined" && document.hidden) {
+        return;
+      }
+
+      void conversationsQuery.refetch();
+
+      if (selectedConversationId) {
+        void messagesQuery.refetch();
+      }
+    };
+
+    window.addEventListener("focus", handleWindowFocus);
+    document.addEventListener("visibilitychange", handleWindowFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleWindowFocus);
+      document.removeEventListener("visibilitychange", handleWindowFocus);
+    };
+  }, [selectedConversationId, conversationsQuery, messagesQuery]);
 
   const users = useMemo(() => {
     const map = new Map<string, ChatUserSummary>();
@@ -454,7 +535,12 @@ export const useConversationRuntime = () => {
         if (existingTempId) {
           return previous.map((item) =>
             item.tempId === existingTempId
-              ? { ...item, payload: payloadWithClientId, status: "pending", createdAt }
+              ? {
+                  ...item,
+                  payload: payloadWithClientId,
+                  status: "pending",
+                  createdAt,
+                }
               : item,
           );
         }
@@ -495,22 +581,17 @@ export const useConversationRuntime = () => {
 
         return {
           ...previous,
-          [payload.conversationId]: mergeConversation(
-            existingConversation,
-            {
-              ...(existingConversation ?? {
-                id: payload.conversationId,
-                participants: activeUser
-                  ? [activeUser]
-                  : [],
-                createdAt,
-              }),
+          [payload.conversationId]: mergeConversation(existingConversation, {
+            ...(existingConversation ?? {
               id: payload.conversationId,
-              lastMessage: optimisticMessage,
-              updatedAt: createdAt,
-              unreadCount: existingConversation?.unreadCount ?? 0,
-            },
-          ),
+              participants: activeUser ? [activeUser] : [],
+              createdAt,
+            }),
+            id: payload.conversationId,
+            lastMessage: optimisticMessage,
+            updatedAt: createdAt,
+            unreadCount: existingConversation?.unreadCount ?? 0,
+          }),
         };
       });
 
@@ -527,16 +608,17 @@ export const useConversationRuntime = () => {
             return previous;
           }
 
-          const nextConversations = previous.data.conversations.map((conversation) =>
-            conversation.id === payload.conversationId
-              ? mergeConversation(conversation, {
-                  ...conversation,
-                  id: payload.conversationId,
-                  lastMessage: optimisticMessage,
-                  updatedAt: createdAt,
-                  unreadCount: conversation.unreadCount ?? 0,
-                })
-              : conversation,
+          const nextConversations = previous.data.conversations.map(
+            (conversation) =>
+              conversation.id === payload.conversationId
+                ? mergeConversation(conversation, {
+                    ...conversation,
+                    id: payload.conversationId,
+                    lastMessage: optimisticMessage,
+                    updatedAt: createdAt,
+                    unreadCount: conversation.unreadCount ?? 0,
+                  })
+                : conversation,
           );
 
           const existingIndex = nextConversations.findIndex(
@@ -626,8 +708,7 @@ export const useConversationRuntime = () => {
         receiverId: payload.receiverId,
       });
 
-      if (socket?.connected) {
-        console.log("[chat socket] send_message", queuedPayload);
+      if (isSocketConnected) {
         emitSendMessage(queuedPayload);
         return;
       }
@@ -636,13 +717,13 @@ export const useConversationRuntime = () => {
         const response = await sendMessageMutation.mutateAsync(queuedPayload);
         removePendingByLocalId(tempId);
 
-        setIncomingMessages((previous) => {
-          if (previous.some((item) => item.id === response.data.id)) {
-            return previous;
-          }
-
-          return [response.data, ...previous];
-        });
+        setIncomingMessages((previous) =>
+          sortMessagesByCreatedAt(
+            dedupeRealtimeCollection(
+              mergeRealtimeCollection(previous, response.data),
+            ),
+          ),
+        );
       } catch (error) {
         if (isForbiddenError(error)) {
           setPendingMessages((previous) =>
@@ -670,7 +751,7 @@ export const useConversationRuntime = () => {
       queuePendingMessage,
       updateConversationPreview,
       emitStopTyping,
-      socket?.connected,
+      isSocketConnected,
       emitSendMessage,
       sendMessageMutation,
       removePendingByLocalId,
@@ -789,84 +870,133 @@ export const useConversationRuntime = () => {
 
   useEffect(() => {
     if (!selectedConversationId) {
+      if (seenTimeoutRef.current) {
+        clearTimeout(seenTimeoutRef.current);
+        seenTimeoutRef.current = null;
+      }
+
       return;
     }
 
-    const apiMessages = [...(messagesQuery.data?.data.messages ?? [])].reverse();
+    const apiMessages = [
+      ...(messagesQuery.data?.data.messages ?? []),
+    ].reverse();
     const liveMessages = incomingMessages.filter(
       (message) => message.conversationId === selectedConversationId,
     );
     const mergedMessages = toUniqueMessages([...apiMessages, ...liveMessages]);
 
-    const unseenIncomingMessage = [...mergedMessages]
+    const latestUnreadMessage = [...mergedMessages]
       .reverse()
       .find(
         (message) =>
           message.conversationId === selectedConversationId &&
-          message.receiverId === currentUser?.id &&
+          message.senderId !== currentUser?.id &&
           !message.seen,
       );
 
-    if (!unseenIncomingMessage) {
+    if (!latestUnreadMessage) {
+      if (seenTimeoutRef.current) {
+        clearTimeout(seenTimeoutRef.current);
+        seenTimeoutRef.current = null;
+      }
+
       return;
     }
 
-    if (seenMessageIdsRef.current.has(unseenIncomingMessage.id)) {
+    const latestUnreadKey =
+      latestUnreadMessage.clientMessageId || latestUnreadMessage.id;
+
+    if (
+      lastSeenMessageKeyRef.current[selectedConversationId] === latestUnreadKey
+    ) {
       return;
     }
 
-    seenMessageIdsRef.current.add(unseenIncomingMessage.id);
+    if (seenTimeoutRef.current) {
+      clearTimeout(seenTimeoutRef.current);
+    }
 
-    const now = Date.now();
-    const shouldSkipDuplicateSeen =
-      lastSeenRequestRef.current?.conversationId === selectedConversationId &&
-      now - lastSeenRequestRef.current.timestamp < 1500;
+    seenTimeoutRef.current = setTimeout(() => {
+      lastSeenMessageKeyRef.current[selectedConversationId] = latestUnreadKey;
+      setSeenByConversationId((previous) => ({
+        ...previous,
+        [selectedConversationId]: true,
+      }));
 
-    if (!shouldSkipDuplicateSeen) {
-      lastSeenRequestRef.current = {
-        conversationId: selectedConversationId,
-        timestamp: now,
-      };
+      setConversationsById((previous) => {
+        const existing = previous[selectedConversationId];
+
+        if (!existing || (existing.unreadCount ?? 0) === 0) {
+          return previous;
+        }
+
+        return {
+          ...previous,
+          [selectedConversationId]: {
+            ...existing,
+            unreadCount: 0,
+          },
+        };
+      });
 
       emitMarkSeen({ conversationId: selectedConversationId });
       markMessagesSeen({ conversationId: selectedConversationId });
-    }
+      seenTimeoutRef.current = null;
+    }, 350);
 
-    setConversationsById((previous) => {
-      const existing = previous[selectedConversationId];
-
-      if (!existing || (existing.unreadCount ?? 0) === 0) {
-        return previous;
+    return () => {
+      if (seenTimeoutRef.current) {
+        clearTimeout(seenTimeoutRef.current);
+        seenTimeoutRef.current = null;
       }
-
-      return {
-        ...previous,
-        [selectedConversationId]: {
-          ...existing,
-          unreadCount: 0,
-        },
-      };
-    });
+    };
   }, [
     selectedConversationId,
-    emitJoinConversation,
+    currentUser?.id,
+    incomingMessages,
     emitMarkSeen,
     markMessagesSeen,
     messagesQuery.data?.data.messages,
-    incomingMessages,
-    currentUser?.id,
     setConversationsById,
   ]);
 
   useEffect(() => {
     return bindChatHandlers({
+      onConnect: () => {
+        setIsSocketConnected(true);
+        void conversationsQuery.refetch();
+
+        if (latestSelectedConversationIdRef.current) {
+          void messagesQuery.refetch();
+        }
+      },
+      onReconnect: () => {
+        setIsSocketConnected(true);
+        void conversationsQuery.refetch();
+
+        if (latestSelectedConversationIdRef.current) {
+          void messagesQuery.refetch();
+        }
+      },
+      onDisconnect: () => {
+        setIsSocketConnected(false);
+      },
+      onConnectError: () => {
+        setIsSocketConnected(false);
+      },
       onMessage: (message) => {
-        const normalizedMessage = {
+        const conversationId =
+          message.conversationId ||
+          latestSelectedConversationIdRef.current ||
+          "";
+
+        const normalizedMessage = normalizeMessageContent({
           ...message,
-          content: message.content ?? message.text,
+          conversationId,
+          content: message.content ?? message.text ?? "",
           text: message.text ?? message.content ?? "",
-          conversationId: message.conversationId || selectedConversationId || "",
-        };
+        });
 
         if (!normalizedMessage.id || !normalizedMessage.conversationId) {
           return;
@@ -876,64 +1006,54 @@ export const useConversationRuntime = () => {
           return;
         }
 
-        if (processedMessageIdsRef.current.has(normalizedMessage.id)) {
-          return;
-        }
-
-        processedMessageIdsRef.current.add(normalizedMessage.id);
-
-        const existedBefore = incomingMessages.some(
-          (item) => item.id === normalizedMessage.id,
+        setIncomingMessages((previous) =>
+          sortMessagesByCreatedAt(
+            dedupeRealtimeCollection(
+              mergeRealtimeCollection(previous, normalizedMessage),
+            ),
+          ),
         );
 
-        if (existedBefore) {
-          return;
-        }
-
-        setIncomingMessages((previous) => {
-          if (previous.some((item) => item.id === normalizedMessage.id)) {
-            return previous;
-          }
-
-          return [normalizedMessage, ...previous];
-        });
-
         setConversationsById((previous) => {
-          const existingConversation = previous[normalizedMessage.conversationId];
-          const isIncomingFromPeer = normalizedMessage.senderId !== currentUser?.id;
+          const existingConversation =
+            previous[normalizedMessage.conversationId];
+          const isIncomingFromPeer =
+            normalizedMessage.senderId !== latestUserIdRef.current;
           const isActiveConversation =
-            normalizedMessage.conversationId === selectedConversationId;
+            normalizedMessage.conversationId ===
+            latestSelectedConversationIdRef.current;
 
-          const nextUnread = isIncomingFromPeer && !isActiveConversation
-            ? Math.max(0, (existingConversation?.unreadCount ?? 0) + 1)
-            : existingConversation?.unreadCount ?? 0;
-
-          const mergedConversation = mergeConversation(existingConversation, {
-            ...(existingConversation ?? {
-              id: normalizedMessage.conversationId,
-              participants: [],
-            }),
-            id: normalizedMessage.conversationId,
-            lastMessage: normalizedMessage,
-            updatedAt: normalizedMessage.createdAt,
-            unreadCount: nextUnread,
-          });
+          const nextUnread =
+            isIncomingFromPeer && !isActiveConversation
+              ? Math.max(0, (existingConversation?.unreadCount ?? 0) + 1)
+              : (existingConversation?.unreadCount ?? 0);
 
           return {
             ...previous,
-            [normalizedMessage.conversationId]: mergedConversation,
+            [normalizedMessage.conversationId]: mergeConversation(
+              existingConversation,
+              {
+                ...(existingConversation ?? {
+                  id: normalizedMessage.conversationId,
+                  participants: [],
+                }),
+                id: normalizedMessage.conversationId,
+                lastMessage: normalizedMessage,
+                updatedAt: normalizedMessage.createdAt,
+                unreadCount: nextUnread,
+              },
+            ),
           };
         });
 
-        if (normalizedMessage.senderId === currentUser?.id) {
+        if (
+          normalizedMessage.senderId === latestUserIdRef.current &&
+          normalizedMessage.clientMessageId
+        ) {
           setPendingMessages((previous) => {
-            const match = previous.find((item) => {
-              if (normalizedMessage.clientMessageId) {
-                return item.tempId === normalizedMessage.clientMessageId;
-              }
-
-              return false;
-            });
+            const match = previous.find(
+              (item) => item.tempId === normalizedMessage.clientMessageId,
+            );
 
             if (!match) {
               return previous;
@@ -942,15 +1062,44 @@ export const useConversationRuntime = () => {
             clearPendingTimeout(match.tempId);
             return previous.filter((item) => item.tempId !== match.tempId);
           });
+        }
+      },
+      onConversationSummaryUpdated: (payload) => {
+        const conversationId =
+          payload.conversationId || payload.conversation?.id || "";
+
+        if (!conversationId) {
           return;
         }
 
-        if (normalizedMessage.conversationId === selectedConversationId) {
-          return;
-        }
+        const summary = normalizeConversationSummary(conversationId, {
+          ...(payload.conversation ?? {}),
+          lastMessage: payload.lastMessage ?? payload.conversation?.lastMessage,
+          unreadCount: payload.unreadCount,
+          updatedAt: payload.updatedAt,
+        });
+
+        setConversationsById((previous) => {
+          const existingConversation = previous[conversationId];
+          const mergedConversation = mergeConversation(
+            existingConversation,
+            summary,
+          );
+
+          if (conversationId === latestSelectedConversationIdRef.current) {
+            mergedConversation.unreadCount = 0;
+          }
+
+          return {
+            ...previous,
+            [conversationId]: mergedConversation,
+          };
+        });
       },
       onTyping: (payload) => {
-        if (payload.conversationId !== selectedConversationId) {
+        if (
+          payload.conversationId !== latestSelectedConversationIdRef.current
+        ) {
           return;
         }
 
@@ -960,7 +1109,9 @@ export const useConversationRuntime = () => {
         }));
       },
       onStopTyping: (payload) => {
-        if (payload.conversationId !== selectedConversationId) {
+        if (
+          payload.conversationId !== latestSelectedConversationIdRef.current
+        ) {
           return;
         }
 
@@ -970,27 +1121,29 @@ export const useConversationRuntime = () => {
         }));
       },
       onMessagesSeen: (payload) => {
-        if (payload.conversationId !== selectedConversationId) {
+        if (
+          payload.conversationId !== latestSelectedConversationIdRef.current
+        ) {
           return;
         }
 
-        if (payload.seenBy === currentUser?.id) {
+        if (payload.seenBy === latestUserIdRef.current) {
           return;
         }
 
         if (payload.messageIds?.length) {
-          const hasUnprocessedMessage = payload.messageIds.some(
-            (messageId) => !seenMessageIdsRef.current.has(messageId),
+          payload.messageIds.forEach((messageId) => {
+            lastSeenMessageKeyRef.current[payload.conversationId] = messageId;
+          });
+
+          setIncomingMessages((previous) =>
+            previous.map((message) =>
+              payload.messageIds?.includes(message.id)
+                ? { ...message, seen: true }
+                : message,
+            ),
           );
-
-          if (!hasUnprocessedMessage) {
-            return;
-          }
         }
-
-        payload.messageIds?.forEach((messageId) => {
-          seenMessageIdsRef.current.add(messageId);
-        });
 
         setSeenByConversationId((previous) => ({
           ...previous,
@@ -1013,17 +1166,16 @@ export const useConversationRuntime = () => {
         setOnlineUserIds(next);
       },
       onChatError: (payload) => {
-        markLatestPendingFailed(selectedConversationId);
+        markLatestPendingFailed(latestSelectedConversationIdRef.current);
         toast.error(payload.message || "Chat error");
       },
     });
   }, [
     bindChatHandlers,
-    selectedConversationId,
-    currentUser?.id,
     clearPendingTimeout,
+    conversationsQuery.refetch,
+    messagesQuery.refetch,
     markLatestPendingFailed,
-    incomingMessages,
   ]);
 
   useEffect(() => {

@@ -22,6 +22,11 @@ import {
 } from "@/types/chat.types";
 import { useAuthTokens } from "@/store/useUserStore";
 import { chatSocketManager } from "@/lib/chat/socketManager";
+import {
+  dedupeRealtimeCollection,
+  mergeRealtimeCollection,
+  sortMessagesByCreatedAt,
+} from "@/lib/chat/realtime-utils";
 
 const DEFAULT_LIMIT = 20;
 const CHAT_USERS_ENDPOINT_CANDIDATES = [ENDPOINT.USER.LIST, "/user"];
@@ -337,16 +342,14 @@ export const useSendMessage = () => {
 
       return {
         ...response,
-        data: normalizedMessage,
+        data: {
+          ...normalizedMessage,
+          clientMessageId:
+            normalizedMessage.clientMessageId ?? payload.clientMessageId,
+        },
       } as typeof response & { data: ChatMessage };
     },
     onSuccess: (response, payload) => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.chat.messageList(payload.conversationId, {
-          page: 1,
-          limit: DEFAULT_LIMIT,
-        }),
-      });
       queryClient.setQueryData(
         queryKeys.chat.messageList(payload.conversationId, {
           page: 1,
@@ -359,15 +362,22 @@ export const useSendMessage = () => {
               }
             | undefined,
         ) => {
-          if (!previous?.data) {
-            return previous;
-          }
+          const existingMessages = previous?.data?.messages ?? [];
+          const nextMessages = sortMessagesByCreatedAt(
+            dedupeRealtimeCollection(
+              mergeRealtimeCollection(existingMessages, {
+                ...response.data,
+                clientMessageId:
+                  response.data.clientMessageId ?? payload.clientMessageId,
+              }),
+            ),
+          );
 
           return {
             ...previous,
             data: {
-              ...previous.data,
-              messages: [response.data, ...previous.data.messages],
+              ...(previous?.data ?? { messages: [] }),
+              messages: nextMessages,
             },
           };
         },
@@ -390,7 +400,13 @@ export const useMarkMessagesSeen = () => {
       );
       return response;
     },
-    onSuccess: () => {
+    onSuccess: (_, payload) => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.chat.messageList(payload.conversationId, {
+          page: 1,
+          limit: DEFAULT_LIMIT,
+        }),
+      });
       queryClient.invalidateQueries({
         queryKey: queryKeys.chat.conversations(),
       });
@@ -425,7 +441,14 @@ export const useChatSocket = () => {
 
   const emitJoinConversation = useCallback(
     (payload: JoinConversationPayload) => {
-      chatSocketManager.getSocket()?.emit("join_conversation", payload);
+      chatSocketManager.joinConversation(payload.conversationId);
+    },
+    [],
+  );
+
+  const emitLeaveConversation = useCallback(
+    (payload: JoinConversationPayload) => {
+      chatSocketManager.leaveConversation(payload.conversationId);
     },
     [],
   );
@@ -448,6 +471,10 @@ export const useChatSocket = () => {
 
   const bindChatHandlers = useCallback(
     (handlers: {
+      onConnect?: () => void;
+      onDisconnect?: (reason: string) => void;
+      onReconnect?: (attemptNumber: number) => void;
+      onConnectError?: (error: Error) => void;
       onMessage?: (message: ChatMessage) => void;
       onTyping?: (payload: TypingPayload & { senderId: string }) => void;
       onStopTyping?: (payload: TypingPayload & { senderId: string }) => void;
@@ -456,6 +483,13 @@ export const useChatSocket = () => {
         seenBy: string;
         updatedCount: number;
         messageIds?: string[];
+      }) => void;
+      onConversationSummaryUpdated?: (payload: {
+        conversationId: string;
+        conversation?: Partial<ChatConversation>;
+        lastMessage?: ChatMessage | null;
+        unreadCount?: number;
+        updatedAt?: string;
       }) => void;
       onUserStatus?: (payload: {
         userId: string;
@@ -471,6 +505,7 @@ export const useChatSocket = () => {
     () => ({
       socket: chatSocketManager.getSocket(),
       emitJoinConversation,
+      emitLeaveConversation,
       emitTyping,
       emitStopTyping,
       emitSendMessage,
@@ -479,6 +514,7 @@ export const useChatSocket = () => {
     }),
     [
       emitJoinConversation,
+      emitLeaveConversation,
       emitTyping,
       emitStopTyping,
       emitSendMessage,

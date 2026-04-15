@@ -11,6 +11,7 @@ import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
 import { useConversationRuntime } from "./useConversationRuntime";
 import TypingIndicator from "./Typing";
+import { useEffect, useRef } from "react";
 
 const ConversationListSkeleton = () => (
   <div className="space-y-2 p-3">
@@ -80,6 +81,10 @@ const ConversationPage = () => {
     handleInputBlur,
     handleSend,
   } = useConversationRuntime();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [uiMessages, isPeerTyping]);
   return (
     <div className="flex h-full overflow-hidden rounded-xl border border-border bg-background shadow-xs">
       <aside
@@ -189,6 +194,7 @@ const ConversationPage = () => {
           )}
 
           {isPeerTyping ? <TypingIndicator /> : null}
+          <div ref={messagesEndRef} />
         </section>
 
         <div className="safe-area-bottom border-t border-border/80 bg-background">

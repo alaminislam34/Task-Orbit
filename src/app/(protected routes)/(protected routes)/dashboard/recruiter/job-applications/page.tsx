@@ -1,5 +1,5 @@
-const JobApplicationsPage = () => {
-  return <div>JobApplicationsPage</div>;
-};
+import { RecruiterApplicantsPage } from "@/components/module/recruiter/applicants/RecruiterApplicantsPage";
 
-export default JobApplicationsPage;
+export default function Page() {
+  return <RecruiterApplicantsPage />;
+}

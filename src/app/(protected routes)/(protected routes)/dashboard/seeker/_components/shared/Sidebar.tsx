@@ -3,6 +3,7 @@
 import {
   FileTextIcon,
   Gauge,
+  Heart,
   MessageCircleMore,
   Settings2,
   UserCheck2,
@@ -24,6 +25,11 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     label: "My Applications",
     href: "/dashboard/seeker/applications",
     icon: FileTextIcon,
+  },
+  {
+    label: "Saved Jobs",
+    href: "/dashboard/seeker/saved-jobs",
+    icon: Heart,
   },
   {
     label: "Conversations",

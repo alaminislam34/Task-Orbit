@@ -10,11 +10,14 @@ import {
   INotification,
   NotificationListResponse,
   NotificationQueryParams,
-  UnreadCountPayload,
 } from "@/types/notification.types";
 import { chatSocketManager } from "@/lib/chat/socketManager";
 import { useAuthTokens, useUser } from "@/store/useUserStore";
 import { getApiErrorMessage } from "@/lib/api-error";
+import {
+  dedupeRealtimeCollection,
+  sortNotificationsByCreatedAtDesc,
+} from "@/lib/chat/realtime-utils";
 
 const DEFAULT_LIMIT = 20;
 const POLL_INTERVAL = 30000; // 30 seconds
@@ -250,11 +253,135 @@ export const useNotifications = (options: UseNotificationsOptions = {}) => {
   const { sessionToken, accessToken } = useAuthTokens();
   const socketToken = accessToken || sessionToken;
   const queryClient = useQueryClient();
-  
+
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const socketListenersRef = useRef<{ event: string; handler: Function }[]>([]);
-  const processedNotificationNewIdsRef = useRef<Set<string>>(new Set());
-  const processedNotificationReadIdsRef = useRef<Set<string>>(new Set());
+
+  const syncNotificationItem = useCallback(
+    (payload: INotification | { notification?: INotification }) => {
+      const normalizedPayload = normalizeNotificationItem(
+        "notification" in payload && payload.notification
+          ? payload.notification
+          : payload,
+      );
+
+      if (!normalizedPayload.id) {
+        return;
+      }
+
+      let wasUnread = false;
+      let isNewItem = false;
+
+      queryClient.setQueryData<NotificationListResponse>(
+        queryKeys.notifications.list({ page: 1, limit }),
+        (oldData) => {
+          const notifications = oldData?.notifications ?? [];
+          const existingNotification = notifications.find(
+            (notification) => notification.id === normalizedPayload.id,
+          );
+          const existingIndex = notifications.findIndex(
+            (notification) => notification.id === normalizedPayload.id,
+          );
+
+          if (existingIndex === -1) {
+            isNewItem = true;
+          } else if (existingNotification && !existingNotification.isRead) {
+            wasUnread = true;
+          }
+
+          const nextNotifications =
+            existingIndex === -1
+              ? [normalizedPayload, ...notifications]
+              : notifications.map((notification) =>
+                  notification.id === normalizedPayload.id
+                    ? { ...notification, ...normalizedPayload }
+                    : notification,
+                );
+
+          return {
+            ...(oldData ?? { notifications: [] }),
+            notifications: sortNotificationsByCreatedAtDesc(
+              dedupeRealtimeCollection(nextNotifications),
+            ),
+          };
+        },
+      );
+
+      if (!normalizedPayload.isRead && isNewItem) {
+        queryClient.setQueryData(
+          queryKeys.notifications.unreadCount,
+          (oldData: { unreadCount?: number } | undefined) => ({
+            unreadCount: (oldData?.unreadCount ?? 0) + 1,
+          }),
+        );
+      }
+
+      if (normalizedPayload.isRead && wasUnread) {
+        queryClient.setQueryData(
+          queryKeys.notifications.unreadCount,
+          (oldData: { unreadCount?: number } | undefined) => ({
+            unreadCount: Math.max(0, (oldData?.unreadCount ?? 0) - 1),
+          }),
+        );
+      }
+    },
+    [limit, queryClient],
+  );
+
+  const markNotificationRead = useCallback(
+    (payload: { notificationId?: string; id?: string; updatedCount?: number }) => {
+      const notificationId = payload.notificationId || payload.id;
+
+      if (!notificationId) {
+        return;
+      }
+
+      let changed = false;
+
+      queryClient.setQueryData<NotificationListResponse>(
+        queryKeys.notifications.list({ page: 1, limit }),
+        (oldData) => {
+          if (!oldData) {
+            return oldData;
+          }
+
+          const notifications = oldData.notifications.map((notification) => {
+            if (notification.id !== notificationId) {
+              return notification;
+            }
+
+            if (!notification.isRead) {
+              changed = true;
+            }
+
+            return { ...notification, isRead: true };
+          });
+
+          return {
+            ...oldData,
+            notifications: notifications,
+          };
+        },
+      );
+
+      if (!changed && typeof payload.updatedCount === "number") {
+        queryClient.setQueryData(queryKeys.notifications.unreadCount, {
+          unreadCount: Math.max(0, payload.updatedCount),
+        });
+
+        return;
+      }
+
+      if (changed) {
+        queryClient.setQueryData(
+          queryKeys.notifications.unreadCount,
+          (oldData: { unreadCount?: number } | undefined) => ({
+            unreadCount: Math.max(0, (oldData?.unreadCount ?? 0) - 1),
+          }),
+        );
+      }
+    },
+    [limit, queryClient],
+  );
 
   // Query for notifications
   const notificationsQuery = useNotificationsQuery({
@@ -292,184 +419,53 @@ export const useNotifications = (options: UseNotificationsOptions = {}) => {
     }
   }, []);
 
-  /**
-   * Setup socket listeners
-   */
-  const setupSocketListeners = useCallback(() => {
-    if (!enableSocket || !socketToken) return;
-
-    try {
-      const socket =
-        chatSocketManager.getSocket() ?? chatSocketManager.connect(socketToken);
-
-      if (!socket) return;
-
-      chatSocketManager.updateToken(socketToken);
-
-      // Handle new notifications
-      const onNewNotification = (payload: INotification) => {
-        const normalizedPayload = normalizeNotificationItem(payload);
-
-        if (!normalizedPayload.id) {
-          return;
-        }
-
-        if (processedNotificationNewIdsRef.current.has(normalizedPayload.id)) {
-          return;
-        }
-
-        processedNotificationNewIdsRef.current.add(normalizedPayload.id);
-        
-        queryClient.setQueryData(
-          queryKeys.notifications.list({ page: 1, limit }),
-          (oldData: NotificationListResponse | undefined) => {
-            if (!oldData) {
-              return {
-                notifications: [normalizedPayload],
-              };
-            }
-
-            if (oldData.notifications.some((item) => item.id === normalizedPayload.id)) {
-              return oldData;
-            }
-
-            return {
-              ...oldData,
-              notifications: [normalizedPayload, ...oldData.notifications],
-            };
-          }
-        );
-
-        // Update unread count
-        queryClient.setQueryData(
-          queryKeys.notifications.unreadCount,
-          (oldData: { unreadCount?: number } | undefined) => {
-            if (normalizedPayload.isRead) {
-              return oldData ?? { unreadCount: 0 };
-            }
-
-            return {
-              unreadCount: (oldData?.unreadCount ?? 0) + 1,
-            };
-          }
-        );
-      };
-
-      // Handle notification read event
-      const onNotificationRead = (payload: {
-        notificationId?: string;
-        id?: string;
-        updatedCount?: number;
-      }) => {
-        const notificationId = payload.notificationId || payload.id;
-
-        if (!notificationId) {
-          return;
-        }
-
-        if (processedNotificationReadIdsRef.current.has(notificationId)) {
-          return;
-        }
-
-        processedNotificationReadIdsRef.current.add(notificationId);
-
-        let shouldDecrementUnread = false;
-
-        queryClient.setQueryData<NotificationListResponse>(
-          queryKeys.notifications.list({ page: 1, limit }),
-          (oldData) => {
-            if (!oldData) {
-              return oldData;
-            }
-
-            return {
-              ...oldData,
-              notifications: oldData.notifications.map((notification) => {
-                if (notification.id !== notificationId) {
-                  return notification;
-                }
-
-                if (!notification.isRead) {
-                  shouldDecrementUnread = true;
-                }
-
-                return { ...notification, isRead: true };
-              }),
-            };
-          },
-        );
-
-        if (!shouldDecrementUnread) {
-          return;
-        }
-
-        queryClient.setQueryData(
-          queryKeys.notifications.unreadCount,
-          (oldData: { unreadCount?: number } | undefined) => ({
-            unreadCount: Math.max(0, (oldData?.unreadCount ?? 0) - 1),
-          })
-        );
-      };
-
-      // Handle unread count update
-      const onUnreadCountUpdate = (payload: UnreadCountPayload) => {
-        queryClient.setQueryData(
-          queryKeys.notifications.unreadCount,
-          { unreadCount: payload.unreadCount }
-        );
-      };
-
-      // Backward and forward compatible socket event names
-      socket.on("notification:new", onNewNotification);
-      socket.on("notification:read", onNotificationRead);
-      socket.on("notification:unread-count", onUnreadCountUpdate);
-
-      socketListenersRef.current = [
-        { event: "notification:new", handler: onNewNotification },
-        { event: "notification:read", handler: onNotificationRead },
-        { event: "notification:unread-count", handler: onUnreadCountUpdate },
-      ];
-
-      stopPolling(); // Stop polling when socket is available
-    } catch (err) {
-      console.error("[Notifications] Socket setup error:", err);
-      startPolling(); // Fallback to polling
-    }
-  }, [enableSocket, socketToken, queryClient, limit, stopPolling, startPolling]);
-
-  /**
-   * Cleanup socket listeners
-   */
-  const cleanupSocketListeners = useCallback(() => {
-    try {
-      const socket = chatSocketManager.getSocket();
-      if (!socket) return;
-
-      socketListenersRef.current.forEach(({ event, handler }) => {
-        socket.off(event, handler as any);
-      });
-      socketListenersRef.current = [];
-    } catch (err) {
-      console.error("[Notifications] Cleanup error:", err);
-    }
-  }, []);
-
-  /**
-   * Initialize on mount
-   */
   useEffect(() => {
-    cleanupSocketListeners();
-    stopPolling();
-
-    if (!user || !socketToken) {
+    if (!user || !socketToken || !enableSocket) {
+      stopPolling();
       return;
     }
 
-    // Start with polling
-    startPolling();
+    const cleanupSocketListeners = chatSocketManager.bindNotificationHandlers({
+      onConnect: () => {
+        stopPolling();
+        void notificationsQuery.refetch();
+        void unreadCountQuery.refetch();
+      },
+      onReconnect: () => {
+        stopPolling();
+        void notificationsQuery.refetch();
+        void unreadCountQuery.refetch();
+      },
+      onDisconnect: () => {
+        if (enablePolling) {
+          startPolling();
+        }
+      },
+      onConnectError: () => {
+        if (enablePolling) {
+          startPolling();
+        }
+      },
+      onNotificationNew: (payload) => {
+        syncNotificationItem(payload);
+      },
+      onNotificationRead: (payload) => {
+        markNotificationRead(payload);
+      },
+      onUnreadCountUpdate: (payload) => {
+        queryClient.setQueryData(queryKeys.notifications.unreadCount, {
+          unreadCount: payload.unreadCount,
+        });
+      },
+    });
 
-    // Setup socket when available
-    setupSocketListeners();
+    const socket = chatSocketManager.connect(socketToken);
+
+    if (socket?.connected) {
+      stopPolling();
+    } else {
+      startPolling();
+    }
 
     return () => {
       cleanupSocketListeners();
@@ -478,11 +474,35 @@ export const useNotifications = (options: UseNotificationsOptions = {}) => {
   }, [
     user?.id,
     socketToken,
+    enableSocket,
+    enablePolling,
     startPolling,
     stopPolling,
-    setupSocketListeners,
-    cleanupSocketListeners,
+    notificationsQuery.refetch,
+    unreadCountQuery.refetch,
+    queryClient,
+    syncNotificationItem,
+    markNotificationRead,
   ]);
+
+  useEffect(() => {
+    const handleWindowFocus = () => {
+      if (typeof document !== "undefined" && document.hidden) {
+        return;
+      }
+
+      void notificationsQuery.refetch();
+      void unreadCountQuery.refetch();
+    };
+
+    window.addEventListener("focus", handleWindowFocus);
+    document.addEventListener("visibilitychange", handleWindowFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleWindowFocus);
+      document.removeEventListener("visibilitychange", handleWindowFocus);
+    };
+  }, [notificationsQuery.refetch, unreadCountQuery.refetch]);
 
   /**
    * Refetch notifications

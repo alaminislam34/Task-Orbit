@@ -250,14 +250,14 @@ export function Notifications() {
                   key={notification.id}
                   onClick={() => handleNotificationClick(notification)}
                   className={cn(
-                    "flex cursor-pointer items-start gap-3 border-b border-border/40 px-4 py-4 last:border-0 transition-colors hover:bg-accent/50",
+                    "flex cursor-pointer items-start gap-3 border-b border-border/40 px-2 py-2 last:border-0 transition-colors hover:bg-accent/50",
                     !notification.isRead && "bg-primary/5",
                   )}
                   role="button"
                   tabIndex={0}
                 >
                   {/* Icon */}
-                  <div className="mt-0.5 rounded-full bg-background p-2 shadow-sm ring-1 ring-border shrink-0">
+                  <div className="mt-0.5 rounded-full bg-background p-1.5 shadow-sm ring-1 ring-border shrink-0">
                     {getNotificationIcon(notification.type)}
                   </div>
 
@@ -266,7 +266,7 @@ export function Notifications() {
                     <div className="flex items-start justify-between gap-2">
                       <span
                         className={cn(
-                          "text-sm font-medium wrap-break-word",
+                          "text-xs wrap-break-word",
                           !notification.isRead
                             ? "text-foreground"
                             : "text-muted-foreground",
@@ -274,7 +274,7 @@ export function Notifications() {
                       >
                         {notification.title}
                       </span>
-                      <span className="flex items-center gap-1 text-xs text-muted-foreground whitespace-nowrap ml-2 shrink-0">
+                      <span className="flex items-center gap-1 text-[10px] text-muted-foreground whitespace-nowrap ml-2 shrink-0">
                         <Clock className="size-3" />
                         {formatDistanceToNow(new Date(notification.createdAt), {
                           addSuffix: true,

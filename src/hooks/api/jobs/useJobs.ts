@@ -1,17 +1,69 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { httpClient } from "@/lib/axios/httpClient";
-import { queryKeys } from "../queryKeys";
-import { Job, JobsQueryParams, CreateJobPayload, UpdateJobPayload, ApplyJobPayload } from "@/types/jobs.types";
-import ENDPOINT from "@/apiEndpoint/endpoint";
-import { useJobActions, useJobStore } from "@/store/useJobStore";
 import { useEffect } from "react";
+
+import { httpClient } from "@/lib/axios/httpClient";
+import ENDPOINT from "@/apiEndpoint/endpoint";
+import { queryKeys } from "../queryKeys";
+import {
+  ApplyJobPayload,
+  CreateJobPayload,
+  Job,
+  JobsQueryParams,
+  UpdateJobPayload,
+} from "@/types/jobs.types";
 import { ApiResponse } from "@/types/api.types";
 import { getApiErrorMessage } from "@/lib/api-error";
+import { useJobActions, useJobStore } from "@/store/useJobStore";
+
+const normalizeJobsData = (payload: unknown): Job[] => {
+  if (!payload) {
+    return [];
+  }
+
+  if (Array.isArray(payload)) {
+    return payload as Job[];
+  }
+
+  if (typeof payload === "object") {
+    const objectPayload = payload as {
+      jobs?: unknown;
+      data?: unknown;
+      items?: unknown;
+    };
+
+    if (Array.isArray(objectPayload.jobs)) {
+      return objectPayload.jobs as Job[];
+    }
+
+    if (Array.isArray(objectPayload.items)) {
+      return objectPayload.items as Job[];
+    }
+
+    if (Array.isArray(objectPayload.data)) {
+      return objectPayload.data as Job[];
+    }
+  }
+
+  return [];
+};
 
 const hasQueryFilters = (filters: JobsQueryParams) =>
-  Object.values(filters).some((value) => value !== undefined && value !== null && value !== "");
+  Object.values(filters).some(
+    (value) => value !== undefined && value !== null && value !== "",
+  );
 
-export const useJobs = (filters: JobsQueryParams = {}) => {
+const toApiFilters = (filters: JobsQueryParams) => {
+  const { minSalary, maxSalary, ...rest } = filters;
+
+  return {
+    ...rest,
+    salaryMin: filters.salaryMin ?? minSalary,
+    salaryMax: filters.salaryMax ?? maxSalary,
+  };
+};
+
+export const useGetAllJobs = (filters: JobsQueryParams = {}) => {
+  const queryClient = useQueryClient();
   const cachedJobs = useJobStore((state) => state.jobs);
   const { setJobs, setLoading, setError } = useJobActions();
   const shouldUseStoreCache = !hasQueryFilters(filters) && cachedJobs.length > 0;
@@ -19,10 +71,17 @@ export const useJobs = (filters: JobsQueryParams = {}) => {
   const query = useQuery({
     queryKey: queryKeys.jobs.list(filters),
     queryFn: async () => {
-      const response = await httpClient.get<Job[]>(ENDPOINT.JOBS.GET_JOBS, { params: filters, headers: {} });
-      return response;
+      const response = await httpClient.get<unknown>(ENDPOINT.JOBS.GET_JOBS, {
+        params: toApiFilters(filters),
+        headers: {},
+      });
+
+      return {
+        ...response,
+        data: normalizeJobsData(response.data),
+      } as ApiResponse<Job[]>;
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60,
     placeholderData: (prev) => prev,
     initialData: shouldUseStoreCache
       ? ({
@@ -36,7 +95,7 @@ export const useJobs = (filters: JobsQueryParams = {}) => {
   });
 
   useEffect(() => {
-    if (query.data && query.data.success) {
+    if (query.data?.success) {
       setJobs(query.data.data);
     }
   }, [query.data, setJobs]);
@@ -54,10 +113,16 @@ export const useJobs = (filters: JobsQueryParams = {}) => {
     setError(null);
   }, [query.isError, query.error, setError]);
 
+  useEffect(() => {
+    if (query.data?.success) {
+      queryClient.setQueryData(queryKeys.jobs.list(filters), query.data);
+    }
+  }, [filters, query.data, queryClient]);
+
   return query;
 };
 
-export const useJob = (jobId: string) => {
+export const useGetJobById = (jobId: string) => {
   const currentJob = useJobStore((state) => state.currentJob);
   const { setCurrentJob, setLoading, setError } = useJobActions();
   const hasMatchingCurrentJob = currentJob?.id === jobId;
@@ -68,8 +133,8 @@ export const useJob = (jobId: string) => {
       const response = await httpClient.get<Job>(ENDPOINT.JOBS.GET_JOB(jobId));
       return response;
     },
-    enabled: !!jobId,
-    staleTime: 1000 * 60 * 5,
+    enabled: Boolean(jobId),
+    staleTime: 1000 * 60,
     initialData:
       hasMatchingCurrentJob && currentJob
         ? ({
@@ -83,7 +148,7 @@ export const useJob = (jobId: string) => {
   });
 
   useEffect(() => {
-    if (query.data && query.data.success) {
+    if (query.data?.success) {
       setCurrentJob(query.data.data);
     }
   }, [query.data, setCurrentJob]);
@@ -110,8 +175,10 @@ export const useCreateJob = () => {
 
   return useMutation({
     mutationFn: async (payload: CreateJobPayload) => {
-      const response = await httpClient.post<Job>(ENDPOINT.JOBS.CREATE_JOB, payload as unknown as Record<string, unknown>);
-      return response;
+      return httpClient.post<Job>(
+        ENDPOINT.JOBS.CREATE_JOB,
+        payload as unknown as Record<string, unknown>,
+      );
     },
     onMutate: () => {
       setLoading(true);
@@ -119,7 +186,6 @@ export const useCreateJob = () => {
     },
     onSuccess: (response) => {
       upsertJob(response.data);
-      setError(null);
       queryClient.invalidateQueries({ queryKey: queryKeys.jobs.lists() });
     },
     onError: (error) => {
@@ -137,8 +203,10 @@ export const useUpdateJob = (jobId: string) => {
 
   return useMutation({
     mutationFn: async (payload: UpdateJobPayload) => {
-      const response = await httpClient.patch<Job>(ENDPOINT.JOBS.UPDATE_JOB(jobId), payload as unknown as Record<string, unknown>);
-      return response;
+      return httpClient.patch<Job>(
+        ENDPOINT.JOBS.UPDATE_JOB(jobId),
+        payload as unknown as Record<string, unknown>,
+      );
     },
     onMutate: () => {
       setLoading(true);
@@ -146,7 +214,6 @@ export const useUpdateJob = (jobId: string) => {
     },
     onSuccess: (response) => {
       upsertJob(response.data);
-      setError(null);
       queryClient.invalidateQueries({ queryKey: queryKeys.jobs.detail(jobId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.jobs.lists() });
     },
@@ -165,8 +232,7 @@ export const useDeleteJob = () => {
 
   return useMutation({
     mutationFn: async (jobId: string) => {
-      const response = await httpClient.del<void>(ENDPOINT.JOBS.DELETE_JOB(jobId));
-      return response;
+      return httpClient.del<void>(ENDPOINT.JOBS.DELETE_JOB(jobId));
     },
     onMutate: () => {
       setLoading(true);
@@ -174,7 +240,6 @@ export const useDeleteJob = () => {
     },
     onSuccess: (_, jobId) => {
       removeJob(jobId);
-      setError(null);
       queryClient.invalidateQueries({ queryKey: queryKeys.jobs.lists() });
       queryClient.removeQueries({ queryKey: queryKeys.jobs.detail(jobId) });
     },
@@ -193,30 +258,47 @@ export const useApplyJob = () => {
 
   return useMutation({
     mutationFn: async (payload: ApplyJobPayload) => {
+      if (!payload.jobId) {
+        throw {
+          message: "Job selection is required before applying.",
+          statusCode: 400,
+          errorSource: [
+            {
+              path: "jobId",
+              message: "Please choose a job before submitting the application.",
+            },
+          ],
+        };
+      }
+
       const formData = new FormData();
       formData.append("jobId", payload.jobId);
-      formData.append("cover_letter", payload.cover_letter);
-      formData.append("resume", payload.resume);
 
-      const response = await httpClient.post<Job>(
-        ENDPOINT.JOBS.APPLY_JOB(payload.jobId),
+      if (payload.cover_letter) {
+        formData.append("cover_letter", payload.cover_letter);
+      }
+
+      if (payload.resume) {
+        formData.append("resume", payload.resume);
+      }
+
+      return httpClient.post(
+        ENDPOINT.APPLICATION.APPLY_TO_JOB(payload.jobId),
         formData,
         {
-          params: {},
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
-      return response;
     },
     onMutate: () => {
       setLoading(true);
       setError(null);
     },
     onSuccess: () => {
-      setError(null);
       queryClient.invalidateQueries({ queryKey: queryKeys.jobs.lists() });
+      queryClient.invalidateQueries({ queryKey: queryKeys.jobs.applications() });
     },
     onError: (error) => {
       setError(getApiErrorMessage(error));
@@ -226,3 +308,7 @@ export const useApplyJob = () => {
     },
   });
 };
+
+// Backward-compatible aliases
+export const useJobs = useGetAllJobs;
+export const useJob = useGetJobById;

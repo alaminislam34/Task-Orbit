@@ -152,7 +152,7 @@ export const ApplyJobModal = ({
               disabled={isSubmitting}
             />
             <p className="text-xs text-slate-500">{selectedFileLabel}</p>
-fail            <p className="text-xs text-slate-400">Accepted: PDF, DOC, DOCX (max 5MB)</p>
+            <p className="text-xs text-slate-400">Accepted: PDF, DOC, DOCX (max 5MB)</p>
           </div>
 
           {formError ? <p className="text-sm text-destructive">{formError}</p> : null}

@@ -8,6 +8,13 @@ export const queryKeys = {
     list: (filters: Record<string, any>) => [...queryKeys.jobs.lists(), { filters }] as const,
     details: () => [...queryKeys.jobs.all, "detail"] as const,
     detail: (id: string) => [...queryKeys.jobs.details(), id] as const,
+    applications: () => [...queryKeys.jobs.all, "applications"] as const,
+    myApplications: (filters: Record<string, any>) =>
+      [...queryKeys.jobs.applications(), "my", { filters }] as const,
+    savedJobs: (filters: Record<string, any>) =>
+      [...queryKeys.jobs.applications(), "saved", { filters }] as const,
+    applicants: (jobId: string, filters: Record<string, any>) =>
+      [...queryKeys.jobs.applications(), "applicants", jobId, { filters }] as const,
   },
   services: {
     all: ["services"] as const,

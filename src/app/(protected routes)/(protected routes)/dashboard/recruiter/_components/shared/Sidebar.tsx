@@ -5,6 +5,7 @@ import {
   Gauge,
   MessageCircleMore,
   Settings2,
+  Briefcase,
   UserCheck2,
 } from "lucide-react";
 
@@ -24,6 +25,11 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     label: "Job Applications",
     href: "/dashboard/recruiter/job-applications",
     icon: FileTextIcon,
+  },
+  {
+    label: "My Jobs",
+    href: "/dashboard/recruiter/jobs",
+    icon: Briefcase,
   },
   {
     label: "Conversations",
