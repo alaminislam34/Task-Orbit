@@ -1,9 +1,12 @@
 "use client";
 
 import {
+  Bell,
+  Compass,
   FileTextIcon,
   Gauge,
   Heart,
+  History,
   MessageCircleMore,
   Settings2,
   UserCheck2,
@@ -32,9 +35,24 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: Heart,
   },
   {
+    label: "Recently Viewed",
+    href: "/dashboard/seeker/recently-viewed",
+    icon: History,
+  },
+  {
+    label: "Recommendations",
+    href: "/dashboard/seeker/recommendations",
+    icon: Compass,
+  },
+  {
     label: "Conversations",
     href: "/dashboard/seeker/conversations",
     icon: MessageCircleMore,
+  },
+  {
+    label: "Notifications",
+    href: "/dashboard/seeker/notifications",
+    icon: Bell,
   },
   { label: "Settings", href: "/dashboard/seeker/settings", icon: Settings2 },
 ];

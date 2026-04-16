@@ -232,6 +232,82 @@ export const useMarkAsRead = () => {
   });
 };
 
+export const useMarkAllAsRead = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      return httpClient.patch(ENDPOINT.NOTIFICATION.MARK_ALL_AS_READ);
+    },
+    onSuccess: () => {
+      queryClient.setQueryData<NotificationListResponse>(
+        queryKeys.notifications.list({ page: 1, limit: DEFAULT_LIMIT }),
+        (oldData) => {
+          if (!oldData) {
+            return oldData;
+          }
+
+          return {
+            ...oldData,
+            notifications: oldData.notifications.map((notification) => ({
+              ...notification,
+              isRead: true,
+            })),
+          };
+        },
+      );
+
+      queryClient.setQueryData(queryKeys.notifications.unreadCount, {
+        unreadCount: 0,
+      });
+    },
+  });
+};
+
+export const useDeleteNotification = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (notificationId: string) => {
+      return httpClient.del(ENDPOINT.NOTIFICATION.DELETE_NOTIFICATION(notificationId));
+    },
+    onSuccess: (_, notificationId) => {
+      queryClient.setQueryData<NotificationListResponse>(
+        queryKeys.notifications.list({ page: 1, limit: DEFAULT_LIMIT }),
+        (oldData) => {
+          if (!oldData) {
+            return oldData;
+          }
+
+          const removedItem = oldData.notifications.find(
+            (notification) => notification.id === notificationId,
+          );
+
+          if (!removedItem) {
+            return oldData;
+          }
+
+          queryClient.setQueryData(
+            queryKeys.notifications.unreadCount,
+            (countData: { unreadCount?: number } | undefined) => ({
+              unreadCount: removedItem.isRead
+                ? countData?.unreadCount ?? 0
+                : Math.max(0, (countData?.unreadCount ?? 0) - 1),
+            }),
+          );
+
+          return {
+            ...oldData,
+            notifications: oldData.notifications.filter(
+              (notification) => notification.id !== notificationId,
+            ),
+          };
+        },
+      );
+    },
+  });
+};
+
 /**
  * Comprehensive notifications hook with socket integration
  * Handles fetching, real-time updates, polling fallback
@@ -243,6 +319,10 @@ interface UseNotificationsOptions {
 }
 
 export const useNotifications = (options: UseNotificationsOptions = {}) => {
+    const markAsReadMutation = useMarkAsRead();
+    const markAllAsReadMutation = useMarkAllAsRead();
+    const deleteNotificationMutation = useDeleteNotification();
+
   const {
     enablePolling = true,
     enableSocket = true,
@@ -527,6 +607,8 @@ export const useNotifications = (options: UseNotificationsOptions = {}) => {
 
     // Methods
     refetch,
-    markAsRead: useMarkAsRead(),
+    markAsRead: markAsReadMutation,
+    markAllAsRead: markAllAsReadMutation,
+    deleteNotification: deleteNotificationMutation,
   };
 };

@@ -8,6 +8,8 @@ import { ApiResponse, PaginatedMeta } from "@/types/api.types";
 
 type ToggleSaveResponse = {
   saved: boolean;
+  jobId?: string;
+  savedAt?: string;
 };
 
 const normalizeSavedJobs = (payload: unknown): SavedJobItem[] => {
@@ -74,7 +76,7 @@ export const useToggleSaveJob = () => {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.jobs.savedJobs({}) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.jobs.applications() });
       queryClient.invalidateQueries({ queryKey: queryKeys.jobs.lists() });
     },
   });

@@ -1,16 +1,15 @@
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import PageHeader from "@/components/shared/PageHeader";
 
 const RecruiterHomePage = () => {
   return (
     <div className="space-y-6 p-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Recruiter Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          Manage jobs, review applicants, and keep your hiring workflow in one place.
-        </p>
-      </div>
+      <PageHeader
+        title="Recruiter Dashboard"
+        description="Manage jobs, review applicants, and keep your hiring workflow in one place."
+      />
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="rounded-lg border bg-background p-5">

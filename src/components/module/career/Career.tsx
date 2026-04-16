@@ -26,7 +26,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import HeroSection from "./HeroSection";
 import { useApplyJob, useJobs } from "@/hooks/api/jobs/useJobs";
-import { useToggleSaveJob, useUser } from "@/hooks/api";
+import { useSearchSuggestions, useToggleSaveJob, useUser } from "@/hooks/api";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useStateContext } from "@/providers/StateProvider";
 import { Job, JobCategory, JobLevel } from "@/types/jobs.types";
@@ -87,8 +87,14 @@ export default function JobsPage() {
   const [level, setLevel] = useState(urlLevel);
   const [salaryMin, setSalaryMin] = useState(urlSalaryMin);
   const [salaryMax, setSalaryMax] = useState(urlSalaryMax);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const debouncedSearch = useDebounce(search, 400);
   const debouncedLocation = useDebounce(location, 400);
+  const { data: suggestionsResponse } = useSearchSuggestions(
+    { q: debouncedSearch, limit: 6 },
+    debouncedSearch.trim().length > 0,
+  );
+  const suggestions = suggestionsResponse?.data || [];
 
   // Sync filters to URL
   useEffect(() => {
@@ -183,6 +189,12 @@ export default function JobsPage() {
     setLevel("");
     setSalaryMin("");
     setSalaryMax("");
+    setShowSuggestions(false);
+  };
+
+  const handleSuggestionSelect = (value: string) => {
+    setSearch(value);
+    setShowSuggestions(false);
   };
 
   const handleApply = (job: Job, e: React.MouseEvent) => {
@@ -267,7 +279,42 @@ export default function JobsPage() {
           </Button>
         </div>
 
-        <div className="mb-6 grid grid-cols-1 gap-3 rounded-xl border bg-background p-4 md:grid-cols-5">
+        <div className="mb-6 grid grid-cols-1 gap-3 rounded-xl border bg-background p-4 md:grid-cols-6">
+          <div className="relative">
+            <p className="mb-1 text-xs text-muted-foreground">Search</p>
+            <Input
+              value={search}
+              onChange={(event) => {
+                setSearch(event.target.value);
+                setShowSuggestions(true);
+              }}
+              onBlur={() => {
+                setTimeout(() => setShowSuggestions(false), 150);
+              }}
+              onFocus={() => {
+                if (search.trim()) {
+                  setShowSuggestions(true);
+                }
+              }}
+              placeholder="React developer"
+            />
+
+            {showSuggestions && suggestions.length > 0 ? (
+              <div className="absolute z-20 mt-1 max-h-56 w-full overflow-auto rounded-md border bg-background shadow-md">
+                {suggestions.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className="block w-full border-b px-3 py-2 text-left text-sm hover:bg-muted"
+                    onClick={() => handleSuggestionSelect(item.title)}
+                  >
+                    {item.title}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
           <div>
             <p className="mb-1 text-xs text-muted-foreground">Category</p>
             <select

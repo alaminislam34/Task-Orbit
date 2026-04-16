@@ -1,7 +1,5 @@
-const FreelancerHomePage = () => {
-  return (
-    <div>FreelancerHomePage</div>
-  );
-}
+import { SellerDashboardOverview } from "@/components/module/seller/dashboard/SellerDashboardOverview";
 
-export default FreelancerHomePage;
+export default function Page() {
+  return <SellerDashboardOverview />;
+}

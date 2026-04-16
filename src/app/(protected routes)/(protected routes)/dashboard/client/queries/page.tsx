@@ -1,5 +1,5 @@
-const ClientQueryPage = () => {
-  return <div>ClientQueryPage</div>;
-};
+import ClientQueriesPanel from "@/components/module/client/queries/ClientQueriesPanel";
 
-export default ClientQueryPage;
+export default function Page() {
+  return <ClientQueriesPanel />;
+}

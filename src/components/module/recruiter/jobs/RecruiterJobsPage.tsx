@@ -22,6 +22,7 @@ import {
   useUpdateRecruiterJob,
 } from "@/hooks/api";
 import { getApiErrorDetails, getApiErrorMessage } from "@/lib/api-error";
+import PageHeader from "@/components/shared/PageHeader";
 import {
   CreateJobPayload,
   EmploymentType,
@@ -284,19 +285,16 @@ export const RecruiterJobsPage = () => {
 
   return (
     <div className="space-y-6 p-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">My Jobs</h1>
-          <p className="text-sm text-muted-foreground">
-            Create, update, and manage your open roles.
-          </p>
-        </div>
-
-        <Button onClick={openCreateForm}>
-          <Plus className="mr-2 size-4" />
-          Create Job
-        </Button>
-      </div>
+      <PageHeader
+        title="My Jobs"
+        description="Create, update, and manage your open roles."
+        actions={(
+          <Button onClick={openCreateForm}>
+            <Plus className="mr-2 size-4" />
+            Create Job
+          </Button>
+        )}
+      />
 
       <div className="rounded-lg border bg-background p-4">
         <div className="relative">

@@ -1,7 +1,5 @@
-const ManagePhases = () => {
-  return (
-    <div>ManagePhases</div>
-  );
-}
+import { SellerPhasesManager } from "@/components/module/seller/phases/SellerPhasesManager";
 
-export default ManagePhases;
+export default function Page() {
+  return <SellerPhasesManager />;
+}

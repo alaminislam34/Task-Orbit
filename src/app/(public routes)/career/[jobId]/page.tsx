@@ -1,12 +1,21 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Briefcase, CalendarDays, Globe, MapPin } from "lucide-react";
+import { toast } from "sonner";
 
-import { useGetJobDetail } from "@/hooks/api";
+import {
+  useAddRecentlyViewed,
+  useApplyJob,
+  useGetJobDetail,
+  useToggleSaveJob,
+} from "@/hooks/api";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ApplyJobModal } from "@/components/module/career/ApplyJobModal";
+import { getApiErrorMessage } from "@/lib/api-error";
 
 const formatDate = (value?: string) => {
   if (!value) {
@@ -24,9 +33,58 @@ const formatDate = (value?: string) => {
 const CareerJobDetailPage = () => {
   const params = useParams<{ jobId: string }>();
   const jobId = Array.isArray(params?.jobId) ? params.jobId[0] : params?.jobId;
+  const trackedViewRef = useRef<string | null>(null);
+  const [isApplyOpen, setIsApplyOpen] = useState(false);
 
   const { data, isLoading, isError, refetch } = useGetJobDetail(jobId || "");
+  const { mutateAsync: toggleSave, isPending: isTogglingSave } = useToggleSaveJob();
+  const { mutateAsync: applyJob, isPending: isApplying } = useApplyJob();
+  const { mutateAsync: addRecentlyViewed } = useAddRecentlyViewed();
   const job = data?.data;
+
+  useEffect(() => {
+    if (!job?.id || trackedViewRef.current === job.id) {
+      return;
+    }
+
+    trackedViewRef.current = job.id;
+    void addRecentlyViewed(job.id);
+  }, [job?.id, addRecentlyViewed]);
+
+  const handleToggleSave = async () => {
+    if (!job?.id) {
+      return;
+    }
+
+    try {
+      const response = await toggleSave(job.id);
+      const isSaved = Boolean((response.data as { saved?: boolean })?.saved);
+      toast.success(isSaved ? "Job saved successfully" : "Job removed from saved list");
+    } catch (error) {
+      toast.error(getApiErrorMessage(error));
+    }
+  };
+
+  const handleApplySubmit = async (payload: {
+    coverLetter: string;
+    resumeFile: File;
+  }) => {
+    if (!job?.id) {
+      return;
+    }
+
+    try {
+      const response = await applyJob({
+        jobId: job.id,
+        cover_letter: payload.coverLetter,
+        resume: payload.resumeFile,
+      });
+      toast.success(response.message || "Application submitted successfully.");
+      setIsApplyOpen(false);
+    } catch (error) {
+      toast.error(getApiErrorMessage(error));
+    }
+  };
 
   if (isLoading) {
     return <div className="p-6 text-sm text-muted-foreground">Loading job details...</div>;
@@ -111,10 +169,22 @@ const CareerJobDetailPage = () => {
       </div>
 
       <div className="flex items-center justify-end gap-2">
+        <Button variant="outline" onClick={() => void handleToggleSave()} disabled={isTogglingSave}>
+          {isTogglingSave ? "Saving..." : "Save / Unsave"}
+        </Button>
+        <Button onClick={() => setIsApplyOpen(true)}>Apply Now</Button>
         <Link href="/career">
           <Button variant="outline">More Jobs</Button>
         </Link>
       </div>
+
+      <ApplyJobModal
+        open={isApplyOpen}
+        onOpenChange={setIsApplyOpen}
+        job={job ?? null}
+        isSubmitting={isApplying}
+        onSubmit={handleApplySubmit}
+      />
     </main>
   );
 };

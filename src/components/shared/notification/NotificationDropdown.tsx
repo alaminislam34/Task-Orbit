@@ -326,8 +326,7 @@ export function Notifications() {
           className="w-full rounded-none py-3 text-xs font-medium text-primary hover:bg-primary/5 hover:text-primary"
           onClick={() => {
             setIsOpen(false);
-            // Navigate to full notifications page if available
-            router.push("/dashboard/notifications");
+            router.push(`${getDashboardBasePath()}/notifications`);
           }}
         >
           View all notifications →

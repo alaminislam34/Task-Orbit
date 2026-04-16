@@ -14,6 +14,7 @@ const ENDPOINT = {
   },
   USER: {
     ME: "/user/me",
+    UPDATE_ME: "/user/me",
     LIST: "/admin/users",
   },
   SELLER: {
@@ -40,6 +41,7 @@ const ENDPOINT = {
     GET_JOBS: "/jobs",
     GET_RECRUITER_JOBS: "/recruiter/jobs",
     GET_JOB: (JOB_ID: string) => `/jobs/${JOB_ID}`,
+    SEARCH_SUGGESTIONS: "/jobs/search-suggestions",
     APPLY_JOB: (JOB_ID: string) => `/applications/${JOB_ID}/apply`,
     CREATE_JOB: "/recruiter/jobs",
     UPDATE_JOB: (JOB_ID: string) => `/recruiter/jobs/${JOB_ID}`,
@@ -48,6 +50,8 @@ const ENDPOINT = {
   },
   APPLICATION: {
     GET_APPLICATIONS: "/applications/my-applications",
+    GET_APPLICATION_DETAIL: (APPLICATION_ID: string) => `/applications/${APPLICATION_ID}`,
+    WITHDRAW_APPLICATION: (APPLICATION_ID: string) => `/applications/${APPLICATION_ID}/withdraw`,
     GET_SAVED_JOBS: "/applications/saved-jobs",
     TOGGLE_SAVED_JOB: (JOB_ID: string) => `/applications/saved-jobs/${JOB_ID}/toggle`,
     APPLY_TO_JOB: (JOB_ID: string) => `/applications/${JOB_ID}/apply`,
@@ -57,6 +61,24 @@ const ENDPOINT = {
     UPDATE_APPLICATION_STATUS: (APPLICATION_ID: string) =>
       `/applications/recruiter/applications/${APPLICATION_ID}/status`,
     BULK_ACTION: "/applications/recruiter/applications/bulk-status",
+  },
+  JOB_SEEKER: {
+    PROFILE: "/job-seeker/profile",
+    SETTINGS: "/job-seeker/settings",
+    RECENTLY_VIEWED: "/job-seeker/recently-viewed",
+    RECENTLY_VIEWED_BY_ID: (JOB_ID: string) => `/job-seeker/recently-viewed/${JOB_ID}`,
+    RECOMMENDATIONS: "/job-seeker/recommendations",
+  },
+  CLIENT: {
+    DASHBOARD_SUMMARY: "/client/dashboard/summary",
+    ORDERS: "/client/orders",
+    ORDER_DETAIL: (ORDER_ID: string) => `/client/orders/${ORDER_ID}`,
+    QUERIES: "/client/queries",
+    QUERY_DETAIL: (QUERY_ID: string) => `/client/queries/${QUERY_ID}`,
+    QUERY_REPLIES: (QUERY_ID: string) => `/client/queries/${QUERY_ID}/replies`,
+    QUERY_CLOSE: (QUERY_ID: string) => `/client/queries/${QUERY_ID}/close`,
+    QUERY_REOPEN: (QUERY_ID: string) => `/client/queries/${QUERY_ID}/reopen`,
+    SETTINGS: "/client/settings",
   },
   CHAT: {
     CONVERSATIONS: "/conversations",
@@ -77,12 +99,17 @@ const ENDPOINT = {
     ACCEPT_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/accept`,
     REJECT_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/reject`,
     GET_OFFERS: "/orders/offers",
+    GET_OFFER_DETAIL: (OFFER_ID: string) => `/orders/${OFFER_ID}`,
     UPDATE_OFFER_LIMITED: (OFFER_ID: string) => `/orders/${OFFER_ID}`,
     PHASE_START_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/phases/start`,
     PHASE_COMPLETE: (OFFER_ID: string) => `/orders/${OFFER_ID}/phases/complete`,
     DELIVERABLES_OFFER: (OFFER_ID: string) => `/orders/${OFFER_ID}/deliverables`,
     DELIVERABLE_FEEDBACK: (OFFER_ID: string, DELIVERABLE_ID: string) =>
       `/orders/${OFFER_ID}/deliverables/${DELIVERABLE_ID}/review`,
+    SEND_MESSAGE: "/orders/communications",
+    MARK_MESSAGE_READ: (MESSAGE_ID: string) =>
+      `/orders/communications/${MESSAGE_ID}/read`,
+    GET_MESSAGES: (ORDER_ID: string) => `/orders/${ORDER_ID}/communications`,
   },
 
   NOTIFICATION: {

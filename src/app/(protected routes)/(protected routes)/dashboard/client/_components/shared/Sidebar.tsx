@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  MessageCircleMore,
+  ReceiptText,
   FileTextIcon,
   Gauge,
   Settings2,
@@ -20,9 +22,19 @@ const SIDEBAR_ITEMS: SidebarItem[] = [
     icon: UserCheck2,
   },
   {
-    label: "My Applications",
-    href: "/dashboard/client/applications",
+    label: "Orders",
+    href: "/dashboard/client/orders",
+    icon: ReceiptText,
+  },
+  {
+    label: "Queries",
+    href: "/dashboard/client/queries",
     icon: FileTextIcon,
+  },
+  {
+    label: "Conversation",
+    href: "/dashboard/client/conversation",
+    icon: MessageCircleMore,
   },
   { label: "Settings", href: "/dashboard/client/settings", icon: Settings2 },
 ];

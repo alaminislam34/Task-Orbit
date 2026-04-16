@@ -1,5 +1,5 @@
-const ManageOrders = () => {
-  return <div>ManageOrders</div>;
-};
+import { SellerOrdersManager } from "@/components/module/seller/orders/SellerOrdersManager";
 
-export default ManageOrders;
+export default function Page() {
+  return <SellerOrdersManager />;
+}

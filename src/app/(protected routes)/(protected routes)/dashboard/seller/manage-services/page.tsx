@@ -1,7 +1,5 @@
-const ManageService = () => {
-  return (
-    <div>ManageService</div>
-  );
-}
+import { SellerServicesManager } from "@/components/module/seller/services/SellerServicesManager";
 
-export default ManageService;
+export default function Page() {
+  return <SellerServicesManager />;
+}

@@ -153,7 +153,19 @@ export interface ApplyJobPayload {
 }
 
 export interface MyApplicationsQueryParams extends PaginationQueryParams {
+  search?: string;
   status?: ApplicationStatus;
+}
+
+export interface SearchSuggestionsQueryParams {
+  q: string;
+  limit?: number;
+}
+
+export interface JobSearchSuggestion {
+  id: string;
+  title: string;
+  slug?: string;
 }
 
 export interface ApplicationJobSummary {
@@ -198,6 +210,55 @@ export interface JobApplication {
   jobSeeker?: JobSeekerSummary;
 }
 
+export interface JobSeekerSettings {
+  id?: string;
+  timezone?: string;
+  language?: string;
+  emailNotifications?: boolean;
+  jobAlertFrequency?: string;
+  visibility?: "PUBLIC" | "PRIVATE" | "CONNECTIONS_ONLY";
+}
+
+export interface JobSeekerProfile {
+  id?: string;
+  userId?: string;
+  designation?: string;
+  bio?: string;
+  location?: string;
+  skills?: string[];
+  resumeUrl?: string;
+  portfolioUrl?: string;
+  linkedInUrl?: string;
+  experience?: string[];
+  education?: string[];
+  settings?: JobSeekerSettings;
+}
+
+export interface UpdateJobSeekerProfilePayload {
+  designation?: string;
+  bio?: string;
+  location?: string;
+  skills?: string[];
+  resumeUrl?: string;
+  portfolioUrl?: string;
+  linkedInUrl?: string;
+  experience?: string[];
+  education?: string[];
+}
+
+export interface UpdateJobSeekerSettingsPayload {
+  timezone?: string;
+  language?: string;
+  emailNotifications?: boolean;
+  jobAlertFrequency?: string;
+  visibility?: "PUBLIC" | "PRIVATE" | "CONNECTIONS_ONLY";
+}
+
+export interface UpdateUserMePayload {
+  name?: string;
+  image?: string;
+}
+
 export interface UpdateApplicationStatusPayload {
   status: ApplicationStatus;
   responseMessage?: string;
@@ -218,6 +279,21 @@ export interface SavedJobItem {
 }
 
 export interface SavedJobsQueryParams extends PaginationQueryParams {}
+
+export interface RecentlyViewedItem {
+  id: string;
+  jobId: string;
+  viewedAt: string;
+  job: Job;
+}
+
+export interface RecentlyViewedQueryParams extends PaginationQueryParams {
+  search?: string;
+}
+
+export interface RecommendationQueryParams extends PaginationQueryParams {
+  search?: string;
+}
 
 export interface ApplicantsQueryParams extends PaginationQueryParams {
   status?: ApplicationStatus;

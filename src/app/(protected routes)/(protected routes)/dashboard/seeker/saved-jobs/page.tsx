@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Job } from "@/types/jobs.types";
 import { ApplyJobModal } from "@/components/module/career/ApplyJobModal";
 import { getApiErrorMessage } from "@/lib/api-error";
+import SeekerPageHeader from "@/components/module/seeker/shared/SeekerPageHeader";
 
 const PAGE_SIZE = 10;
 
@@ -94,13 +95,13 @@ const SavedJobsPage = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Saved Jobs</h1>
-        <p className="text-sm text-muted-foreground">Review bookmarked jobs and apply when you are ready.</p>
-      </div>
+    <div className="space-y-5">
+      <SeekerPageHeader
+        title="Saved Jobs"
+        description="Review bookmarked jobs and apply when you are ready."
+      />
 
-      <div className="rounded-lg border bg-background p-4">
+      <div className="rounded-xl border border-border/70 bg-background p-4">
         <div className="relative">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -116,7 +117,7 @@ const SavedJobsPage = () => {
       </div>
 
       {isError ? (
-        <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+        <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4">
           <p className="text-sm">Could not load saved jobs.</p>
           <Button className="mt-3" size="sm" variant="outline" onClick={() => void refetch()}>
             Retry
@@ -125,15 +126,15 @@ const SavedJobsPage = () => {
       ) : null}
 
       {isLoading ? (
-        <div className="rounded-lg border p-6 text-sm text-muted-foreground">Loading saved jobs...</div>
+        <div className="rounded-xl border border-border/70 p-6 text-sm text-muted-foreground">Loading saved jobs...</div>
       ) : savedJobs.length === 0 ? (
-        <div className="rounded-lg border p-8 text-center">
+        <div className="rounded-xl border border-border/70 p-8 text-center">
           <p className="text-sm text-muted-foreground">No saved jobs yet.</p>
         </div>
       ) : (
         <div className="space-y-3">
           {savedJobs.map((savedItem) => (
-            <div key={savedItem.id} className="rounded-lg border bg-background p-4">
+            <div key={savedItem.id} className="rounded-xl border border-border/70 bg-background p-4">
               <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                 <div>
                   <h2 className="font-semibold">{savedItem.job.title}</h2>
@@ -173,7 +174,7 @@ const SavedJobsPage = () => {
       )}
 
       {meta ? (
-        <div className="flex items-center justify-between rounded-lg border bg-background p-4 text-sm">
+        <div className="flex items-center justify-between rounded-xl border border-border/70 bg-background p-4 text-sm">
           <p className="text-muted-foreground">
             Page {meta.page} of {Math.max(1, meta.totalPages)} {isFetching ? "(updating...)" : ""}
           </p>

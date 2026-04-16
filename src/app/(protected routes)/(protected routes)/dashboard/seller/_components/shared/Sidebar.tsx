@@ -1,8 +1,9 @@
 "use client";
 
 import {
-  FileText,
-  FileTextIcon,
+  BriefcaseBusiness,
+  Layers3,
+  ListChecks,
   Gauge,
   MessageCircleMore,
   Settings2,
@@ -16,15 +17,29 @@ import {
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Dashboard", href: "/dashboard/seller", icon: Gauge },
-  { label: "My Profile", href: "/dashboard/seller/profile", icon: UserCheck2 },
   {
-    label: "My Applications",
-    href: "/dashboard/seller/applications",
-    icon: FileTextIcon,
+    label: "Manage Services",
+    href: "/dashboard/seller/manage-services",
+    icon: BriefcaseBusiness,
+  },
+  {
+    label: "Manage Orders",
+    href: "/dashboard/seller/manage-orders",
+    icon: Layers3,
+  },
+  {
+    label: "Manage Phases",
+    href: "/dashboard/seller/manage-phases",
+    icon: ListChecks,
+  },
+  {
+    label: "My Profile",
+    href: "/dashboard/seller/profile",
+    icon: UserCheck2,
   },
   {
     label: "Conversations",
-    href: "/dashboard/seller/conversations",
+    href: "/dashboard/seller/conversation",
     icon: MessageCircleMore,
   },
   { label: "Settings", href: "/dashboard/seller/settings", icon: Settings2 },

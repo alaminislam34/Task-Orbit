@@ -1,7 +1,5 @@
-const ClientHomePage = () => {
-  return (
-    <div>ClientHomePage</div>
-  );
-}
+import ClientDashboardOverview from "@/components/module/client/dashboard/ClientDashboardOverview";
 
-export default ClientHomePage;
+export default function Page() {
+  return <ClientDashboardOverview />;
+}

@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import PageHeader from "@/components/shared/PageHeader";
 
 const MARKETPLACE_METRICS = [
   {
@@ -61,22 +62,18 @@ const AdminDashboardHome = () => {
   return (
     <div className="flex flex-col gap-8 w-full">
       {/* Header with Quick Actions */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Marketplace Insights
-          </h1>
-          <p className="text-muted-foreground">
-            Monitor transactions, users, and marketplace integrity.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button variant="outline">System Logs</Button>
-          <Button className="bg-primary hover:bg-primary/90">
-            Platform Settings
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title="Marketplace Insights"
+        description="Monitor transactions, users, and marketplace integrity."
+        actions={(
+          <>
+            <Button variant="outline">System Logs</Button>
+            <Button className="bg-primary hover:bg-primary/90">
+              Platform Settings
+            </Button>
+          </>
+        )}
+      />
 
       {/* High-Level CRM Metrics */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import PageHeader from "@/components/shared/PageHeader";
 import type { ApplicationStatus } from "@/types/jobs.types";
 
 const PAGE_SIZE = 10;
@@ -116,10 +117,10 @@ export const RecruiterApplicantsPage = () => {
 
   return (
     <div className="space-y-6 p-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Job Applications</h1>
-        <p className="text-sm text-muted-foreground">Select a job and manage applicant status updates.</p>
-      </div>
+      <PageHeader
+        title="Job Applications"
+        description="Select a job and manage applicant status updates."
+      />
 
       <div className="grid grid-cols-1 gap-3 rounded-lg border bg-background p-4 md:grid-cols-4">
         <div className="md:col-span-2">

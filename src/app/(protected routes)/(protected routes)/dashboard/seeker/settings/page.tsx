@@ -1,7 +1,7 @@
+import SeekerSettingsForm from "@/components/module/seeker/settings/SeekerSettingsForm";
+
 const SettingsPage = () => {
-  return (
-    <div>SettingsPage</div>
-  );
-}
+  return <SeekerSettingsForm />;
+};
 
 export default SettingsPage;

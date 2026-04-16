@@ -8,6 +8,8 @@ import type { ApplicationStatus } from "@/types/jobs.types";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import ApplicationDetailDialog from "@/components/module/seeker/applications/ApplicationDetailDialog";
+import SeekerPageHeader from "@/components/module/seeker/shared/SeekerPageHeader";
 
 const PAGE_SIZE = 10;
 
@@ -45,6 +47,7 @@ const JobSeekerApplicationPage = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState<"ALL" | ApplicationStatus>("ALL");
+  const [selectedApplicationId, setSelectedApplicationId] = useState<string | null>(null);
 
   const queryParams = useMemo(
     () => ({
@@ -61,15 +64,13 @@ const JobSeekerApplicationPage = () => {
   const meta = data?.meta;
 
   return (
-    <div className="space-y-6 p-6">
-      <div>
-        <h1 className="text-2xl font-semibold">My Applications</h1>
-        <p className="text-sm text-muted-foreground">
-          Track recruiter responses, interview schedules, and application progress.
-        </p>
-      </div>
+    <div className="space-y-5">
+      <SeekerPageHeader
+        title="My Applications"
+        description="Track recruiter responses, interview schedules, and application progress."
+      />
 
-      <div className="flex flex-col gap-3 rounded-lg border bg-background p-4 md:flex-row md:items-center">
+      <div className="flex flex-col gap-3 rounded-xl border border-border/70 bg-background p-4 md:flex-row md:items-center">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -101,7 +102,7 @@ const JobSeekerApplicationPage = () => {
       </div>
 
       {isError ? (
-        <div className="rounded-lg border border-destructive/30 bg-destructive/5 p-4">
+        <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-4">
           <p className="text-sm">Could not load applications right now.</p>
           <Button className="mt-3" size="sm" variant="outline" onClick={() => void refetch()}>
             Retry
@@ -110,15 +111,15 @@ const JobSeekerApplicationPage = () => {
       ) : null}
 
       {isLoading ? (
-        <div className="rounded-lg border p-6 text-sm text-muted-foreground">Loading applications...</div>
+        <div className="rounded-xl border border-border/70 p-6 text-sm text-muted-foreground">Loading applications...</div>
       ) : applications.length === 0 ? (
-        <div className="rounded-lg border p-8 text-center">
+        <div className="rounded-xl border border-border/70 p-8 text-center">
           <p className="text-sm text-muted-foreground">No applications found for the selected filter.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {applications.map((application) => (
-            <div key={application.id} className="rounded-lg border bg-background p-4">
+            <div key={application.id} className="rounded-xl border border-border/70 bg-background p-4">
               <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                 <div className="space-y-1">
                   <h2 className="font-semibold">{application.job?.title ?? "Untitled job"}</h2>
@@ -161,13 +162,23 @@ const JobSeekerApplicationPage = () => {
                   </a>
                 </div>
               ) : null}
+
+              <div className="mt-4 flex justify-end">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setSelectedApplicationId(application.id)}
+                >
+                  View Details
+                </Button>
+              </div>
             </div>
           ))}
         </div>
       )}
 
       {meta ? (
-        <div className="flex items-center justify-between rounded-lg border bg-background p-4 text-sm">
+        <div className="flex items-center justify-between rounded-xl border border-border/70 bg-background p-4 text-sm">
           <p className="text-muted-foreground">
             Page {meta.page} of {Math.max(1, meta.totalPages)} {isFetching ? "(updating...)" : ""}
           </p>
@@ -191,6 +202,17 @@ const JobSeekerApplicationPage = () => {
           </div>
         </div>
       ) : null}
+
+      <ApplicationDetailDialog
+        applicationId={selectedApplicationId}
+        open={Boolean(selectedApplicationId)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedApplicationId(null);
+          }
+        }}
+        onWithdrawn={() => void refetch()}
+      />
     </div>
   );
 };

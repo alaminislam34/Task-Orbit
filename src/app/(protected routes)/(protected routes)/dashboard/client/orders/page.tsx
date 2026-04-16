@@ -1,5 +1,5 @@
-const ClientOrdersPage = () => {
-  return <div>ClientOrdersPage</div>;
-};
+import ClientOrdersPanel from "@/components/module/client/orders/ClientOrdersPanel";
 
-export default ClientOrdersPage;
+export default function Page() {
+  return <ClientOrdersPanel />;
+}

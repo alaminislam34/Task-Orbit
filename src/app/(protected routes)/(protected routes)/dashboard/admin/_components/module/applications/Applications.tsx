@@ -6,6 +6,7 @@ import { Filter, Inbox } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import PageHeader from "@/components/shared/PageHeader";
 import {
   Select,
   SelectContent,
@@ -207,12 +208,10 @@ const Applications = () => {
 
   return (
     <section className="space-y-6 ">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Applications</h1>
-        <p className="text-sm text-muted-foreground">
-          Track freelancer applications, review details, and make hiring decisions.
-        </p>
-      </div>
+      <PageHeader
+        title="Applications"
+        description="Track freelancer applications, review details, and make hiring decisions."
+      />
 
       <ApplicationStats stats={stats} />
 
