@@ -49,7 +49,7 @@ export interface ClientDashboardSummary {
   unreadNotificationsCount: number;
 }
 
-export interface ClientOrdersQueryParams extends BaseQueryParams {
+export interface ClientOrdersQueryParams extends Omit<BaseQueryParams, "status"> {
   status?: ClientOrderStatus;
   search?: string;
   sortBy?: ClientSortBy;
@@ -137,7 +137,7 @@ export interface ClientOrderDetail {
   };
 }
 
-export interface ClientQueriesQueryParams extends BaseQueryParams {
+export interface ClientQueriesQueryParams extends Omit<BaseQueryParams, "status"> {
   status?: ClientQueryStatus;
   priority?: ClientQueryPriority;
   category?: string;
